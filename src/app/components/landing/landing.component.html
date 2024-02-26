@@ -133,7 +133,7 @@
       <span class="close-modal" (click)="toggleAuthModal()">Close</span>
     </div>
 
-    <form method="post">
+    <form (submit)="onFormSubmit($event)" method="post">
       @if(signUp){
       <input
         type="text"
@@ -141,6 +141,7 @@
         id="user-name"
         placeholder="Full Name"
         required
+        #name
       />
       }
       <input
@@ -149,6 +150,7 @@
         [id]="emailInput"
         placeholder="example@email.com"
         required
+        #mail
       />
       <input
         type="password"
@@ -156,9 +158,14 @@
         [id]="passwordInput"
         placeholder="password"
         required
+        #pass
       />
       <div class="submit">
+        @if(signUp){
         <input type="submit" [value]="buttonValue" />
+        }@else{
+        <input type="submit" [value]="buttonValue" />
+        }
       </div>
 
       @if(signUp){
