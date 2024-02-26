@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 // import { User } from 'src/app/interfaces/user';
 
 @Component({
@@ -20,7 +21,12 @@ export class LandingComponent implements OnInit {
   loginFunction: string = 'userLogin(mail.value, pass.value)';
   signUpFunction: string = 'userSignUp(name.value, mail.value, pass.value)';
 
-  ngOnInit(): void {}
+  constructor(private auth: AuthenticationService) {}
+
+  ngOnInit(): void {
+    this.auth.allUsers();
+    // this.auth.logout();
+  }
 
   onFormSubmit(event: Event) {
     event.preventDefault();
