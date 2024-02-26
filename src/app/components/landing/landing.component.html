@@ -19,7 +19,9 @@
       tchers.
     </h1>
   </div>
-  <div class="auth"><button>Login | Sign Up</button></div>
+  <div class="auth">
+    <button (click)="toggleAuthModal()">Login | Sign Up</button>
+  </div>
   <div class="user_info">
     <button>Dashboard</button>
     <div class="image"></div>
@@ -33,6 +35,7 @@
     about everything pertaining to your site.
   </h3>
 </div>
+
 <div class="image">
   <img src="../../../assets/images/analytics.png" alt="analytics" />
 </div>
@@ -72,8 +75,8 @@
       </div>
       <h3 class="service_title">Security Audit</h3>
       <p>
-        We assess system vulnerabilities, ensuring robust protection
-        against cyber threats and compliance with industry standards.
+        We assess system vulnerabilities, ensuring robust protection against
+        cyber threats and compliance with industry standards.
       </p>
     </div>
 
@@ -118,10 +121,60 @@
   <div class="cta">
     <h3 class="title">Ready to <span>Optimize</span> Your Workflow?</h3>
     <div class="button">
-      <button>Login | Sign Up</button>
+      <button (click)="toggleAuthModal()">Login | Sign Up</button>
     </div>
   </div>
 </div>
+
+@if(authModal){
+<div class="auth-modal">
+  <div class="auth-container">
+    <div class="close">
+      <span class="close-modal" (click)="toggleAuthModal()">Close</span>
+    </div>
+
+    <form method="post">
+      @if(signUp){
+      <input
+        type="text"
+        name="user-name"
+        id="user-name"
+        placeholder="Full Name"
+        required
+      />
+      }
+      <input
+        type="email"
+        [name]="emailInput"
+        [id]="emailInput"
+        placeholder="example@email.com"
+        required
+      />
+      <input
+        type="password"
+        [name]="passwordInput"
+        [id]="passwordInput"
+        placeholder="password"
+        required
+      />
+      <div class="submit">
+        <input type="submit" [value]="buttonValue" />
+      </div>
+
+      @if(signUp){
+      <p>
+        Already have an account? <span (click)="toggleSignUp()">Login</span>
+      </p>
+      } @else {
+      <p>
+        Don't have an account yet? <span (click)="toggleSignUp()">Sign Up</span>
+      </p>
+      }
+    </form>
+  </div>
+</div>
+
+}
 
 <div class="footer">
   <p>{{ currentYear }} &copy; All Rights Reserved | WebWatchers</p>
