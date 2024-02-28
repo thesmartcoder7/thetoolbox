@@ -1,1 +1,18 @@
 <p>generators works!</p>
+
+<div>
+  <h2>Password Generator</h2>
+  <button (click)="generatePassword()">Generate Password</button>
+  <p>Password: {{ password }}</p>
+</div>
+
+<div>
+  <h2>Sitemap Generator</h2>
+  <input type="text" #domain placeholder="http://example.com" />
+  <button (click)="generateSitemap(domain.value)">Get Sitemap</button>
+  @if(sitemapXML && xmlProcess){
+  <p>{{ sitemapXML }}</p>
+  } @else if (xmlProcess && !sitemapXML){
+  <p>Generating . . .</p>
+  }
+</div>
