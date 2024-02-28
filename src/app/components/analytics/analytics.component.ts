@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Response } from 'src/app/interfaces/response';
 import { CheckersService } from 'src/app/services/checkers.service';
 
 @Component({
@@ -13,8 +14,9 @@ export class AnalyticsComponent {
 
   runAnalysis: boolean = false;
   emptyInput: boolean = false;
-  results: any;
+  results?: Response;
   placeHolder: string = 'example.com';
+  activeTab: string = 'tab1';
 
   onEnterPressed(event: KeyboardEvent): void {
     // Check if the key pressed is Enter (key code 13)
@@ -32,7 +34,8 @@ export class AnalyticsComponent {
     } else {
       this.runAnalysis = true;
       this.checkers.checkDomain(domain).subscribe((res) => {
-        console.log(res);
+        console.log(res.dns_info);
+        this.results = res;
         this.runAnalysis = false;
       });
     }

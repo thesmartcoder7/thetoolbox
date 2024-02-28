@@ -26,7 +26,7 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
     // this.auth.allUsers();
     // this.auth.logout();
-    this.auth.checkSignedUser();
+    // this.auth.checkSignedUser();
   }
 
   onFormSubmit(event: Event) {
