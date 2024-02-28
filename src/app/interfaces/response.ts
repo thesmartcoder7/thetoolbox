@@ -30,14 +30,14 @@ interface DNSRecords {
 // Interface for Domain Check
 interface DomainCheck {
   'dns-resolution': string;
-  'ssl-check': {'status': string, 'message': string};
-  'emails_check': [{'mx': string, 'status': string, 'message': string}];
-  'website-accessibility': { 'status': string; 'message': string };
+  'ssl-check': { status: string; message: string };
+  emails_check: [{ mx: string; status: string; message: string }];
+  'website-accessibility': { status: string; message: string };
 }
 
 // Interface for WHOIS Info
 interface WHOISInfo {
-  domain_name: string;
+  domain_name: string[];
   registrar: string;
   whois_server: string;
   referral_url: string | null;
@@ -46,8 +46,12 @@ interface WHOISInfo {
   expiration_date: string;
   name_servers: string[];
   status: string;
-  emails: string;
+  emails: string[];
   dnssec: string;
+  org: string;
+  name: string | null;
+  city: string | null;
+  country: string;
 }
 
 // Interface for the response data structure

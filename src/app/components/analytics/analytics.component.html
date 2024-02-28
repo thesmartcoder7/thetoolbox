@@ -362,6 +362,99 @@
   }
 
   <!-- healthcheck -->
-  @if(activeTab == 'tab5'){ }
+  @if(activeTab == 'tab5'){
+  <div class="whois">
+    <ul>
+      <li>
+        Domain Name:
+        <ul>
+          @for(name of results.whois_check['whois-info'].domain_name; track
+          name){
+          <li>{{ name.toLocaleLowerCase() }}</li>
+          }
+        </ul>
+      </li>
+      <li>
+        Country:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].country }}</li>
+        </ul>
+      </li>
+      <li>
+        City:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].city }}</li>
+        </ul>
+      </li>
+      <li>
+        Registrar:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].registrar }}</li>
+        </ul>
+      </li>
+      <li>
+        Whois Server:
+        <ul>
+          <li>
+            {{ results.whois_check["whois-info"].whois_server }}
+          </li>
+        </ul>
+      </li>
+      <li>
+        Referral URL:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].referral_url }}</li>
+        </ul>
+      </li>
+      <li>
+        Creation Date:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].creation_date }}</li>
+        </ul>
+      </li>
+      <li>
+        Updated Date:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].updated_date }}</li>
+        </ul>
+      </li>
+      <li>
+        Expiry Date:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].expiration_date }}</li>
+        </ul>
+      </li>
+      <li>
+        NameServers:
+        <ul>
+          @for(server of results.whois_check['whois-info'].name_servers; track
+          server){
+          <li>{{ server }}</li>
+          }
+        </ul>
+      </li>
+      <li>
+        Status:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].status }}</li>
+        </ul>
+      </li>
+      <li>
+        Emails:
+        <ul>
+          @for(email of results.whois_check['whois-info'].emails; track email){
+          <li>{{ email }}</li>
+          }
+        </ul>
+      </li>
+      <li>
+        DNSSEC:
+        <ul>
+          <li>{{ results.whois_check["whois-info"].dnssec }}</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  }
 </div>
 }
