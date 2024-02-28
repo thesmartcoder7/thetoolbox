@@ -150,6 +150,15 @@
         </svg>
         Whois Lookup
       </li>
+      <!-- <li (click)="activeTab = 'tab6'" [class.active]="activeTab === 'tab6'">
+        <svg viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M15 22.007H5v-2h10ZM22 4l-4.735 5.955l-.22.27l-5.63 7.19a2.001 2.001 0 1 1-2.83-2.83ZM2.645 7.234A10.843 10.843 0 0 0 1.19 15H2v-1a9.685 9.685 0 0 1 1.69-5.52ZM12 2a10.958 10.958 0 0 0-8.119 3.597L5.025 6.96A7.428 7.428 0 0 1 10 5a7.432 7.432 0 0 1 4.997 1.978l3.55-2.802A10.936 10.936 0 0 0 12 2m6.83 9.2l-.233.287l-.728.93A10.118 10.118 0 0 1 18 14v1h4.81a10.879 10.879 0 0 0-1.183-7.318Z"
+          />
+        </svg>
+        Performance
+      </li> -->
     </ul>
   </div>
 
@@ -272,20 +281,20 @@
           @if(results.security_headers['missing-headers']) { @for (item of
           results.security_headers['missing-headers']; track item) {
           <li class="header-list">
-            <svg class="missing-headers" viewBox="0 0 32 32">
+            <svg class="missing-headers" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
-                d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-3.78 5.78l-1.44 1.44L14.564 16l-3.782 3.78l1.44 1.44L16 17.437l3.78 3.78l1.44-1.437L17.437 16l3.78-3.78l-1.437-1.44L16 14.564l-3.78-3.782z"
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
               />
             </svg>
             {{ item }}
           </li>
           } } @else {
           <li class="header-list">
-            <svg class="headers-present" viewBox="0 0 32 32">
+            <svg class="headers-present" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
-                d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-3.78 5.78l-1.44 1.44L14.564 16l-3.782 3.78l1.44 1.44L16 17.437l3.78 3.78l1.44-1.437L17.437 16l3.78-3.78l-1.437-1.44L16 14.564l-3.78-3.782z"
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
               />
             </svg>
             All Security Headers are configured
@@ -298,7 +307,59 @@
   }
 
   <!-- whois -->
-  @if(activeTab == 'tab4'){ }
+  @if(activeTab == 'tab4'){
+  <div class="domain-health">
+    <ul>
+      <li>
+        Domain Health Checks:
+        <ul>
+          <li>DNS Resolution: {{ results.domain_check["dns-resolution"] }}</li>
+          <li>SSL Check: {{ results.domain_check["ssl-check"]["message"] }}</li>
+          <li class="email-check">
+            Email Check:
+            <ul>
+              @for(email of results.domain_check["emails_check"]; track email){
+              <li>
+                @if(email['status'] == 'success'){
+                <span class="success"
+                  ><svg viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ email["mx"] }}
+                  <!--  -->
+                  {{ email["message"] }}</span
+                >
+                }@else {
+                <span class="fail"
+                  ><svg viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+                    />
+                  </svg>
+                  {{ email["mx"] }}
+                  <!--  -->
+                  {{ email["message"] }}</span
+                >
+                }
+              </li>
+              }
+            </ul>
+          </li>
+          <li>
+            Website Accessibility:
+            {{ results.domain_check["website-accessibility"]["message"] }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  }
 
   <!-- healthcheck -->
   @if(activeTab == 'tab5'){ }

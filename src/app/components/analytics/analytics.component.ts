@@ -34,7 +34,7 @@ export class AnalyticsComponent {
     } else {
       this.runAnalysis = true;
       this.checkers.checkDomain(domain).subscribe((res) => {
-        console.log(res.dns_info);
+        console.log(res.domain_check.emails_check);
         this.results = res;
         this.runAnalysis = false;
       });

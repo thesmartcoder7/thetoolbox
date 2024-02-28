@@ -30,11 +30,9 @@ interface DNSRecords {
 // Interface for Domain Check
 interface DomainCheck {
   'dns-resolution': string;
-  'ssl-check': string;
-  'Email deliverability to mx3-hosting.jellyfish.systems.': string;
-  'Email deliverability to mx2-hosting.jellyfish.systems.': string;
-  'Email deliverability to mx1-hosting.jellyfish.systems.': string;
-  'Website accessibility': string;
+  'ssl-check': {'status': string, 'message': string};
+  'emails_check': [{'mx': string, 'status': string, 'message': string}];
+  'website-accessibility': { 'status': string; 'message': string };
 }
 
 // Interface for WHOIS Info
