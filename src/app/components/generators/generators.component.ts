@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CheckersService } from 'src/app/services/checkers.service';
 import { GeneratorsService } from 'src/app/services/generators.service';
 
 @Component({

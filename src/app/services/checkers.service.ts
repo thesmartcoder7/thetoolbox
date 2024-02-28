@@ -6,18 +6,16 @@ HttpClient;
 @Injectable({
   providedIn: 'root',
 })
-export class GeneratorsService {
+export class CheckersService {
   constructor(private http: HttpClient) {}
-
-
-
-  generateSitemap(domain: string): Observable<any> {
+  
+  checkDomain(domain: string): Observable<any> {
     let payload = {
       domain: domain,
     };
 
     return this.http.post(
-      'http://127.0.0.1:8000/webtools/get_sitemap/',
+      'http://127.0.0.1:8000/webtools/domain_check/',
       payload
     );
   }
