@@ -10,7 +10,7 @@ export class AuthenticationService {
 
   allUsers(): void {
     this.http
-      .get('http://127.0.0.1:8000/users', { withCredentials: true })
+      .get('http://127.0.0.1:8000/users/', { withCredentials: true })
       .subscribe((res) => {
         console.log(res);
       });
@@ -18,7 +18,34 @@ export class AuthenticationService {
 
   checkSignedUser(): void {
     this.http
-      .get('http://127.0.0.1:8000/users/user', { withCredentials: true })
+      .get('http://127.0.0.1:8000/users/user/', { withCredentials: true })
+      .subscribe((res) => {
+        console.log(res);
+      });
+  }
+
+  signUp(name: string, email: string, password: string): any {
+    let payload = {
+      name: name,
+      email: email,
+      password: password,
+    };
+
+    this.http
+      .post('http://127.0.0.1:8000/users/register/', payload)
+      .subscribe((res) => {
+        console.log(res);
+      });
+  }
+
+  login(email: string, password: string): any {
+    let payload = {
+      email: email,
+      password: password,
+    };
+
+    this.http
+      .post('http://127.0.0.1:8000/users/login/', payload)
       .subscribe((res) => {
         console.log(res);
       });

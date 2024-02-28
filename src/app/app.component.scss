@@ -1,0 +1,87 @@
+.header {
+  width: 100%;
+  padding: 2vw 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #171d28;
+
+  .logo {
+    h1 {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 1.7vw;
+      font-weight: 800;
+      cursor: pointer;
+      .icon {
+        color: #7456e4;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        svg {
+          width: 1.8vw;
+        }
+      }
+    }
+  }
+
+  .links {
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      list-style: none;
+      li {
+        color: #fff;
+        margin: 0 1vw;
+        font-weight: 600;
+        font-size: 1vw;
+        cursor: pointer;
+        &:hover {
+          color: #7456e4;
+        }
+      }
+    }
+  }
+
+  .auth {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button {
+      padding: 0.5vw 1vw;
+      outline: none;
+      border-radius: 0.2vw;
+      border: 0.15vw solid #7456e4;
+      background-color: #7456e4;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      &:hover {
+        background-color: transparent;
+        border-color: #fff;
+      }
+    }
+  }
+
+  .user_info {
+    display: none;
+    button {
+      padding: 0.5vw 1vw;
+      outline: none;
+      border-radius: 0.2vw;
+      border: 0.15vw solid #7456e4;
+      background-color: #7456e4;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      &:hover {
+        background-color: transparent;
+        border-color: #fff;
+      }
+    }
+  }
+}

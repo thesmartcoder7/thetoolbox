@@ -24,8 +24,9 @@ export class LandingComponent implements OnInit {
   constructor(private auth: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.auth.allUsers();
+    // this.auth.allUsers();
     // this.auth.logout();
+    this.auth.checkSignedUser();
   }
 
   onFormSubmit(event: Event) {
@@ -56,6 +57,7 @@ export class LandingComponent implements OnInit {
     //   email: email,
     //   password: password,
     // });
+    this.auth.login(email, password);
   }
 
   userSignUp(name: string, email: string, password: string): void {
@@ -64,6 +66,7 @@ export class LandingComponent implements OnInit {
     //   email: email,
     //   password: password,
     // });
+    this.auth.signUp(name, email, password);
   }
 
   toggleAuthModal(): void {
