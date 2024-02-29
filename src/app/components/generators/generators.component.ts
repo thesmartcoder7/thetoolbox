@@ -15,6 +15,10 @@ export class GeneratorsComponent {
   xmlProcess: boolean = false;
   changeIcon: boolean = false;
   activeTab: string = 'tab1';
+  emptyInput: boolean = true;
+  placeHolder: string = 'https://example.com';
+  runGenerator: boolean = false;
+  changeXmlIcon: boolean = false;
 
   constructor(
     private generators: GeneratorsService,
@@ -25,6 +29,22 @@ export class GeneratorsComponent {
     if (this.password) {
       this.clipboard.copy(this.password);
       this.changeIcon = true;
+    }
+  }
+
+  copyXmlToClipBoard() {
+    if (this.sitemapXML) {
+      this.clipboard.copy(this.sitemapXML);
+      this.changeXmlIcon = true;
+    }
+  }
+
+  onEnterPressed(event: KeyboardEvent): void {
+    // Check if the key pressed is Enter (key code 13)
+    if (event.key === 'Enter') {
+      const inputValue = (event.target as HTMLInputElement).value;
+      // Call your function here
+      this.checkDoman(inputValue);
     }
   }
 
@@ -76,12 +96,24 @@ export class GeneratorsComponent {
     this.password = password;
   }
 
+  checkDoman(domain: string): void {
+    const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
+    if (!domain || !urlPattern.test(domain)) {
+      this.emptyInput = true;
+      this.placeHolder = 'Please enter a valid domain name . . .';
+    } else {
+      this.runGenerator = true;
+      this.generateSitemap(domain);
+    }
+  }
+
   generateSitemap(domain: string) {
     let parser: DOMParser = new DOMParser();
     this.sitemapXML = '';
     this.xmlProcess = true;
     this.generators.generateSitemap(domain).subscribe((res) => {
       this.sitemapXML = res.xml;
+      this.xmlProcess = false;
     });
   }
 }
