@@ -46,7 +46,7 @@ interface WHOISInfo {
   expiration_date: string;
   name_servers: string[];
   status: string;
-  emails: string[];
+  emails: string;
   dnssec: string;
   org: string;
   name: string | null;

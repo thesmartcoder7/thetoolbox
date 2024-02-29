@@ -1,5 +1,5 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
-import { CheckersService } from 'src/app/services/checkers.service';
 import { GeneratorsService } from 'src/app/services/generators.service';
 
 @Component({
@@ -13,14 +13,28 @@ export class GeneratorsComponent {
   password: string = '';
   sitemapXML: string = '';
   xmlProcess: boolean = false;
+  changeIcon: boolean = false;
+  activeTab: string = 'tab1';
 
-  constructor(private generators: GeneratorsService) {}
+  constructor(
+    private generators: GeneratorsService,
+    private clipboard: Clipboard
+  ) {}
+
+  copyPasswordToClipboard() {
+    if (this.password) {
+      this.clipboard.copy(this.password);
+      this.changeIcon = true;
+    }
+  }
 
   generatePassword() {
     const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
     const numberChars = '0123456789';
     const specialChars = '!@#$%^&*()+{}[]|;:<>?';
+
+    this.changeIcon = false;
 
     const passwordLength = 16;
 

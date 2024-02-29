@@ -1,18 +1,77 @@
-<p>generators works!</p>
-
-<div>
-  <h2>Password Generator</h2>
-  <button (click)="generatePassword()">Generate Password</button>
-  <p>Password: {{ password }}</p>
+<div class="main">
+  <h2>
+    Let's you off right . . . get a random <span>password</span> and secure your
+    sites.
+  </h2>
+  <h3>Then check out the other generators we have for you . . .</h3>
+</div>
+<div class="password-generator">
+  <div class="container">
+    <div class="generate">
+      <p>
+        <span>Password:</span> {{ password }}
+        @if(!changeIcon){
+        <svg viewBox="0 0 24 24" (click)="copyPasswordToClipboard()">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M15 1.25h-4.056c-1.838 0-3.294 0-4.433.153c-1.172.158-2.121.49-2.87 1.238c-.748.749-1.08 1.698-1.238 2.87c-.153 1.14-.153 2.595-.153 4.433V16a3.751 3.751 0 0 0 3.166 3.705c.137.764.402 1.416.932 1.947c.602.602 1.36.86 2.26.982c.867.116 1.97.116 3.337.116h3.11c1.367 0 2.47 0 3.337-.116c.9-.122 1.658-.38 2.26-.982c.602-.602.86-1.36.982-2.26c.116-.867.116-1.97.116-3.337v-5.11c0-1.367 0-2.47-.116-3.337c-.122-.9-.38-1.658-.982-2.26c-.531-.53-1.183-.795-1.947-.932A3.751 3.751 0 0 0 15 1.25m2.13 3.021A2.25 2.25 0 0 0 15 2.75h-4c-1.907 0-3.261.002-4.29.14c-1.005.135-1.585.389-2.008.812c-.423.423-.677 1.003-.812 2.009c-.138 1.028-.14 2.382-.14 4.289v6a2.25 2.25 0 0 0 1.521 2.13c-.021-.61-.021-1.3-.021-2.075v-5.11c0-1.367 0-2.47.117-3.337c.12-.9.38-1.658.981-2.26c.602-.602 1.36-.86 2.26-.981c.867-.117 1.97-.117 3.337-.117h3.11c.775 0 1.464 0 2.074.021M7.408 6.41c.277-.277.665-.457 1.4-.556c.754-.101 1.756-.103 3.191-.103h3c1.435 0 2.436.002 3.192.103c.734.099 1.122.28 1.399.556c.277.277.457.665.556 1.4c.101.754.103 1.756.103 3.191v5c0 1.435-.002 2.436-.103 3.192c-.099.734-.28 1.122-.556 1.399c-.277.277-.665.457-1.4.556c-.755.101-1.756.103-3.191.103h-3c-1.435 0-2.437-.002-3.192-.103c-.734-.099-1.122-.28-1.399-.556c-.277-.277-.457-.665-.556-1.4c-.101-.755-.103-1.756-.103-3.191v-5c0-1.435.002-2.437.103-3.192c.099-.734.28-1.122.556-1.399"
+            clip-rule="evenodd"
+          />
+        </svg>
+        } @if(changeIcon){
+        <svg viewBox="0 0 24 24" class="copied">
+          <g fill="none" stroke="currentColor" stroke-width="1.5">
+            <path
+              d="M16 4c2.175.012 3.353.109 4.121.877C21 5.756 21 7.17 21 9.998v6c0 2.829 0 4.243-.879 5.122c-.878.878-2.293.878-5.121.878H9c-2.828 0-4.243 0-5.121-.878C3 20.24 3 18.827 3 15.998v-6c0-2.828 0-4.242.879-5.121C4.647 4.109 5.825 4.012 8 4"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m9 13.4l1.714 1.6L15 11"
+            />
+            <path
+              d="M8 3.5A1.5 1.5 0 0 1 9.5 2h5A1.5 1.5 0 0 1 16 3.5v1A1.5 1.5 0 0 1 14.5 6h-5A1.5 1.5 0 0 1 8 4.5z"
+            />
+          </g>
+        </svg>
+        }
+      </p>
+      <button (click)="generatePassword()">Generate Password</button>
+    </div>
+  </div>
 </div>
 
-<div>
-  <h2>Sitemap Generator</h2>
-  <input type="text" #domain placeholder="http://example.com" />
-  <button (click)="generateSitemap(domain.value)">Get Sitemap</button>
-  @if(sitemapXML && xmlProcess){
-  <p>{{ sitemapXML }}</p>
-  } @else if (xmlProcess && !sitemapXML){
-  <p>Generating . . .</p>
+<div class="all-generators">
+  <div class="title">
+    <h3>Other generators we have for you . . .</h3>
+  </div>
+
+  <div class="tabs">
+    <ul>
+      <li (click)="activeTab = 'tab1'" [class.active]="activeTab === 'tab1'">
+        <svg viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M9 3h5v5h-2v4h5a3 3 0 0 1 3 3v2h2v5h-5v-5h2v-2a2 2 0 0 0-2-2h-5v4h2v5H9v-5h2v-4H6a2 2 0 0 0-2 2v2h2v5H1v-5h2v-2a3 3 0 0 1 3-3h5V8H9zm4 4V4h-3v3zM5 21v-3H2v3zm8 0v-3h-3v3zm8 0v-3h-3v3z"
+          />
+        </svg>
+        Sitemap Generator
+      </li>
+    </ul>
+  </div>
+
+  <!-- sitemap -->
+  @if(activeTab == 'tab1'){
+  <div class="sitemap">
+    <h2>Sitemap Generator</h2>
+    <input type="text" #domain placeholder="http://example.com" />
+    <button (click)="generateSitemap(domain.value)">Get Sitemap</button>
+    @if(sitemapXML && xmlProcess){
+    <p>{{ sitemapXML }}</p>
+    } @else if (xmlProcess && !sitemapXML){
+    <p>Generating . . .</p>
+    }
+  </div>
   }
 </div>
