@@ -306,7 +306,7 @@
   </div>
   }
 
-  <!-- whois -->
+  <!-- domain health -->
   @if(activeTab == 'tab4'){
   <div class="domain-health">
     <ul>
@@ -361,17 +361,14 @@
   </div>
   }
 
-  <!-- healthcheck -->
+  <!-- whois -->
   @if(activeTab == 'tab5'){
   <div class="whois">
     <ul>
       <li>
         Domain Name:
         <ul>
-          @for(name of results.whois_check['whois-info'].domain_name; track
-          name){
-          <li>{{ name.toLocaleLowerCase() }}</li>
-          }
+          <li>{{ results.whois_check["whois-info"].domain_name }}</li>
         </ul>
       </li>
       <li>

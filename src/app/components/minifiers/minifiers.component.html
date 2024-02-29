@@ -1,1 +1,74 @@
-<p>minifiers works!</p>
+<div class="main">
+  <h2>
+    Size matters. That is why we have a suite of <span>minifiers</span> for you.
+  </h2>
+  <h3>Give them a try and move a step closer to a good SEO score . . .</h3>
+
+  <div class="minifier-tabs">
+    <ul class="tabs">
+      <li (click)="selectTab('html')" [class.active]="selectedTab === 'html'">
+        HTML
+      </li>
+      <li (click)="selectTab('css')" [class.active]="selectedTab === 'css'">
+        CSS
+      </li>
+      <li (click)="selectTab('js')" [class.active]="selectedTab === 'js'">
+        JavaScript
+      </li>
+    </ul>
+  </div>
+</div>
+
+@if(selectedTab === 'html'){
+<div class="tab-content">
+  <!-- HTML minifier content goes here -->
+  <div class="container">
+    <textarea
+      placeholder="Paste your HTML code here"
+      (keydown)="onEnterPressed($event)"
+    ></textarea>
+    <textarea
+      placeholder="Minified HTML code will be displayed here"
+      [value]="outputText"
+      disabled
+    ></textarea>
+  </div>
+</div>
+}
+
+<!--  -->
+@if(selectedTab === 'css'){
+<div class="tab-content">
+  <!-- CSS minifier content goes here -->
+  <div class="container">
+    <textarea
+      placeholder="Paste your CSS code here"
+      (keydown)="onEnterPressed($event)"
+    ></textarea>
+    <textarea
+      placeholder="Minified CSS code will be displayed here"
+      [value]="outputText"
+      disabled
+    ></textarea>
+  </div>
+</div>
+}
+
+<!--  -->
+@if(selectedTab === 'js'){
+<div class="tab-content">
+  <!-- JavaScript minifier content goes here -->
+  <div class="container">
+    <textarea
+      placeholder="Paste your JS code here"
+      (keydown)="onEnterPressed($event)"
+    ></textarea>
+    <textarea
+      placeholder="Minified JS code will be displayed here"
+      [value]="outputText"
+      disabled
+    ></textarea>
+  </div>
+</div>
+
+}
