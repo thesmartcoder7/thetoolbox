@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Response } from '../interfaces/response';
+import { Insights } from '../interfaces/insights';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +34,24 @@ export class CheckersService {
     return this.http
       .post<Response>('http://127.0.0.1:8000/webtools/domain_check/', payload)
       .pipe(map((response) => this.processResponse(response)));
+  }
+
+  private processInsights(response: any): any {
+    // Implement processing logic here
+    const processedData: any = {
+      deviceData: response.page_insights,
+    };
+
+    return processedData;
+  }
+
+  getPageInsights(domain: string): Observable<any> {
+    let payload = {
+      domain: domain,
+    };
+
+    return this.http
+      .post<any>('http://127.0.0.1:8000/webtools/page_insights/', payload)
+      .pipe(map((res) => this.processInsights(res)));
   }
 }
