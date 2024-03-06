@@ -49,12 +49,9 @@ export class PageinsightsComponent {
       this.placeHolder = 'Please enter a valid domain name . . .';
     } else {
       this.runAnalysis = true;
+      this.results = null;
       this.checkers.getPageInsights(domain).subscribe((res: any) => {
-        console.log(res.deviceData['mobile']['performance']['score']);
-        console.log(res.deviceData['mobile']['accessibility']['score']);
-        console.log(res.deviceData['mobile']['best-practices']['score']);
-        console.log(res.deviceData['mobile']['seo']['score']);
-        console.log(res.deviceData['mobile']['pwa']['score']);
+        console.log(res.deviceData);
         this.results = res;
         this.runAnalysis = false;
       });

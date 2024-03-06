@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Response } from '../interfaces/response';
@@ -45,7 +45,7 @@ export class CheckersService {
     return processedData;
   }
 
-  getPageInsights(domain: string): Observable<any> {
+  getPageInsights(domain: string) {
     let payload = {
       domain: domain,
     };
