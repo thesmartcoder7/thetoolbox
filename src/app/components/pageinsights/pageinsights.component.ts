@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { RoundProgressComponent } from 'angular-svg-round-progressbar';
 import { CheckersService } from 'src/app/services/checkers.service';
 
 @Component({
   selector: 'app-pageinsights',
   standalone: true,
-  imports: [RoundProgressComponent],
+  imports: [],
   templateUrl: './pageinsights.component.html',
   styleUrl: './pageinsights.component.scss',
 })
@@ -28,11 +27,10 @@ export class PageinsightsComponent {
     }
   }
 
-  getColor(value: string): string {
-    let number = Number(value);
-    if (number >= 90) {
+  getColor(value: number): string {
+    if (value >= 90) {
       return this.green;
-    } else if (number >= 50 && number < 90) {
+    } else if (value >= 50 && value < 90) {
       return this.orange;
     } else {
       return this.red;

@@ -16,8 +16,11 @@
         (keydown)="onEnterPressed($event)"
       />
       <button (click)="runInsights(domain.value)">
+        @if(runAnalysis){
+        <span>Fetching</span>
+        }@else{
         <span>Get Insights</span>
-        @if (runAnalysis) {
+        } @if (runAnalysis) {
         <span
           ><svg viewBox="0 0 24 24">
             <defs>
@@ -94,124 +97,113 @@
   @if(activeTab == 'tab1'){
   <div class="mobile">
     <div class="percentages">
-      <div class="perfomance">
-        <div class="container">
-          <span #performance>
-            {{
-              roundValue(
-                results.deviceData["mobile"]["performance"]["score"] * 100
-              )
-            }}
-          </span>
-          <round-progress
-            [current]="
-              results.deviceData['mobile']['performance']['score'] * 100
-            "
-            [max]="100"
-            [color]="getColor(performance.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
-        </div>
-        <span class="title">
-          {{ results.deviceData["mobile"]["performance"]["title"] }}
+      <div class="progressbar">
+        <span class="score">
+          {{
+            roundValue(
+              results.deviceData["mobile"]["performance"]["score"] * 100
+            )
+          }}
         </span>
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(
+                results.deviceData['mobile']['performance']['score'] * 100
+              )
+            "
+            [style.background-color]="
+              getColor(
+                roundValue(
+                  results.deviceData['mobile']['performance']['score'] * 100
+                )
+              )
+            "
+          ></div>
+        </div>
+        <span class="title">{{
+          results.deviceData["mobile"]["performance"]["title"]
+        }}</span>
       </div>
-      <div class="accessibility">
-        <div class="container">
-          <span #accessibility>{{
+      <div class="progressbar">
+        <span class="score">
+          {{
             roundValue(
               results.deviceData["mobile"]["accessibility"]["score"] * 100
             )
-          }}</span>
-          <round-progress
-            [current]="
-              results.deviceData['mobile']['accessibility']['score'] * 100
-            "
-            [max]="100"
-            [color]="getColor(accessibility.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
-        </div>
-        <span class="title">
-          {{ results.deviceData["mobile"]["accessibility"]["title"] }}
+          }}
         </span>
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(
+                results.deviceData['mobile']['accessibility']['score'] * 100
+              )
+            "
+            [style.background-color]="
+              getColor(
+                roundValue(
+                  results.deviceData['mobile']['accessibility']['score'] * 100
+                )
+              )
+            "
+          ></div>
+        </div>
+        <span class="title">{{
+          results.deviceData["mobile"]["accessibility"]["title"]
+        }}</span>
       </div>
-      <div class="best-practices">
-        <div class="container">
-          <span #bestPractices>{{
+      <div class="progressbar">
+        <span class="score">
+          {{
             roundValue(
               results.deviceData["mobile"]["best-practices"]["score"] * 100
             )
-          }}</span>
-          <round-progress
-            [current]="
-              results.deviceData['mobile']['best-practices']['score'] * 100
+          }}
+        </span>
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(
+                results.deviceData['mobile']['best-practices']['score'] * 100
+              )
             "
-            [max]="100"
-            [color]="getColor(bestPractices.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
+            [style.background-color]="
+              getColor(
+                roundValue(
+                  results.deviceData['mobile']['best-practices']['score'] * 100
+                )
+              )
+            "
+          ></div>
         </div>
-        <span class="title">
-          {{ results.deviceData["mobile"]["best-practices"]["title"] }}
-        </span>
+        <span class="title">{{
+          results.deviceData["mobile"]["best-practices"]["title"]
+        }}</span>
       </div>
-      <div class="seo">
-        <div class="container">
-          <span #seo>{{
-            roundValue(results.deviceData["mobile"]["seo"]["score"] * 100)
-          }}</span>
-          <round-progress
-            [current]="results.deviceData['mobile']['seo']['score'] * 100"
-            [max]="100"
-            [color]="getColor(seo.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
-        </div>
-        <span class="title">
-          {{ results.deviceData["mobile"]["seo"]["title"] }}
+      <div class="progressbar">
+        <span class="score">
+          {{ roundValue(results.deviceData["mobile"]["seo"]["score"] * 100) }}
         </span>
-      </div>
-      <div class="pwa">
-        <div class="container">
-          <span #pwa>{{
-            roundValue(results.deviceData["mobile"]["pwa"]["score"] * 100)
-          }}</span>
-          <round-progress
-            [current]="results.deviceData['mobile']['pwa']['score'] * 100"
-            [max]="100"
-            [color]="getColor(pwa.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(results.deviceData['mobile']['seo']['score'] * 100)
+            "
+            [style.background-color]="
+              getColor(
+                roundValue(results.deviceData['mobile']['seo']['score'] * 100)
+              )
+            "
+          ></div>
         </div>
-        <span class="title">
-          {{ results.deviceData["mobile"]["pwa"]["title"] }}
-        </span>
+        <span class="title">{{
+          results.deviceData["mobile"]["seo"]["title"]
+        }}</span>
       </div>
     </div>
   </div>
@@ -221,124 +213,113 @@
   @if(activeTab == 'tab2'){
   <div class="desktop">
     <div class="percentages">
-      <div class="perfomance">
-        <div class="container">
-          <span #performance>
-            {{
-              roundValue(
-                results.deviceData["desktop"]["performance"]["score"] * 100
-              )
-            }}
-          </span>
-          <round-progress
-            [current]="
-              results.deviceData['desktop']['performance']['score'] * 100
-            "
-            [max]="100"
-            [color]="getColor(performance.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
-        </div>
-        <span class="title">
-          {{ results.deviceData["desktop"]["performance"]["title"] }}
+      <div class="progressbar">
+        <span class="score">
+          {{
+            roundValue(
+              results.deviceData["desktop"]["performance"]["score"] * 100
+            )
+          }}
         </span>
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(
+                results.deviceData['desktop']['performance']['score'] * 100
+              )
+            "
+            [style.background-color]="
+              getColor(
+                roundValue(
+                  results.deviceData['desktop']['performance']['score'] * 100
+                )
+              )
+            "
+          ></div>
+        </div>
+        <span class="title">{{
+          results.deviceData["desktop"]["performance"]["title"]
+        }}</span>
       </div>
-      <div class="accessibility">
-        <div class="container">
-          <span #accessibility>{{
+      <div class="progressbar">
+        <span class="score">
+          {{
             roundValue(
               results.deviceData["desktop"]["accessibility"]["score"] * 100
             )
-          }}</span>
-          <round-progress
-            [current]="
-              results.deviceData['desktop']['accessibility']['score'] * 100
-            "
-            [max]="100"
-            [color]="getColor(accessibility.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
-        </div>
-        <span class="title">
-          {{ results.deviceData["desktop"]["accessibility"]["title"] }}
+          }}
         </span>
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(
+                results.deviceData['desktop']['accessibility']['score'] * 100
+              )
+            "
+            [style.background-color]="
+              getColor(
+                roundValue(
+                  results.deviceData['desktop']['accessibility']['score'] * 100
+                )
+              )
+            "
+          ></div>
+        </div>
+        <span class="title">{{
+          results.deviceData["desktop"]["accessibility"]["title"]
+        }}</span>
       </div>
-      <div class="best-practices">
-        <div class="container">
-          <span #bestPractices>{{
+      <div class="progressbar">
+        <span class="score">
+          {{
             roundValue(
               results.deviceData["desktop"]["best-practices"]["score"] * 100
             )
-          }}</span>
-          <round-progress
-            [current]="
-              results.deviceData['desktop']['best-practices']['score'] * 100
+          }}
+        </span>
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(
+                results.deviceData['desktop']['best-practices']['score'] * 100
+              )
             "
-            [max]="100"
-            [color]="getColor(bestPractices.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
+            [style.background-color]="
+              getColor(
+                roundValue(
+                  results.deviceData['desktop']['best-practices']['score'] * 100
+                )
+              )
+            "
+          ></div>
         </div>
-        <span class="title">
-          {{ results.deviceData["desktop"]["best-practices"]["title"] }}
-        </span>
+        <span class="title">{{
+          results.deviceData["desktop"]["best-practices"]["title"]
+        }}</span>
       </div>
-      <div class="seo">
-        <div class="container">
-          <span #seo>{{
-            roundValue(results.deviceData["desktop"]["seo"]["score"] * 100)
-          }}</span>
-          <round-progress
-            [current]="results.deviceData['desktop']['seo']['score'] * 100"
-            [max]="100"
-            [color]="getColor(seo.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
-        </div>
-        <span class="title">
-          {{ results.deviceData["desktop"]["seo"]["title"] }}
+      <div class="progressbar">
+        <span class="score">
+          {{ roundValue(results.deviceData["desktop"]["seo"]["score"] * 100) }}
         </span>
-      </div>
-      <div class="pwa">
-        <div class="container">
-          <span #pwa>{{
-            roundValue(results.deviceData["desktop"]["pwa"]["score"] * 100)
-          }}</span>
-          <round-progress
-            [current]="results.deviceData['desktop']['pwa']['score'] * 100"
-            [max]="100"
-            [color]="getColor(pwa.innerText)"
-            [background]="'#eaeaea'"
-            [rounded]="true"
-            [clockwise]="true"
-            [responsive]="false"
-            [duration]="1000"
-            [animation]="'easeInOutQuart'"
-          />
+        <div class="bar">
+          <div
+            class="value"
+            [style.width.%]="
+              roundValue(results.deviceData['desktop']['seo']['score'] * 100)
+            "
+            [style.background-color]="
+              getColor(
+                roundValue(results.deviceData['desktop']['seo']['score'] * 100)
+              )
+            "
+          ></div>
         </div>
-        <span class="title">
-          {{ results.deviceData["desktop"]["pwa"]["title"] }}
-        </span>
+        <span class="title">{{
+          results.deviceData["desktop"]["seo"]["title"]
+        }}</span>
       </div>
     </div>
   </div>
