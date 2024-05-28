@@ -38,7 +38,6 @@ interface LighthouseData {
   accessibility: AccessibilityCategory;
   bestPractices: BestPracticesCategory;
   seo: SEOCategory;
-  pwa: PWACategory;
 }
 
 export interface Insights {

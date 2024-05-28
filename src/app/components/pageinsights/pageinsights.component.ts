@@ -37,6 +37,13 @@ export class PageinsightsComponent {
     }
   }
 
+  getProgressStyle(value: number): any {
+    return {
+      '--primary-color': this.getColor(value),
+      '--value': value,
+    };
+  }
+
   roundValue(value: number) {
     return Math.round(value);
   }
