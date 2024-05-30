@@ -15,7 +15,7 @@
         id="domain"
         placeholder="{{ placeHolder }}"
         required
-        (keydown)="onEnterPressed($event)"
+        (keydown)="onKeyPress($event)"
         autocomplete="on"
       />
 
@@ -88,18 +88,22 @@
 
   <div class="tabs">
     <ul>
-      <li (click)="activeTab = 'tab1'" [class.active]="activeTab === 'tab1'">
+      <li
+        (click)="activeTab = 'mobile'"
+        [class.active]="activeTab === 'mobile'"
+      >
         Mobile
       </li>
-      <li (click)="activeTab = 'tab2'" [class.active]="activeTab === 'tab2'">
+      <li
+        (click)="activeTab = 'desktop'"
+        [class.active]="activeTab === 'desktop'"
+      >
         Desktop
       </li>
     </ul>
   </div>
 
-  <!-- mobile -->
-  @if(activeTab == 'tab1'){
-  <div class="mobile">
+  <div class="visualized">
     <div class="percentages">
       <div class="progress-div">
         <div class="progress-circle">
@@ -108,16 +112,25 @@
             [style]="
               getProgressStyle(
                 roundValue(
-                  results.deviceData['mobile']['performance']['score'] * 100
+                  results.deviceData[activeTab]['performance']['score'] * 100
                 )
               )
             "
           ></div>
           <div class="cover">
-            <div class="progress-circle__text">
+            <div
+              class="progress-circle__text"
+              [style.color]="
+                getColor(
+                  roundValue(
+                    results.deviceData[activeTab]['performance']['score'] * 100
+                  )
+                )
+              "
+            >
               {{
                 roundValue(
-                  results.deviceData["mobile"]["performance"]["score"] * 100
+                  results.deviceData[activeTab]["performance"]["score"] * 100
                 )
               }}
             </div>
@@ -125,7 +138,7 @@
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData["mobile"]["performance"]["title"]
+            results.deviceData[activeTab]["performance"]["title"]
           }}</span>
         </div>
       </div>
@@ -136,16 +149,26 @@
             [style]="
               getProgressStyle(
                 roundValue(
-                  results.deviceData['mobile']['accessibility']['score'] * 100
+                  results.deviceData[activeTab]['accessibility']['score'] * 100
                 )
               )
             "
           ></div>
           <div class="cover">
-            <div class="progress-circle__text">
+            <div
+              class="progress-circle__text"
+              [style.color]="
+                getColor(
+                  roundValue(
+                    results.deviceData[activeTab]['accessibility']['score'] *
+                      100
+                  )
+                )
+              "
+            >
               {{
                 roundValue(
-                  results.deviceData["mobile"]["accessibility"]["score"] * 100
+                  results.deviceData[activeTab]["accessibility"]["score"] * 100
                 )
               }}
             </div>
@@ -153,7 +176,7 @@
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData["mobile"]["accessibility"]["title"]
+            results.deviceData[activeTab]["accessibility"]["title"]
           }}</span>
         </div>
       </div>
@@ -164,16 +187,26 @@
             [style]="
               getProgressStyle(
                 roundValue(
-                  results.deviceData['mobile']['best-practices']['score'] * 100
+                  results.deviceData[activeTab]['best-practices']['score'] * 100
                 )
               )
             "
           ></div>
           <div class="cover">
-            <div class="progress-circle__text">
+            <div
+              class="progress-circle__text"
+              [style.color]="
+                getColor(
+                  roundValue(
+                    results.deviceData[activeTab]['best-practices']['score'] *
+                      100
+                  )
+                )
+              "
+            >
               {{
                 roundValue(
-                  results.deviceData["mobile"]["best-practices"]["score"] * 100
+                  results.deviceData[activeTab]["best-practices"]["score"] * 100
                 )
               }}
             </div>
@@ -181,7 +214,7 @@
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData["mobile"]["best-practices"]["title"]
+            results.deviceData[activeTab]["best-practices"]["title"]
           }}</span>
         </div>
       </div>
@@ -191,142 +224,34 @@
             class="progress-circle__value"
             [style]="
               getProgressStyle(
-                roundValue(results.deviceData['mobile']['seo']['score'] * 100)
+                roundValue(results.deviceData[activeTab]['seo']['score'] * 100)
               )
             "
           ></div>
           <div class="cover">
-            <div class="progress-circle__text">
+            <div
+              class="progress-circle__text"
+              [style.color]="
+                getColor(
+                  roundValue(
+                    results.deviceData[activeTab]['seo']['score'] * 100
+                  )
+                )
+              "
+            >
               {{
-                roundValue(results.deviceData["mobile"]["seo"]["score"] * 100)
+                roundValue(results.deviceData[activeTab]["seo"]["score"] * 100)
               }}
             </div>
           </div>
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData["mobile"]["seo"]["title"]
+            results.deviceData[activeTab]["seo"]["title"]
           }}</span>
         </div>
       </div>
     </div>
   </div>
-  }
-
-  <!-- desktop -->
-  @if(activeTab == 'tab2'){
-  <div class="desktop">
-    <div class="percentages">
-      <div class="progress-div">
-        <div class="progress-circle">
-          <div
-            class="progress-circle__value"
-            [style]="
-              getProgressStyle(
-                roundValue(
-                  results.deviceData['desktop']['performance']['score'] * 100
-                )
-              )
-            "
-          ></div>
-          <div class="cover">
-            <div class="progress-circle__text">
-              {{
-                roundValue(
-                  results.deviceData["desktop"]["performance"]["score"] * 100
-                )
-              }}
-            </div>
-          </div>
-        </div>
-        <div class="progress-title">
-          <span class="title">{{
-            results.deviceData["desktop"]["performance"]["title"]
-          }}</span>
-        </div>
-      </div>
-      <div class="progress-div">
-        <div class="progress-circle">
-          <div
-            class="progress-circle__value"
-            [style]="
-              getProgressStyle(
-                roundValue(
-                  results.deviceData['desktop']['accessibility']['score'] * 100
-                )
-              )
-            "
-          ></div>
-          <div class="cover">
-            <div class="progress-circle__text">
-              {{
-                roundValue(
-                  results.deviceData["desktop"]["accessibility"]["score"] * 100
-                )
-              }}
-            </div>
-          </div>
-        </div>
-        <div class="progress-title">
-          <span class="title">{{
-            results.deviceData["desktop"]["accessibility"]["title"]
-          }}</span>
-        </div>
-      </div>
-      <div class="progress-div">
-        <div class="progress-circle">
-          <div
-            class="progress-circle__value"
-            [style]="
-              getProgressStyle(
-                roundValue(
-                  results.deviceData['desktop']['best-practices']['score'] * 100
-                )
-              )
-            "
-          ></div>
-          <div class="cover">
-            <div class="progress-circle__text">
-              {{
-                roundValue(
-                  results.deviceData["desktop"]["best-practices"]["score"] * 100
-                )
-              }}
-            </div>
-          </div>
-        </div>
-        <div class="progress-title">
-          <span class="title">{{
-            results.deviceData["desktop"]["best-practices"]["title"]
-          }}</span>
-        </div>
-      </div>
-      <div class="progress-div">
-        <div class="progress-circle">
-          <div
-            class="progress-circle__value"
-            [style]="
-              getProgressStyle(
-                roundValue(results.deviceData['desktop']['seo']['score'] * 100)
-              )
-            "
-          ></div>
-          <div class="cover">
-            <div class="progress-circle__text">
-              {{
-                roundValue(results.deviceData["desktop"]["seo"]["score"] * 100)
-              }}
-            </div>
-          </div>
-        </div>
-        <div class="progress-title">
-          <span class="title">{{
-            results.deviceData["desktop"]["seo"]["title"]
-          }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  }
 </div>
 }

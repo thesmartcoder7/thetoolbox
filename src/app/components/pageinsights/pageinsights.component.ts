@@ -13,14 +13,14 @@ export class PageinsightsComponent {
   emptyInput: boolean = false;
   results?: any;
   placeHolder: string = 'example.com';
-  activeTab: string = 'tab1';
+  activeTab: string = 'mobile';
   green: string = '#0c6';
   orange: string = '#fa3';
   red: string = '#f33';
 
   constructor(private checkers: CheckersService) {}
 
-  onEnterPressed(event: KeyboardEvent): void {
+  onKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       const inputValue = (event.target as HTMLInputElement).value;
       this.runInsights(inputValue);
