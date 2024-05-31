@@ -16,7 +16,7 @@ export class LandingComponent implements OnInit {
   signUp: boolean = false;
   buttonValue: string = 'login';
   greeting: string = 'Welcome Back!';
-
+  currentYear: number = new Date().getFullYear();
   loginFunction: string = 'userLogin(mail.value, pass.value)';
   signUpFunction: string = 'userSignUp(name.value, mail.value, pass.value)';
 
