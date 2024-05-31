@@ -110,16 +110,73 @@
   width: 100%;
   padding: 5vw 10vw 15vw 10vw;
   height: auto;
-  .title {
-    margin-bottom: 1vw;
-    h3 {
-      font-size: 1.5vw;
+
+  .site_details {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 2vw;
+    .desktop_view {
+      width: 25vw;
+      height: 15vw;
+      background-color: #7456e4;
+      border-radius: 0.3vw;
+      margin-right: 2vw;
+    }
+
+    .mobile_view {
+      width: 10vw;
+      height: 15vw;
+      background-color: #7456e4;
+      border-radius: 0.3vw;
+      margin-right: 2vw;
+    }
+
+    .site_info {
+      margin: 0 2vw;
+      .report_title {
+        color: #7456e4;
+        font-size: 2vw;
+      }
+      .report_domain {
+        font-size: 1.2vw;
+      }
+      .report_date {
+        margin-bottom: 2vw;
+        font-size: 1vw;
+        font-weight: 500;
+      }
+      .report_score {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .score,
+        .grade {
+          padding: 1vw 1.5vw;
+          margin-right: 1vw;
+          border-radius: 0.3vw;
+          border: 0.15vw solid #171d281f;
+          font-size: 1.2vw;
+          span {
+            font-size: inherit;
+          }
+        }
+      }
+
+      .report_grade {
+        span {
+          font-size: inherit;
+        }
+      }
     }
   }
 
   .tabs {
     width: 100%;
-    margin-bottom: 2vw;
+    margin-bottom: 1vw;
     ul {
       width: 100%;
       display: flex;
@@ -129,9 +186,9 @@
       li {
         margin: 0.5vw 1vw 0.5vw 0;
         border-radius: 0.3vw;
-        border: 0.15vw solid #171d28a9;
+        border: 0.15vw solid #171d284d;
         outline: none;
-        padding: 0.5vw 1vw;
+        padding: 0.4vw 1.5vw;
         background-color: #fff;
         font-size: 0.9vw;
         font-weight: 600;
@@ -152,8 +209,9 @@
   .visualized {
     width: 100%;
     border: 0.15vw solid #171d281f;
-    border-radius: 0.5vw;
+    border-radius: 0.3vw;
     padding: 3vw;
+    margin-bottom: 2vw;
     .percentages {
       display: flex;
       align-items: center;
@@ -216,6 +274,55 @@
           }
         }
       }
+    }
+  }
+
+  .metrics {
+    width: 100%;
+    margin-bottom: 2vw;
+    ul {
+      width: 100%;
+      list-style-type: none;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      li {
+        padding: 1vw;
+        border: 0.15vw solid #171d281f;
+        border-radius: 0.3vw;
+        width: 32.7%;
+        margin: 0.5vw 0;
+        border-left: solid 0.3vw #40cc63;
+        span {
+          font-size: 0.9vw;
+        }
+        p {
+          margin-top: 0.2vw;
+          .value {
+            color: #40cc63;
+            font-size: 1vw;
+            margin-top: 1vw !important;
+            font-weight: 600;
+            font-family: "JetBrains Mono", monospace;
+          }
+          a {
+            text-decoration: none;
+            color: #7456e4;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  .audits {
+    width: 100%;
+    .main_audits {
+      width: 100%;
+      border: 0.15vw solid #171d281f;
+      height: 50vw;
+      border-radius: 0.3vw;
     }
   }
 }

@@ -10,7 +10,6 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrl: './landing.component.scss',
 })
 export class LandingComponent implements OnInit {
-  currentYear: number = new Date().getFullYear();
   authModal: boolean = false;
   emailInput: string = 'login-email';
   passwordInput: string = 'login-password';

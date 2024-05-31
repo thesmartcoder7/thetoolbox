@@ -80,10 +80,20 @@
   </div>
 </div>
 
-@if(results){
+@if(true){
 <div class="results">
-  <div class="title">
-    <h3>Results for {{ domain.value }} . . .</h3>
+  <div class="site_details">
+    <div class="desktop_view"></div>
+    <div class="mobile_view"></div>
+    <div class="site_info">
+      <h3 class="report_title">Latest Performance Report</h3>
+      <h3 class="report_domain">Site: http://example.com</h3>
+      <h3 class="report_date">Genereated on: Wed, Mat 29th, 2024 at 3:15pm</h3>
+      <div class="report_score">
+        <h3 class="score">Score: <span>95</span></h3>
+        <h3 class="grade">Grade: <span>A</span></h3>
+      </div>
+    </div>
   </div>
 
   <div class="tabs">
@@ -252,6 +262,72 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="metrics">
+    <ul>
+      <li>
+        <span class="full_name"> First Contentul Paint ( FCP )</span>
+        <p class="description">
+          First Contentful Paint marks the time at which the first text or image
+          is painted. <a href="">Learn More</a>
+        </p>
+        <p>Score: <Span class="value">152ms</Span></p>
+      </li>
+      <li>
+        <span class="full_name"> Largest Contentul Paint ( LCP )</span>
+        <p class="description">
+          Largest Contentful Paint marks the time at which the largest text or
+          image is painted. <a href="">Learn More</a>
+        </p>
+        <p>Score: <Span class="value">252ms</Span></p>
+      </li>
+      <li>
+        <span class="full_name"> Cumulative Layout Shift ( CLS )</span>
+        <p class="description">
+          Cumulative Layout Shift measures the movement of visible elements
+          within the viewport. <a href="">Learn More</a>
+        </p>
+        <p>Score: <Span class="value">2</Span></p>
+      </li>
+      <li>
+        <span class="full_name"> Speed Index ( SI )</span>
+        <p class="description">
+          Speed Index shows how quickly the contents of a page are visibly
+          populated.<a href="">Learn More</a>
+        </p>
+        <p>Score: <Span class="value">700ms</Span></p>
+      </li>
+      <li>
+        <span class="full_name"> Total Blocking Time ( TBT )</span>
+        <p class="description">
+          Sum of all time periods between FCP and TTI, when task length exceeded
+          50ms, expressed in milliseconds.
+          <a href="">Learn More</a>
+        </p>
+        <p>Score: <Span class="value">1ms</Span></p>
+      </li>
+      <li>
+        <span class="full_name"> Time to Interactive ( TTI ) </span>
+        <p class="description">
+          Largest Contentful Paint marks the time at which the largest text or
+          image is painted. <a href="">Learn More</a>
+        </p>
+        <p>Score: <Span class="value">1ms</Span></p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="audits">
+    <div class="tabs">
+      <ul>
+        <li>Performance</li>
+        <li>Accessibility</li>
+        <li>Best Practices</li>
+        <li>SEO</li>
+      </ul>
+    </div>
+    <div class="main_audits"></div>
   </div>
 </div>
 }
