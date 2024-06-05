@@ -1,45 +1,15 @@
-interface Audit {
-  id: string;
-  weight: number;
-  group?: string;
-}
-
-interface Category {
-  id: string;
-  title: string;
-  description?: string;
-  score: number;
-  manualDescription?: string;
-  auditRefs: Audit[];
-}
-
-interface PerformanceCategory extends Category {
-  auditRefs: Audit[];
-}
-
-interface AccessibilityCategory extends Category {
-  auditRefs: Audit[];
-}
-
-interface BestPracticesCategory extends Category {
-  auditRefs: Audit[];
-}
-
-interface SEOCategory extends Category {
-  auditRefs: Audit[];
-}
-
-interface PWACategory extends Category {
-  auditRefs: Audit[];
-}
-
-interface LighthouseData {
-  performance: PerformanceCategory;
-  accessibility: AccessibilityCategory;
-  bestPractices: BestPracticesCategory;
-  seo: SEOCategory;
-}
-
-export interface Insights {
-  deviceData: { mobile: LighthouseData; desktop: LighthouseData };
+export interface AuditResult {
+  domain: string;
+  checkTime: string;
+  overallScore: number;
+  grade: string;
+  screenshots: string[];
+  results: {
+    mobile: any;
+    desktop: any;
+  };
+  audits: {
+    mobile: any;
+    desktop: any;
+  };
 }

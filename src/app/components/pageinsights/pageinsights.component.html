@@ -83,15 +83,37 @@
 @if(results){
 <div class="results">
   <div class="site_details">
-    <div class="desktop_view"></div>
-    <div class="mobile_view"></div>
+    <div class="cover">
+      <div
+        class="desktop_view"
+        [style.backgroundImage]="setBackground(results.screenshots[1])"
+      ></div>
+    </div>
+
+    <div class="cover">
+      <div
+        class="mobile_view"
+        [style.backgroundImage]="setBackground(results.screenshots[0])"
+      ></div>
+    </div>
+
     <div class="site_info">
       <h3 class="report_title">Latest Performance Report</h3>
-      <h3 class="report_domain">Site: http://example.com</h3>
-      <h3 class="report_date">Genereated on: Wed, Mat 29th, 2024 at 3:15pm</h3>
+      <h3 class="report_domain">Site: {{ results.domain }}</h3>
+      <h3 class="report_date">Genereated on: {{ results.checkTime }}</h3>
       <div class="report_score">
-        <h3 class="score">Score: <span>95</span></h3>
-        <h3 class="grade">Grade: <span>A</span></h3>
+        <h3 class="score">
+          Score:
+          <span [style.color]="getColor(results.overalScore)">{{
+            roundValue(results.overalScore)
+          }}</span>
+        </h3>
+        <h3 class="grade">
+          Grade:
+          <span [style.color]="getColor(results.overalScore)">{{
+            results.grade
+          }}</span>
+        </h3>
       </div>
     </div>
   </div>
@@ -121,9 +143,38 @@
             class="progress-circle__value"
             [style]="
               getProgressStyle(
-                roundValue(
-                  results.deviceData[activeTab]['performance']['score'] * 100
+                roundValue(results.results[activeTab]['performance']['score'])
+              )
+            "
+          ></div>
+          <div class="cover">
+            <div
+              class="progress-circle__text"
+              [style.color]="
+                getColor(
+                  roundValue(results.results[activeTab]['performance']['score'])
                 )
+              "
+            >
+              {{
+                roundValue(results.results[activeTab]["performance"]["score"])
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="progress-title">
+          <span class="title">{{
+            results.results[activeTab]["performance"]["title"]
+          }}</span>
+        </div>
+      </div>
+      <div class="progress-div">
+        <div class="progress-circle">
+          <div
+            class="progress-circle__value"
+            [style]="
+              getProgressStyle(
+                roundValue(results.results[activeTab]['accessibility']['score'])
               )
             "
           ></div>
@@ -133,22 +184,20 @@
               [style.color]="
                 getColor(
                   roundValue(
-                    results.deviceData[activeTab]['performance']['score'] * 100
+                    results.results[activeTab]['accessibility']['score']
                   )
                 )
               "
             >
               {{
-                roundValue(
-                  results.deviceData[activeTab]["performance"]["score"] * 100
-                )
+                roundValue(results.results[activeTab]["accessibility"]["score"])
               }}
             </div>
           </div>
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData[activeTab]["performance"]["title"]
+            results.results[activeTab]["accessibility"]["title"]
           }}</span>
         </div>
       </div>
@@ -159,7 +208,7 @@
             [style]="
               getProgressStyle(
                 roundValue(
-                  results.deviceData[activeTab]['accessibility']['score'] * 100
+                  results.results[activeTab]['best-practices']['score']
                 )
               )
             "
@@ -170,15 +219,14 @@
               [style.color]="
                 getColor(
                   roundValue(
-                    results.deviceData[activeTab]['accessibility']['score'] *
-                      100
+                    results.results[activeTab]['best-practices']['score']
                   )
                 )
               "
             >
               {{
                 roundValue(
-                  results.deviceData[activeTab]["accessibility"]["score"] * 100
+                  results.results[activeTab]["best-practices"]["score"]
                 )
               }}
             </div>
@@ -186,7 +234,7 @@
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData[activeTab]["accessibility"]["title"]
+            results.results[activeTab]["best-practices"]["title"]
           }}</span>
         </div>
       </div>
@@ -196,9 +244,7 @@
             class="progress-circle__value"
             [style]="
               getProgressStyle(
-                roundValue(
-                  results.deviceData[activeTab]['best-practices']['score'] * 100
-                )
+                roundValue(results.results[activeTab]['seo']['score'])
               )
             "
           ></div>
@@ -206,58 +252,16 @@
             <div
               class="progress-circle__text"
               [style.color]="
-                getColor(
-                  roundValue(
-                    results.deviceData[activeTab]['best-practices']['score'] *
-                      100
-                  )
-                )
+                getColor(roundValue(results.results[activeTab]['seo']['score']))
               "
             >
-              {{
-                roundValue(
-                  results.deviceData[activeTab]["best-practices"]["score"] * 100
-                )
-              }}
+              {{ roundValue(results.results[activeTab]["seo"]["score"]) }}
             </div>
           </div>
         </div>
         <div class="progress-title">
           <span class="title">{{
-            results.deviceData[activeTab]["best-practices"]["title"]
-          }}</span>
-        </div>
-      </div>
-      <div class="progress-div">
-        <div class="progress-circle">
-          <div
-            class="progress-circle__value"
-            [style]="
-              getProgressStyle(
-                roundValue(results.deviceData[activeTab]['seo']['score'] * 100)
-              )
-            "
-          ></div>
-          <div class="cover">
-            <div
-              class="progress-circle__text"
-              [style.color]="
-                getColor(
-                  roundValue(
-                    results.deviceData[activeTab]['seo']['score'] * 100
-                  )
-                )
-              "
-            >
-              {{
-                roundValue(results.deviceData[activeTab]["seo"]["score"] * 100)
-              }}
-            </div>
-          </div>
-        </div>
-        <div class="progress-title">
-          <span class="title">{{
-            results.deviceData[activeTab]["seo"]["title"]
+            results.results[activeTab]["seo"]["title"]
           }}</span>
         </div>
       </div>
@@ -266,54 +270,140 @@
 
   <div class="metrics">
     <ul>
-      <li>
-        <span class="full_name"> First Contentul Paint ( FCP )</span>
+      <li
+        [style]="getBorderColor(results.audits[activeTab].Performance[0].score)"
+      >
+        <span class="full_name">
+          <span class="bullet"></span> First Contentul Paint ( FCP )</span
+        >
         <p class="description">
           First Contentful Paint marks the time at which the first text or image
-          is painted. <a href="">Learn More</a>
+          is painted.
+          <a
+            href="https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/"
+            target="_blank"
+            >Learn More</a
+          >
         </p>
-        <p>Score: <Span class="value">152ms</Span></p>
+        <p>
+          <Span
+            class="value"
+            [style.color]="
+              getColor(results.audits[activeTab].Performance[0].score)
+            "
+            >{{ results.audits[activeTab].Performance[0].displayValue }}</Span
+          >
+        </p>
       </li>
-      <li>
+      <li
+        [style]="getBorderColor(results.audits[activeTab].Performance[1].score)"
+      >
         <span class="full_name"> Largest Contentul Paint ( LCP )</span>
         <p class="description">
           Largest Contentful Paint marks the time at which the largest text or
-          image is painted. <a href="">Learn More</a>
+          image is painted.
+          <a
+            href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/"
+            target="_blank"
+            >Learn More</a
+          >
         </p>
-        <p>Score: <Span class="value">252ms</Span></p>
+        <p>
+          <Span
+            class="value"
+            [style.color]="
+              getColor(results.audits[activeTab].Performance[1].score)
+            "
+            >{{ results.audits[activeTab].Performance[1].displayValue }}</Span
+          >
+        </p>
       </li>
-      <li>
+      <li
+        [style]="getBorderColor(results.audits[activeTab].Performance[3].score)"
+      >
         <span class="full_name"> Cumulative Layout Shift ( CLS )</span>
         <p class="description">
           Cumulative Layout Shift measures the movement of visible elements
-          within the viewport. <a href="">Learn More</a>
+          within the viewport.
+          <a href="https://web.dev/articles/cls" target="_blank">Learn More</a>
         </p>
-        <p>Score: <Span class="value">2</Span></p>
+        <p>
+          <Span
+            class="value"
+            [style.color]="
+              getColor(results.audits[activeTab].Performance[3].score)
+            "
+            >{{ results.audits[activeTab].Performance[3].displayValue }}</Span
+          >
+        </p>
       </li>
-      <li>
+      <li
+        [style]="getBorderColor(results.audits[activeTab].Performance[4].score)"
+      >
         <span class="full_name"> Speed Index ( SI )</span>
         <p class="description">
           Speed Index shows how quickly the contents of a page are visibly
-          populated.<a href="">Learn More</a>
+          populated.<a
+            href="https://developer.chrome.com/docs/lighthouse/performance/speed-index/"
+            target="_blank"
+            >Learn More</a
+          >
         </p>
-        <p>Score: <Span class="value">700ms</Span></p>
+        <p>
+          <Span
+            class="value"
+            [style.color]="
+              getColor(results.audits[activeTab].Performance[4].score)
+            "
+            >{{ results.audits[activeTab].Performance[4].displayValue }}</Span
+          >
+        </p>
       </li>
-      <li>
+      <li
+        [style]="getBorderColor(results.audits[activeTab].Performance[2].score)"
+      >
         <span class="full_name"> Total Blocking Time ( TBT )</span>
         <p class="description">
           Sum of all time periods between FCP and TTI, when task length exceeded
           50ms, expressed in milliseconds.
-          <a href="">Learn More</a>
+          <a
+            href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/"
+            target="_blank"
+            >Learn More</a
+          >
         </p>
-        <p>Score: <Span class="value">1ms</Span></p>
+        <p>
+          <Span
+            class="value"
+            [style.color]="
+              getColor(results.audits[activeTab].Performance[2].score)
+            "
+            >{{ results.audits[activeTab].Performance[2].displayValue }}</Span
+          >
+        </p>
       </li>
-      <li>
+      <li
+        [style]="getBorderColor(results.audits[activeTab].Performance[5].score)"
+      >
         <span class="full_name"> Time to Interactive ( TTI ) </span>
         <p class="description">
-          Largest Contentful Paint marks the time at which the largest text or
-          image is painted. <a href="">Learn More</a>
+          Time to Interactive is the amount of time it takes for the page to
+          become fully interactive.
+          <a
+            href="https://developer.chrome.com/docs/lighthouse/performance/interactive/"
+            target="_blank"
+            >Learn More</a
+          >
         </p>
-        <p>Score: <Span class="value">1ms</Span></p>
+        <p>
+          <Span
+            class="value"
+            [style.color]="
+              getColor(results.audits[activeTab].Performance[5].score)
+            "
+            >{{ results.audits[activeTab].Performance[5].displayValue }}</Span
+          >
+        </p>
       </li>
     </ul>
   </div>
@@ -321,13 +411,72 @@
   <div class="audits">
     <div class="tabs">
       <ul>
-        <li>Performance</li>
-        <li>Accessibility</li>
-        <li>Best Practices</li>
-        <li>SEO</li>
+        <li
+          (click)="activeMetric = 'Performance'"
+          [class.active]="activeMetric === 'Performance'"
+        >
+          Performance
+        </li>
+        <li
+          (click)="activeMetric = 'Accessibility'"
+          [class.active]="activeMetric === 'Accessibility'"
+        >
+          Accessibility
+        </li>
+        <li
+          (click)="activeMetric = 'Best Practices'"
+          [class.active]="activeMetric === 'Best Practices'"
+        >
+          Best Practices
+        </li>
+        <li
+          (click)="activeMetric = 'SEO'"
+          [class.active]="activeMetric === 'SEO'"
+        >
+          SEO
+        </li>
       </ul>
     </div>
-    <div class="main_audits"></div>
+    <div class="main_audits">
+      @for(item of results.audits[activeTab][activeMetric]; track item.id){
+      @if(scorevalues.includes(item.scoreDisplayMode) && item.score < 1){
+      <div class="audit">
+        <div class="main_audit">
+          <p class="title">
+            <span class="bullet" [style.color]="getColor(item.score * 100)">
+              &bull;
+            </span>
+            <strong>{{ item.title }} </strong>
+          </p>
+          <p class="description">
+            {{ item.description }}
+          </p>
+        </div>
+        @if(item.details.items.length > 0){
+        <p>{{ item.details.items.length }} Resources found:</p>
+        <ul>
+          @for(issue of item.details.items; track issue.id) {
+          <!--  -->
+          @if(issue.snippet){
+          <li class="issues">{{ issue.snippet }}</li>
+          }
+          <!--  -->
+          @if(issue.url){
+          <li class="issues">
+            <a href="{{ issue.url }}" target="_blank">{{ issue.url }}</a>
+          </li>
+          }
+          <!--  -->
+          @if(issue.explanation){
+          <li class="issues">{{ issue.explanation }}</li>
+          }
+          <!--  -->
+          }
+        </ul>
+        }
+      </div>
+      } }
+    </div>
   </div>
 </div>
 }

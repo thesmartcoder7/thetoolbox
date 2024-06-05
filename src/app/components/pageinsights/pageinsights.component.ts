@@ -14,9 +14,13 @@ export class PageinsightsComponent {
   results?: any;
   placeHolder: string = 'example.com';
   activeTab: string = 'mobile';
+  activeMetric: string = 'Performance';
   green: string = '#0c6';
   orange: string = '#fa3';
   red: string = '#f33';
+  scorevalues: string[] = ['metricSavings', 'binary'];
+
+  metrics: any;
 
   constructor(private checkers: CheckersService) {}
 
@@ -27,6 +31,10 @@ export class PageinsightsComponent {
     }
   }
 
+  setBackground(value: string) {
+    return `url(${value})`;
+  }
+
   getColor(value: number): string {
     if (value >= 90) {
       return this.green;
@@ -35,6 +43,10 @@ export class PageinsightsComponent {
     } else {
       return this.red;
     }
+  }
+
+  getBorderColor(value: number): any {
+    return `border-left: solid 0.3vw ${this.getColor(value)};`;
   }
 
   getProgressStyle(value: number): any {
@@ -56,8 +68,9 @@ export class PageinsightsComponent {
       this.runAnalysis = true;
       this.results = null;
       this.checkers.getPageInsights(domain).subscribe((res: any) => {
-        console.log(res.deviceData);
-        this.results = res;
+        this.results = res.deviceData.page_insights;
+        console.log(this.results);
+        this.metrics = this.results.audits;
         this.runAnalysis = false;
       });
     }
