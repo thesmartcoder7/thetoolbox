@@ -332,15 +332,13 @@
     width: 100%;
     .main_audits {
       width: 100%;
-      padding: 2vw 0;
       border: 0.15vw solid #171d281f;
       height: auto;
       border-radius: 0.3vw;
 
       .audit {
-        border-top: 0.15vw solid #171d281f;
+        border-bottom: 0.15vw solid #171d281f;
         padding: 0.5vw 1vw;
-        margin: 1vw 0;
         .main_audit {
           .title {
             display: flex;

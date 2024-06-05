@@ -453,7 +453,12 @@
           </p>
         </div>
         @if(item.details.items.length > 0){
-        <p>{{ item.details.items.length }} Resources found:</p>
+        <br />
+        <p [style.color]="getColor(item.score * 100)">
+          {{ item.details.items.length }}
+          @if(item.details.items.length > 1 ){ Resources } @else { Resouce }
+          found:
+        </p>
         <ul>
           @for(issue of item.details.items; track issue.id) {
           <!--  -->
