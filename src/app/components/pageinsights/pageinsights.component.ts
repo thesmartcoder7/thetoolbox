@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { CheckersService } from 'src/app/services/checkers.service';
+import { CommonModule } from '@angular/common';
+import { SafeHtmlPipe } from 'src/app/pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-pageinsights',
   standalone: true,
-  imports: [],
+  imports: [SafeHtmlPipe, CommonModule],
   templateUrl: './pageinsights.component.html',
   styleUrl: './pageinsights.component.scss',
 })
@@ -19,6 +21,7 @@ export class PageinsightsComponent {
   orange: string = '#fa3';
   red: string = '#f33';
   scorevalues: string[] = ['metricSavings', 'binary'];
+  activeResources: string[] = [];
 
   metrics: any;
 
@@ -29,6 +32,16 @@ export class PageinsightsComponent {
       const inputValue = (event.target as HTMLInputElement).value;
       this.runInsights(inputValue);
     }
+  }
+
+  toggleResources(id: string) {
+    if (this.activeResources.includes(id)) {
+      let index = this.activeResources.indexOf(id);
+      this.activeResources.splice(index, 1);
+    } else {
+      this.activeResources.push(id);
+    }
+    console.log(this.activeResources);
   }
 
   setBackground(value: string) {
@@ -74,5 +87,6 @@ export class PageinsightsComponent {
         this.runAnalysis = false;
       });
     }
+    this.activeResources = [];
   }
 }

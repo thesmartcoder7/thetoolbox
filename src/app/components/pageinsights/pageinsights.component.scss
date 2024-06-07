@@ -349,12 +349,35 @@
               margin-right: 0.5vw;
             }
           }
+          .description {
+            a {
+              text-decoration: none;
+              color: #7456e4;
+            }
+          }
+        }
+        .resources {
+          font-weight: 600;
+          span {
+            cursor: pointer;
+            color: #171d28;
+          }
         }
         ul {
           margin-left: 2vw;
           margin-top: 1vw;
           li {
             margin: 0.5vw 0;
+            a {
+              text-decoration: none;
+              color: #7456e4;
+              &:hover {
+                color: #171d28;
+              }
+            }
+            span {
+              color: #7456e4;
+            }
           }
         }
       }

@@ -448,23 +448,22 @@
             </span>
             <strong>{{ item.title }} </strong>
           </p>
-          <p class="description">
-            {{ item.description }}
-          </p>
+          <span class="description" [innerHTML]="item.description | safeHtml">
+          </span>
         </div>
         @if(item.details.items.length > 0){
         <br />
-        <p [style.color]="getColor(item.score * 100)">
+        <p class="resources" [style.color]="getColor(item.score * 100)">
           {{ item.details.items.length }}
           @if(item.details.items.length > 1 ){ Resources } @else { Resouce }
           found:
+          <span (click)="toggleResources(item.id)"
+            >@if(activeResources.includes(item.id)){Close}@else{Open}</span
+          >
         </p>
+        @if(activeResources.includes(item.id)){
         <ul>
           @for(issue of item.details.items; track issue.id) {
-          <!--  -->
-          @if(issue.snippet){
-          <li class="issues">{{ issue.snippet }}</li>
-          }
           <!--  -->
           @if(issue.url){
           <li class="issues">
@@ -472,13 +471,16 @@
           </li>
           }
           <!--  -->
-          @if(issue.explanation){
-          <li class="issues">{{ issue.explanation }}</li>
+          @if(issue.node?.explanation){
+          <li class="issues">
+            <p>{{ issue.node?.explanation }}</p>
+            <span>{{ issue.node?.snippet }}</span>
+          </li>
           }
           <!--  -->
           }
         </ul>
-        }
+        } }
       </div>
       } }
     </div>
