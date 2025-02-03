@@ -49,7 +49,6 @@ export class AnalyticsComponent {
         this.results = undefined;
         this.checkers.checkDomain(domain).subscribe((res) => {
           this.results = res;
-          console.log(this.results.security_headers);
           this.runAnalysis = false;
         });
       } else {
