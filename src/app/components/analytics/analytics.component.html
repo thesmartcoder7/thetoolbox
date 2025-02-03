@@ -13,9 +13,9 @@
         #domain
         placeholder="{{ placeHolder }}"
         required
-        (keydown)="onEnterPressed($event)"
+        (keydown)="onEnterPressed($event, domain)"
       />
-      <button (click)="checkDoman(domain.value)">
+      <button (click)="checkDoman(domain.value, domain)">
         <span>Run Analysis</span>
         @if (runAnalysis) {
         <span

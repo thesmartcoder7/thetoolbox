@@ -17,27 +17,39 @@ export class AnalyticsComponent {
   results?: Response;
   placeHolder: string = 'example.com';
   activeTab: string = 'tab1';
+  inputValue: string = '';
 
-  onEnterPressed(event: KeyboardEvent): void {
+  isValidDomain(input: string): boolean {
+    const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+    return domainRegex.test(input);
+  }
+
+  onEnterPressed(event: KeyboardEvent, element:HTMLInputElement): void {
     // Check if the key pressed is Enter (key code 13)
     if (event.key === 'Enter') {
       const inputValue = (event.target as HTMLInputElement).value;
-      // Call your function here
-      this.checkDoman(inputValue);
+      this.checkDoman(inputValue, element);
     }
   }
 
-  checkDoman(domain: string): void {
+  checkDoman(domain: string, element: HTMLInputElement): void {
     if (!domain) {
       this.emptyInput = true;
       this.placeHolder = 'Please enter a valid domain name . . .';
     } else {
-      this.runAnalysis = true;
-      this.checkers.checkDomain(domain).subscribe((res) => {
-        console.log(res);
-        this.results = res;
-        this.runAnalysis = false;
-      });
+      this.emptyInput = false;
+      if (this.isValidDomain(domain)){
+        this.runAnalysis = true;
+        this.checkers.checkDomain(domain).subscribe((res) => {
+          console.log(res);
+          this.results = res;
+          this.runAnalysis = false;
+        });
+      } else {
+        this.placeHolder = 'Please enter a domain name without the http(s) potocol . . .';
+        element.value = '';
+      };
+      
     }
   }
 }
