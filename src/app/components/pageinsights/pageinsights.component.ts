@@ -34,6 +34,23 @@ export class PageinsightsComponent {
     }
   }
 
+  isValidDomain(input: string): boolean {
+    // Remove protocol (http:// or https://) and trailing slash (/)
+    input = input.replace(/^(https?:\/\/)?/, '').replace(/\/$/, '');
+    // Strict domain validation regex
+    const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+    return domainRegex.test(input);
+  }
+
+
+  cleanDomain(domain: string): string {
+      // Remove protocol (http:// or https://)
+      domain = domain.replace(/^https?:\/\//, '');
+      // Remove trailing slashes
+      return domain.replace(/\/+$/, '');
+  }
+
+
   toggleResources(id: string) {
     if (this.activeResources.includes(id)) {
       let index = this.activeResources.indexOf(id);
@@ -78,14 +95,19 @@ export class PageinsightsComponent {
       this.emptyInput = true;
       this.placeHolder = 'Please enter a valid domain name . . .';
     } else {
-      this.runAnalysis = true;
-      this.results = null;
-      this.checkers.getPageInsights(domain).subscribe((res: any) => {
-        this.results = res.deviceData.page_insights;
-        console.log(this.results);
-        this.metrics = this.results.audits;
-        this.runAnalysis = false;
-      });
+      if(this.isValidDomain(domain)){
+        this.runAnalysis = true;
+        this.results = null;
+        this.checkers.getPageInsights(this.cleanDomain(domain)).subscribe((res: any) => {
+          this.results = res.deviceData.page_insights;
+          console.log(this.results);
+          this.metrics = this.results.audits;
+          this.runAnalysis = false;
+        });
+      }else{
+        this.placeHolder = 'Please enter a valid domain name . . .';
+      }
+      
     }
     this.activeResources = [];
   }
