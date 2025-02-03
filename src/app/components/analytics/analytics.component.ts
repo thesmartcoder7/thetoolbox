@@ -19,8 +19,19 @@ export class AnalyticsComponent {
   inputValue: string = '';
 
   isValidDomain(input: string): boolean {
+    // Remove protocol (http:// or https://) and trailing slash (/)
+    input = input.replace(/^(https?:\/\/)?/, '').replace(/\/$/, '');
+    // Strict domain validation regex
     const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
     return domainRegex.test(input);
+  }
+
+
+  cleanDomain(domain: string): string {
+      // Remove protocol (http:// or https://)
+      domain = domain.replace(/^https?:\/\//, '');
+      // Remove trailing slashes
+      return domain.replace(/\/+$/, '');
   }
 
   onEnterPressed(event: KeyboardEvent, element:HTMLInputElement): void {
@@ -47,12 +58,12 @@ export class AnalyticsComponent {
       if (this.isValidDomain(domain)){
         this.runAnalysis = true;
         this.results = undefined;
-        this.checkers.checkDomain(domain).subscribe((res) => {
+        this.checkers.checkDomain(this.cleanDomain(domain)).subscribe((res) => {
           this.results = res;
           this.runAnalysis = false;
         });
       } else {
-        this.placeHolder = 'Please enter a domain name without the http(s) potocol . . .';
+        this.placeHolder = 'Please enter a Valid domain . . .';
         element.value = '';
       };
       
