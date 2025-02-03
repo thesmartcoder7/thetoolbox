@@ -13,18 +13,13 @@ interface SSLCertificate {
 
 // Interface for Security Headers
 interface SecurityHeaders {
-  'missing-headers': string[];
+  [key: string]: string[];
 }
+
 
 // Interface for DNS Records
 interface DNSRecords {
-  A?: string[];
-  AAAA?: string[];
-  CNAME?: string[];
-  MX?: string[];
-  TXT?: string[];
-  NS?: string[];
-  SOA?: string[];
+  [key: string]: string[] | undefined;
 }
 
 // Interface for Domain Check

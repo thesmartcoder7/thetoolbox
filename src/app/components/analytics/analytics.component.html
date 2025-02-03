@@ -13,6 +13,8 @@
         #domain
         placeholder="{{ placeHolder }}"
         required
+        autofocus
+        autocomplete="on"
         (keydown)="onEnterPressed($event, domain)"
       />
       <button (click)="checkDoman(domain.value, domain)">
@@ -164,6 +166,7 @@
   <!-- ssl -->
   @if(activeTab == 'tab1'){
   <div class="ssl">
+    @if(results.domain_check["ssl-check"]["status"] == 'success'){
     <ul>
       <li>
         Issued To:
@@ -202,22 +205,28 @@
         </ul>
       </li>
     </ul>
+    } @else {
+    {{ results.domain_check["ssl-check"]["message"] }}
+    }
   </div>
   }
 
   <!-- dns -->
   @if(activeTab == 'tab2'){
-  <div class="dns">
+  <!-- <div class="dns">
     <ul>
+      @if (results.dns_info['dns-records'].A?.length) {
       <li>
         A Records:
         <ul>
           @for (item of results.dns_info['dns-records'].A; track item) {
-          <li>{{ item }}</li>
+          <li>
+            {{ item }}
+          </li>
           }
         </ul>
       </li>
-
+      } @if (results.dns_info['dns-records'].AAAA?.length) {
       <li>
         AAAA Records:
         <ul>
@@ -226,6 +235,7 @@
           }
         </ul>
       </li>
+      } @if (results.dns_info['dns-records'].CNAME?.length) {
       <li>
         CNAME:
         <ul>
@@ -234,6 +244,7 @@
           }
         </ul>
       </li>
+      } @if (results.dns_info['dns-records'].MX?.length) {
       <li>
         MX Records:
         <ul>
@@ -242,6 +253,7 @@
           }
         </ul>
       </li>
+      } @if (results.dns_info['dns-records'].TXT?.length) {
       <li>
         TXT Records:
         <ul>
@@ -250,6 +262,7 @@
           }
         </ul>
       </li>
+      } @if (results.dns_info['dns-records'].NS?.length) {
       <li>
         NS Records:
         <ul>
@@ -258,6 +271,7 @@
           }
         </ul>
       </li>
+      } @if (results.dns_info['dns-records'].SOA?.length) {
       <li>
         SOA Records:
         <ul>
@@ -266,21 +280,95 @@
           }
         </ul>
       </li>
+      } @if (results.dns_info['dns-records'].PTR?.length) {
+      <li>
+        PTR Records:
+        <ul>
+          @for (item of results.dns_info['dns-records'].PTR; track item) {
+          <li>{{ item }}</li>
+          }
+        </ul>
+      </li>
+      } @if (results.dns_info['dns-records'].SRV?.length) {
+      <li>
+        SRV Records:
+        <ul>
+          @for (item of results.dns_info['dns-records'].SRV; track item) {
+          <li>{{ item }}</li>
+          }
+        </ul>
+      </li>
+      } @if (results.dns_info['dns-records'].CAA?.length) {
+      <li>
+        CAA Records:
+        <ul>
+          @for (item of results.dns_info['dns-records'].CAA; track item) {
+          <li>{{ item }}</li>
+          }
+        </ul>
+      </li>
+      }
+    </ul>
+  </div> -->
+  <div class="dns">
+    <ul>
+      <!-- Loop through the keys of the DNS records object -->
+      @for (record of objectKeys(results.dns_info['dns-records']); track record)
+      {
+      <!-- Check if the current record has items -->
+      @if (getDnsRecords(record).length) {
+      <li>
+        {{ record }} Records:
+        <ul>
+          <!-- Loop through the items of the current record -->
+          @for (item of getDnsRecords(record); track item){
+          <!--  -->
+          @if(item == 'No records found'){
+          <li>
+            <svg class="fail" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+              />
+            </svg>
+            {{ item }}
+          </li>
+          } @else {
+          <li>
+            <svg class="success" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {{ item }}
+          </li>
+          } }
+        </ul>
+      </li>
+      } }
     </ul>
   </div>
+
   }
 
   <!-- security headers -->
   @if(activeTab == 'tab3'){
   <div class="headers">
+    @if(results.security_headers['missing-headers']){
     <ul>
       <li>
         Missing Headers:
         <ul>
-          @if(results.security_headers['missing-headers']) { @for (item of
-          results.security_headers['missing-headers']; track item) {
+          @if(results.security_headers['missing-headers'] &&
+          results.security_headers['missing-headers'].length > 0){
+          <!--  -->
+          @for (item of results.security_headers['missing-headers']; track item)
+          {
           <li class="header-list">
-            <svg class="missing-headers" viewBox="0 0 24 24">
+            <svg class="fail" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
                 d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
@@ -290,18 +378,25 @@
           </li>
           } } @else {
           <li class="header-list">
-            <svg class="headers-present" viewBox="0 0 24 24">
+            <svg class="amber" viewBox="0 0 24 24">
               <path
-                fill="currentColor"
-                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+                fill="#fff"
+                d="M19 4a1 1 0 1 0-2 0v.514a9 9 0 0 0-2.881-1.264c-.589-.142-1.117.334-1.117.94c0 .505.374.926.862 1.06a7 7 0 0 1 1.745.75H15a1 1 0 1 0 0 2h3a1 1 0 0 0 1-1zm-9.115-.75c.588-.142 1.117.334 1.117.94c0 .505-.375.926-.862 1.06a7 7 0 0 0-1.594.66c-.439.25-1.001.218-1.359-.14c-.428-.428-.39-1.138.127-1.454a9 9 0 0 1 2.57-1.066M19.812 13c-.505 0-.926.374-1.06.862a7 7 0 0 1-.661 1.594c-.25.44-.217 1.002.14 1.36c.428.427 1.139.39 1.455-.127a9 9 0 0 0 1.066-2.573c.142-.588-.334-1.117-.94-1.117m-5.948 5.75c-.488.135-.862.556-.862 1.061c0 .606.528 1.081 1.117.94a9 9 0 0 0 2.572-1.067c.517-.316.555-1.026.126-1.454c-.357-.358-.92-.39-1.359-.14a7 7 0 0 1-1.594.66m-5.32-.66c-.439-.25-1.001-.218-1.358.14c-.429.428-.391 1.138.125 1.454a9 9 0 0 0 2.574 1.067c.588.141 1.117-.334 1.117-.94c0-.505-.375-.926-.862-1.06a7 7 0 0 1-1.595-.662M5.253 13.86c-.134-.488-.555-.863-1.06-.863c-.606 0-1.082.529-.94 1.117a9 9 0 0 0 1.065 2.573c.316.516 1.027.554 1.455.126c.357-.358.39-.92.14-1.36a7 7 0 0 1-.66-1.593m.661-5.318c.25-.439.217-1.001-.14-1.359c-.428-.428-1.138-.39-1.454.126A9 9 0 0 0 3.254 9.88c-.142.589.333 1.117.939 1.117c.505 0 .926-.374 1.06-.861a7 7 0 0 1 .661-1.594"
               />
             </svg>
-            All Security Headers are configured
+            Unable to find missing headers!
           </li>
           }
         </ul>
       </li>
     </ul>
+    }@else{
+    <ul>
+      <li>
+        {{ results.security_headers["error"] }}
+      </li>
+    </ul>
+    }
   </div>
   }
 
@@ -312,47 +407,105 @@
       <li>
         Domain Health Checks:
         <ul>
-          <li>DNS Resolution: {{ results.domain_check["dns-resolution"] }}</li>
-          <li>SSL Check: {{ results.domain_check["ssl-check"]["message"] }}</li>
+          <li>
+            @if(results.domain_check["dns-resolution"]){
+            <svg class="success" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            DNS Resolution Successful:
+            {{ results.domain_check["dns-resolution"] }}
+            <!--  -->
+            } @else {
+            <svg class="fail" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+              />
+            </svg>
+            DNS Resolution Failure!
+            <!--  -->
+            }
+          </li>
+          <li>
+            @if(results.domain_check["ssl-check"]["status"] == 'success'){
+            <svg class="success" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            SSL Check: {{ results.domain_check["ssl-check"]["message"] }}
+            <!--  -->
+            } @else {
+            <svg class="fail" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+              />
+            </svg>
+            SSL Check: {{ results.domain_check["ssl-check"]["message"] }}
+            <!--  -->
+            }
+          </li>
           <li class="email-check">
             Email Check:
             <ul>
               @for(email of results.domain_check["emails_check"]; track email){
               <li>
                 @if(email['status'] == 'success'){
-                <span class="success"
-                  ><svg viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                      d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  {{ email["mx"] }}
-                  <!--  -->
-                  {{ email["message"] }}</span
-                >
+                <svg class="success" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                    d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ email["mx"] }} :
+                {{ email["message"] }}
                 }@else {
-                <span class="fail"
-                  ><svg viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
-                    />
-                  </svg>
-                  {{ email["mx"] }}
-                  <!--  -->
-                  {{ email["message"] }}</span
-                >
+                <svg class="fail" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+                  />
+                </svg>
+                {{ email["mx"] }} :
+                {{ email["message"] }}
                 }
               </li>
               }
             </ul>
           </li>
           <li>
+            @if(results.domain_check["website-accessibility"]["status"]=="success"){
+            <svg class="success" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                clip-rule="evenodd"
+              />
+            </svg>
             Website Accessibility:
             {{ results.domain_check["website-accessibility"]["message"] }}
+            }@else {
+            <svg class="fail" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+              />
+            </svg>
+            Website Accessibility:
+            {{ results.domain_check["website-accessibility"]["message"] }}
+            }
           </li>
         </ul>
       </li>

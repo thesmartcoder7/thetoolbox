@@ -168,13 +168,16 @@
               margin: 1vw 0;
             }
             svg {
-              width: 1.5vw;
+              width: 1vw;
               margin-right: 1vw;
-              &.missing-headers {
+              &.fail {
                 color: red;
               }
-              &.headers-present {
+              &.success {
                 color: #17b14a;
+              }
+              &.amber {
+                color: #e68d08;
               }
             }
             &.email-check {

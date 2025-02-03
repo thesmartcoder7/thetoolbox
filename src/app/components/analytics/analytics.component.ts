@@ -11,7 +11,6 @@ import { CheckersService } from 'src/app/services/checkers.service';
 })
 export class AnalyticsComponent {
   constructor(private checkers: CheckersService) {}
-
   runAnalysis: boolean = false;
   emptyInput: boolean = false;
   results?: Response;
@@ -32,6 +31,13 @@ export class AnalyticsComponent {
     }
   }
 
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+  getDnsRecords(record: string) {
+    return this.results?.dns_info['dns-records'][record] || [];
+  }
+
   checkDoman(domain: string, element: HTMLInputElement): void {
     if (!domain) {
       this.emptyInput = true;
@@ -40,9 +46,10 @@ export class AnalyticsComponent {
       this.emptyInput = false;
       if (this.isValidDomain(domain)){
         this.runAnalysis = true;
+        this.results = undefined;
         this.checkers.checkDomain(domain).subscribe((res) => {
-          console.log(res);
           this.results = res;
+          console.log(this.results.security_headers);
           this.runAnalysis = false;
         });
       } else {
