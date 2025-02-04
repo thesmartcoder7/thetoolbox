@@ -78,7 +78,7 @@
   @if(results){
   <div class="results">
     <div class="title">
-      <h3>Results for {{ results.whois_check['whois-info'].domain_name[0].toLocaleLowerCase() }} . . .</h3>
+      <h3>Results for [ {{ results.whois_check['whois-info'].domain_name.toString().toLowerCase() }} ]</h3>
     </div>
   
     <div class="tabs">
