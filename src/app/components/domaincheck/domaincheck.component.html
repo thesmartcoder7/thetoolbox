@@ -78,7 +78,7 @@
   @if(results){
   <div class="results">
     <div class="title">
-      <h3>Results for {{ domain.value }} . . .</h3>
+      <h3>Results for {{ results.whois_check['whois-info'].domain_name[0].toLocaleLowerCase() }} . . .</h3>
     </div>
   
     <div class="tabs">
@@ -213,16 +213,19 @@
   
     <!-- dns -->
     @if(activeTab == 'tab2'){
-        <div class="dns">
-            <ul>
-              <!-- Loop through the keys of the DNS records object -->
-              @for (recordType of objectKeys(results.dns_info['dns-records']); track recordType) {
-                <!-- Get the extended data for the current record type -->
-                <li>
-                  <div class="record-header">
-                    <h3>{{ recordType }} Records :</h3>
-                    <!-- Display educational details -->
-                    <p>
+      <div class="dns">
+        <!-- Loop through the defined categories array -->
+        @for (category of categories; track category; let i = $index) {
+          <div class="dns-category {{ category }}">
+            <h3 class="title">{{ category }} DNS Records:</h3>
+            <ul >
+              <!-- Loop through all DNS record types and filter by the current category -->
+              @for (recordType of objectKeys(results.dns_info['dns-records']); track recordType ) {
+                @if (results.dns_info['dns-records'][recordType]?.details?.category == category) {
+                  <li>
+                    <div class="record-header">
+                      <h3>{{ recordType }} Records:</h3>
+                      <p>
                         {{results.dns_info['dns-records'][recordType]?.details?.description}}
                         {{results.dns_info['dns-records'][recordType]?.details?.importance}}
                         {{results.dns_info['dns-records'][recordType]?.details?.configuration}}
@@ -231,110 +234,92 @@
                             Read more
                           </a>
                     </p>
-                  </div>
-                  <ul>
-                    <!-- Loop through the record values -->
-                    @if (results.dns_info['dns-records'][recordType]?.records?.length) {
-                      @for (item of results.dns_info['dns-records'][recordType]?.records; track item) {
-                        @if(item == 'No records found') {
-                          <li>
-                            <svg class="fail" viewBox="0 0 24 24">
-                              <path fill="currentColor"
-                                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"/>
-                            </svg>
-                            {{ item }}
-                          </li>
-                        } @else {
-                          <li>
-                            <svg class="success" viewBox="0 0 24 24">
-                              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
-                                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"/>
-                            </svg>
-                            {{ item }}
-                          </li>
+                    </div>
+                    <ul>
+                      <!-- Loop through the record values for this record type -->
+                      @if (results.dns_info['dns-records'][recordType]?.records?.length) {
+                        @for (item of results.dns_info['dns-records'][recordType]?.records; track item) {
+                          @if(item == 'No records found' || item.includes('Error') ) {
+                            <li>
+                              <svg class="fail" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"/>
+                              </svg>
+                              {{ item }}
+                            </li>
+                          } @else {
+                            <li>
+                              <svg class="success" viewBox="0 0 24 24">
+                                <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"/>
+                              </svg>
+                              {{ item }}
+                            </li>
+                          }
                         }
+                      } @else {
+                        <li>No records available.</li>
                       }
-                    } @else {
-                      <li>No records available.</li>
-                    }
-                  </ul>
-                </li>
+                    </ul>
+                  </li>
+                }
               }
             </ul>
           </div>
-          
+        }
+      </div>
     }
   
     <!-- security headers -->
     @if(activeTab == 'tab3'){
-    <div class="headers">
-      @if(results.security_headers){
-        <div class="all-headers">
-          <ul>
-            <li>
-              Present Headers:
-              <ul>
-                <!-- Check if any present headers exist -->
-                @if(results.security_headers['present']) {
-                  <!-- Iterate over each present header key -->
-                  @for(key of objectKeys(results.security_headers['present']); track key) {
-                    <li class="header-list">
-                      <svg class="success" viewBox="0 0 24 24">
-                        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
-                          d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"/>
-                      </svg>
-                      {{ key }} ( {{ results.security_headers.present[key] }} )
-                    </li>
-                  }
-                } @else {
-                  <li class="header-list">
-                    <svg class="amber" viewBox="0 0 24 24">
-                      <path fill="#fff" d="M19 4a1 1 0 1 0-2 0v.514a9 9 0 0 0-2.881-1.264c-.589-.142-1.117.334-1.117.94c0 .505.374.926.862 1.06a7 7 0 0 1 1.745.75H15a1 1 0 1 0 0 2h3a1 1 0 0 0 1-1"/>
-                    </svg>
-                    Unable to find present headers!
+      <div class="headers">
+        <!-- Loop through the defined levels array -->
+        @for (level of securityLevels; track level; let i = $index) {
+          <div class="dns-category {{ level }}">
+            <h3 class="title">{{ level }} Level Security :</h3>
+            <ul >
+              <!-- Loop through all security and filter by the current category -->
+              @for (header of objectKeys(results.security_headers); track header ) {
+                @if (results.security_headers[header]?.details?.importance == level) {
+                  <li>
+                    <div class="security-header">
+                      <h3>{{ header }}:</h3>
+                      <p>
+                        {{results.security_headers[header]?.details?.description}}
+                        {{results.security_headers[header]?.details?.importance}}
+                        {{results.security_headers[header]?.details?.configuration}}
+                        {{results.security_headers[header]?.details?.security_risks}}
+                        <a href="{{ results.security_headers[header]?.details?.resource}}" target="_blank">
+                            Read more
+                          </a>
+                    </p>
+                    </div>
+                    <ul>
+                      @if(results.security_headers[header]?.details?.present == 'True') {
+                        <!-- Iterate over each present header key -->
+                          <li class="header-list">
+                            <svg class="success" viewBox="0 0 24 24">
+                              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"/>
+                            </svg>
+                            {{ header }}
+                          </li>
+                      } @else {
+                        <li class="header-list">
+                          <svg class="fail" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"/>
+                          </svg>
+                          {{ header }} - - -  Not Found!
+                        </li>
+                      }
+                    </ul>
                   </li>
                 }
-              </ul>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              Missing Headers:
-              <ul>
-                <!-- Check if any missing headers exist -->
-                @if(results.security_headers['absent']) {
-                  <!-- Iterate over each missing header key -->
-                  @for(key of objectKeys(results.security_headers['absent']); track key) {
-                    <li class="header-list">
-                      <svg class="fail" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"/>
-                      </svg>
-                      <!-- Display header name followed by its description in brackets -->
-                      {{ key }} ( {{ results.security_headers.absent[key] }} )
-                    </li>
-                  }
-                } @else {
-                  <li class="header-list">
-                    <svg class="amber" viewBox="0 0 24 24">
-                      <path fill="#fff" d="M19 4a1 1 0 1 0-2 0v.514a9 9 0 0 0-2.881-1.264c-.589-.142-1.117.334-1.117.94c0 .505.374.926.862 1.06a7 7 0 0 1 1.745.75H15a1 1 0 1 0 0 2h3a1 1 0 0 0 1-1zm-9.115-.75c.588-.142 1.117.334 1.117.94c0 .505-.375.926-.862 1.06a7 7 0 0 0-1.594.66c-.439.25-1.001.218-1.359-.14c-.428-.428-.39-1.138.127-1.454a9 9 0 0 1 2.57-1.066M19.812 13c-.505 0-.926.374-1.06.862a7 7 0 0 1-.661 1.594c-.25.44-.217 1.002.14 1.36c.428.427 1.139.39 1.455-.127a9 9 0 0 0 1.066-2.573c.142-.588-.334-1.117-.94-1.117"/>
-                    </svg>
-                    Unable to find missing headers!
-                  </li>
-                }
-              </ul>
-            </li>
-          </ul>
-        
-          
-        </div>
-      }@else{
-      <ul>
-        <li>
-          {{ results.security_headers["error"] }}
-        </li>
-      </ul>
-      }
-    </div>
+              }
+            </ul>
+          </div>
+        }
+      </div>
     }
   
     <!-- domain health -->

@@ -16,10 +16,7 @@ export class CheckersService {
     const processedData: Response = {
       ssl_certificate: response.ssl_certificate,
       cipher_suites: { 'not-found': response.cipher_suites?.['not-found'] },
-      security_headers: {
-        'present': response.security_headers?.present,
-        'absent': response.security_headers?.absent,
-      },
+      security_headers: response.security_headers || {},
       dns_info: { 'dns-records': response.dns_info?.['dns-records'] || {} },
       domain_check: response.domain_check || {},
       whois_check: { 'whois-info': response.whois_check?.['whois-info'] || [] },

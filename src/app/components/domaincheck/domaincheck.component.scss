@@ -231,11 +231,17 @@
         }
     }
 
-    .dns {
+    .dns,
+    .headers {
         width: 100%;
         border: 0.15vw solid #171d281f;
         border-radius: 0.5vw;
         padding: 2vw 3vw;
+
+        .title {
+            margin: 0 0 1vw 0;
+            font-size: 1.3vw;
+        }
 
         ul {
             list-style: none;
@@ -246,9 +252,9 @@
                 font-weight: 600;
                 color: #7456e4;
 
-                .record-header {
+                .record-header, .security-header {
                     h3 {
-                        font-size: 1vw;
+                        font-size: 0.9vw;
                     }
 
                     p {
@@ -283,6 +289,7 @@
 
                         svg {
                             width: 1vw;
+                            height: 1vw;
                             margin-right: 1vw;
 
                             &.fail {
@@ -297,137 +304,105 @@
                                 color: #e68d08;
                             }
                         }
-
-                        &.email-check {
-                            display: flex;
-                            flex-direction: column;
-                            align-items: flex-start;
-                            justify-content: flex-start;
-
-                            ul {
-                                list-style: none;
-
-                                li {
-                                    span.success {
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: flex-start;
-
-                                        svg {
-                                            width: 1.5vw;
-                                            margin-right: 0.5vw;
-                                            color: #17b14a;
-                                        }
-                                    }
-
-                                    span.fail {
-                                        svg {
-                                            width: 0.7vw;
-                                            color: red;
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
         }
     }
 
-    .headers {
-        width: 100%;
-        border: 0.15vw solid #171d281f;
-        border-radius: 0.5vw;
-        padding: 2vw;
+    // .headers {
+    //     width: 100%;
+    //     border: 0.15vw solid #171d281f;
+    //     border-radius: 0.5vw;
+    //     padding: 2vw;
 
-        .all-headers {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
+    //     .all-headers {
+    //         display: flex;
+    //         align-items: flex-start;
+    //         justify-content: space-between;
 
-            ul {
-                list-style: none;
-                width: 50%;
+    //         ul {
+    //             list-style: none;
+    //             width: 50%;
 
-                li {
-                    margin: 0 0 1.5vw 0;
-                    font-size: 0.9vw;
-                    font-weight: 600;
-                    color: #7456e4;
-                    width: 100%;
+    //             li {
+    //                 margin: 0 0 1.5vw 0;
+    //                 font-size: 0.9vw;
+    //                 font-weight: 600;
+    //                 color: #7456e4;
+    //                 width: 100%;
 
-                    ul {
-                        margin-left: 3vw;
-                        width: 100%;
+    //                 ul {
+    //                     margin-left: 3vw;
+    //                     width: 100%;
 
-                        li {
-                            margin: 0 0 0.5vw 0;
-                            font-size: 0.8vw;
-                            font-weight: 500;
-                            color: #171d28;
-                            display: flex;
-                            align-items: center;
-                            justify-content: flex-start;
-                            width: 100%;
+    //                     li {
+    //                         margin: 0 0 0.5vw 0;
+    //                         font-size: 0.8vw;
+    //                         font-weight: 500;
+    //                         color: #171d28;
+    //                         display: flex;
+    //                         align-items: center;
+    //                         justify-content: flex-start;
+    //                         width: 100%;
 
-                            &.header-list {
-                                margin: 1vw 0;
-                            }
+    //                         &.header-list {
+    //                             margin: 1vw 0;
+    //                         }
 
-                            svg {
-                                width: 1vw;
-                                margin-right: 1vw;
+    //                         svg {
+    //                             width: 1vw;
+    //                             margin-right: 1vw;
 
-                                &.fail {
-                                    color: red;
-                                }
+    //                             &.fail {
+    //                                 color: red;
+    //                             }
 
-                                &.success {
-                                    color: #17b14a;
-                                }
+    //                             &.success {
+    //                                 color: #17b14a;
+    //                             }
 
-                                &.amber {
-                                    color: #e68d08;
-                                }
-                            }
+    //                             &.amber {
+    //                                 color: #e68d08;
+    //                             }
+    //                         }
 
-                            &.email-check {
-                                display: flex;
-                                flex-direction: column;
-                                align-items: flex-start;
-                                justify-content: flex-start;
+    //                         &.email-check {
+    //                             display: flex;
+    //                             flex-direction: column;
+    //                             align-items: flex-start;
+    //                             justify-content: flex-start;
 
-                                ul {
-                                    list-style: none;
+    //                             ul {
+    //                                 list-style: none;
 
-                                    li {
-                                        span.success {
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: flex-start;
+    //                                 li {
+    //                                     span.success {
+    //                                         display: flex;
+    //                                         align-items: center;
+    //                                         justify-content: flex-start;
 
-                                            svg {
-                                                width: 1.5vw;
-                                                margin-right: 0.5vw;
-                                                color: #17b14a;
-                                            }
-                                        }
+    //                                         svg {
+    //                                             width: 1.5vw;
+    //                                             margin-right: 0.5vw;
+    //                                             color: #17b14a;
+    //                                         }
+    //                                     }
 
-                                        span.fail {
-                                            svg {
-                                                width: 0.7vw;
-                                                color: red;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    //                                     span.fail {
+    //                                         svg {
+    //                                             width: 0.7vw;
+    //                                             color: red;
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 
-    }
+    // }
 }

@@ -11,26 +11,36 @@ interface SSLCertificate {
   caIssuers: string[];
 }
 
-interface SecurityHeadersGroup {
-  [key: string]: string;
+// Interface for DNS Records
+interface SecurityHeadersDetails {
+  description: string;
+  importance: string;
+  configuration: string;
+  resource: string;
+  security_risks: string;
+  category: string;
+  present: string
 }
 
-export interface SecurityHeaders {
-  present: SecurityHeadersGroup;
-  absent: SecurityHeadersGroup;
+interface ExtendedSecurityHeaders {
+  header: string;
+  details: SecurityHeadersDetails;
 }
+
+interface SecurityHeaders {
+  [header: string]: ExtendedSecurityHeaders | undefined;
+}
+
 
 
 // Interface for DNS Records
-// interface DNSRecords {
-//   [key: string]: string[] | undefined;
-// }
 interface DNSRecordDetail {
   description: string;
   importance: string;
   configuration: string;
   resource: string;
   security_risks: string;
+  category: string;
 }
 
 interface ExtendedDNSRecord {

@@ -17,6 +17,19 @@ export class DomaincheckComponent {
   placeHolder: string = 'example.com';
   activeTab: string = 'tab1';
   inputValue: string = '';
+  categories: string[] = ["Essential", "Optional", "Advanced"];
+  securityLevels: string[] = ['Critical', 'High', 'Medium']
+  activeRecord = 0;
+
+  ngOnInit() {
+    this.results = JSON.parse(localStorage['persistedDNS'])
+    console.log(this.results)
+  }
+
+  // Called when an accordion header is clicked.
+  setActive(index: number): void {
+    this.activeRecord = index;
+  }
 
   isValidDomain(input: string): boolean {
     // Remove protocol (http:// or https://) and trailing slash (/)
@@ -25,7 +38,6 @@ export class DomaincheckComponent {
     const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
     return domainRegex.test(input);
   }
-
 
   cleanDomain(domain: string): string {
     // Remove protocol (http:// or https://)
@@ -43,12 +55,10 @@ export class DomaincheckComponent {
   }
 
   objectKeys(obj: any): string[] {
-    console.log(obj)
     return Object.keys(obj);
   }
 
   getDnsRecords(record: string) {
-    console.log(record)
     return this.results?.dns_info['dns-records'][record] || [];
   }
 
@@ -63,6 +73,7 @@ export class DomaincheckComponent {
         this.results = undefined;
         this.checkers.checkDomain(this.cleanDomain(domain)).subscribe((res) => {
           this.results = res;
+          localStorage.setItem('persistedDNS', JSON.stringify(this.results))
           console.log(this.results)
           this.runAnalysis = false;
         });
