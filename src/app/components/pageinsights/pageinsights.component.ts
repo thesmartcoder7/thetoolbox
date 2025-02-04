@@ -25,7 +25,7 @@ export class PageinsightsComponent {
 
   metrics: any;
 
-  constructor(private checkers: CheckersService) {}
+  constructor(private checkers: CheckersService) { }
 
   onKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
@@ -44,10 +44,10 @@ export class PageinsightsComponent {
 
 
   cleanDomain(domain: string): string {
-      // Remove protocol (http:// or https://)
-      domain = domain.replace(/^https?:\/\//, '');
-      // Remove trailing slashes
-      return domain.replace(/\/+$/, '');
+    // Remove protocol (http:// or https://)
+    domain = domain.replace(/^https?:\/\//, '');
+    // Remove trailing slashes
+    return domain.replace(/\/+$/, '');
   }
 
 
@@ -95,19 +95,19 @@ export class PageinsightsComponent {
       this.emptyInput = true;
       this.placeHolder = 'Please enter a valid domain name . . .';
     } else {
-      if(this.isValidDomain(domain)){
+      if (this.isValidDomain(domain)) {
         this.runAnalysis = true;
         this.results = null;
         this.checkers.getPageInsights(this.cleanDomain(domain)).subscribe((res: any) => {
           this.results = res.deviceData.page_insights;
-          console.log(this.results);
+          // console.log(this.results);
           this.metrics = this.results.audits;
           this.runAnalysis = false;
         });
-      }else{
+      } else {
         this.placeHolder = 'Please enter a valid domain name . . .';
       }
-      
+
     }
     this.activeResources = [];
   }

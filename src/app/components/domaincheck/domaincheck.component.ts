@@ -3,14 +3,14 @@ import { Response } from 'src/app/interfaces/response';
 import { CheckersService } from 'src/app/services/checkers.service';
 
 @Component({
-  selector: 'app-analytics',
+  selector: 'app-domaincheck',
   standalone: true,
   imports: [],
-  templateUrl: './analytics.component.html',
-  styleUrl: './analytics.component.scss',
+  templateUrl: './domaincheck.component.html',
+  styleUrl: './domaincheck.component.scss'
 })
-export class AnalyticsComponent {
-  constructor(private checkers: CheckersService) {}
+export class DomaincheckComponent {
+  constructor(private checkers: CheckersService) { }
   runAnalysis: boolean = false;
   emptyInput: boolean = false;
   results?: Response;
@@ -28,13 +28,13 @@ export class AnalyticsComponent {
 
 
   cleanDomain(domain: string): string {
-      // Remove protocol (http:// or https://)
-      domain = domain.replace(/^https?:\/\//, '');
-      // Remove trailing slashes
-      return domain.replace(/\/+$/, '');
+    // Remove protocol (http:// or https://)
+    domain = domain.replace(/^https?:\/\//, '');
+    // Remove trailing slashes
+    return domain.replace(/\/+$/, '');
   }
 
-  onEnterPressed(event: KeyboardEvent, element:HTMLInputElement): void {
+  onEnterPressed(event: KeyboardEvent, element: HTMLInputElement): void {
     // Check if the key pressed is Enter (key code 13)
     if (event.key === 'Enter') {
       const inputValue = (event.target as HTMLInputElement).value;
@@ -45,6 +45,7 @@ export class AnalyticsComponent {
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
+
   getDnsRecords(record: string) {
     return this.results?.dns_info['dns-records'][record] || [];
   }
@@ -55,18 +56,19 @@ export class AnalyticsComponent {
       this.placeHolder = 'Please enter a valid domain name . . .';
     } else {
       this.emptyInput = false;
-      if (this.isValidDomain(domain)){
+      if (this.isValidDomain(domain)) {
         this.runAnalysis = true;
         this.results = undefined;
         this.checkers.checkDomain(this.cleanDomain(domain)).subscribe((res) => {
           this.results = res;
+          console.log(this.results)
           this.runAnalysis = false;
         });
       } else {
         this.placeHolder = 'Please enter a Valid domain . . .';
         element.value = '';
       };
-      
+
     }
   }
 }

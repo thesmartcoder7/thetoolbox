@@ -11,9 +11,13 @@ interface SSLCertificate {
   caIssuers: string[];
 }
 
-// Interface for Security Headers
-interface SecurityHeaders {
-  [key: string]: string[];
+interface SecurityHeadersGroup {
+  [key: string]: string;
+}
+
+export interface SecurityHeaders {
+  present: SecurityHeadersGroup;
+  absent: SecurityHeadersGroup;
 }
 
 
@@ -35,7 +39,7 @@ interface WHOISInfo {
   domain_name: string[];
   registrar: string;
   whois_server: string;
-  referral_url: string | null;
+  referral_url: string;
   updated_date: string;
   creation_date: string;
   expiration_date: string;
@@ -44,8 +48,8 @@ interface WHOISInfo {
   emails: string;
   dnssec: string;
   org: string;
-  name: string | null;
-  city: string | null;
+  name: string;
+  city: string;
   country: string;
 }
 

@@ -1,0 +1,330 @@
+.main {
+    width: 100%;
+    padding: 5vw 10vw 15vw 10vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #171d28;
+
+    h2 {
+        color: #fff;
+        font-size: 3vw;
+        padding: 0 20vw;
+        text-align: center;
+        line-height: 4vw;
+        margin-bottom: 1vw;
+
+        span {
+            font-size: 3vw;
+            color: #7456e4;
+        }
+    }
+
+    h3 {
+        color: #fff;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.2vw;
+        padding: 0 20vw;
+        margin-bottom: 3vw;
+    }
+}
+
+.check {
+    width: 100%;
+    display: grid;
+    place-items: center;
+
+    .field {
+        width: 50%;
+        padding: 5vw;
+        background-color: #fff;
+        box-shadow: 0 0 7vw 0vw #171d2842;
+        margin-top: -10vw;
+        border-radius: 0.5vw;
+
+        .domain_input {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input {
+            width: 70%;
+            padding: 0.6vw 2vw;
+            border: 0.1vw solid #171d287c;
+            outline: none;
+            appearance: none;
+            border-radius: 0.3vw 0 0 0.3vw;
+            font-size: 0.9vw;
+            color: #171d28bd;
+        }
+
+        button {
+            width: 30%;
+            padding: 0.7vw 2vw;
+            border: 0.1vw solid #7456e4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 0.3vw 0.3vw 0;
+            cursor: pointer;
+            background-color: #7456e4;
+            color: #fff;
+            font-size: 0.9vw;
+            font-weight: 600;
+
+            span {
+                display: grid;
+                place-items: center;
+                margin: 0 0.2vw;
+
+                svg {
+                    width: 1vw;
+                    animation: run 1s infinite;
+                }
+            }
+        }
+    }
+}
+
+.results {
+    width: 100%;
+    padding: 5vw 10vw 15vw 10vw;
+    height: auto;
+
+    .title {
+        margin-bottom: 1vw;
+
+        h3 {
+            font-size: 1.5vw;
+        }
+    }
+
+    .tabs {
+        width: 100%;
+        margin-bottom: 2vw;
+
+        ul {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            list-style: none;
+            justify-content: flex-start;
+
+            li {
+                margin: 0.5vw 1vw 0.5vw 0;
+                border-radius: 0.3vw;
+                border: 0.15vw solid #171d28a9;
+                outline: none;
+                padding: 0.5vw 1vw;
+                background-color: #fff;
+                font-size: 0.9vw;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                cursor: pointer;
+
+                &.active,
+                &:hover {
+                    background-color: #7456e4;
+                    color: #fff;
+                    border-color: #7456e4;
+                }
+
+                svg {
+                    width: 1.5vw;
+                    margin-right: 1vw;
+                }
+            }
+        }
+    }
+
+    .ssl,
+    .dns,
+    .domain-health,
+    .whois {
+        width: 100%;
+        border: 0.15vw solid #171d281f;
+        border-radius: 0.5vw;
+        padding: 2vw;
+
+        ul {
+            list-style: none;
+
+            li {
+                margin: 0 0 1.5vw 0;
+                font-size: 0.9vw;
+                font-weight: 600;
+                color: #7456e4;
+
+                ul {
+                    margin-left: 3vw;
+
+                    li {
+                        margin: 0 0 0.5vw 0;
+                        font-size: 0.8vw;
+                        font-weight: 500;
+                        color: #171d28;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+
+                        &.header-list {
+                            margin: 1vw 0;
+                        }
+
+                        svg {
+                            width: 1vw;
+                            margin-right: 1vw;
+
+                            &.fail {
+                                color: red;
+                            }
+
+                            &.success {
+                                color: #17b14a;
+                            }
+
+                            &.amber {
+                                color: #e68d08;
+                            }
+                        }
+
+                        &.email-check {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            justify-content: flex-start;
+
+                            ul {
+                                list-style: none;
+
+                                li {
+                                    span.success {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: flex-start;
+
+                                        svg {
+                                            width: 1.5vw;
+                                            margin-right: 0.5vw;
+                                            color: #17b14a;
+                                        }
+                                    }
+
+                                    span.fail {
+                                        svg {
+                                            width: 0.7vw;
+                                            color: red;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .headers {
+        width: 100%;
+        border: 0.15vw solid #171d281f;
+        border-radius: 0.5vw;
+        padding: 2vw;
+
+        .all-headers {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            ul {
+                list-style: none;
+                width: 50%;
+
+                li {
+                    margin: 0 0 1.5vw 0;
+                    font-size: 0.9vw;
+                    font-weight: 600;
+                    color: #7456e4;
+                    width: 100%;
+
+                    ul {
+                        margin-left: 3vw;
+                        width: 100%;
+
+                        li {
+                            margin: 0 0 0.5vw 0;
+                            font-size: 0.8vw;
+                            font-weight: 500;
+                            color: #171d28;
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+                            width: 100%;
+
+                            &.header-list {
+                                margin: 1vw 0;
+                            }
+
+                            svg {
+                                width: 1vw;
+                                margin-right: 1vw;
+
+                                &.fail {
+                                    color: red;
+                                }
+
+                                &.success {
+                                    color: #17b14a;
+                                }
+
+                                &.amber {
+                                    color: #e68d08;
+                                }
+                            }
+
+                            &.email-check {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: flex-start;
+                                justify-content: flex-start;
+
+                                ul {
+                                    list-style: none;
+
+                                    li {
+                                        span.success {
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: flex-start;
+
+                                            svg {
+                                                width: 1.5vw;
+                                                margin-right: 0.5vw;
+                                                color: #17b14a;
+                                            }
+                                        }
+
+                                        span.fail {
+                                            svg {
+                                                width: 0.7vw;
+                                                color: red;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}

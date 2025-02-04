@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnalyticsComponent } from './analytics.component';
+import { DomaincheckComponent } from './domaincheck.component';
 
-describe('AnalyticsComponent', () => {
-  let component: AnalyticsComponent;
-  let fixture: ComponentFixture<AnalyticsComponent>;
+describe('DomaincheckComponent', () => {
+  let component: DomaincheckComponent;
+  let fixture: ComponentFixture<DomaincheckComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnalyticsComponent]
+      imports: [DomaincheckComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AnalyticsComponent);
+    fixture = TestBed.createComponent(DomaincheckComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

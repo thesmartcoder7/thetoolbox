@@ -8,7 +8,7 @@ import { AuditResult } from '../interfaces/insights';
   providedIn: 'root',
 })
 export class CheckersService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private processResponse(response: any): Response {
     // Implement processing logic here
@@ -16,11 +16,12 @@ export class CheckersService {
       ssl_certificate: response.ssl_cetificate,
       cipher_suites: { 'not-found': response.cipher_suites?.['not-found'] },
       security_headers: {
-        'missing-headers': response.security_headers?.['missing-headers'] || [],
+        'present': response.security_headers?.present,
+        'absent': response.security_headers?.absent,
       },
       dns_info: { 'dns-records': response.dns_info?.['dns-records'] || {} },
       domain_check: response.domain_check || {},
-      whois_check: { 'whois-info': response.whois_check?.['whois-info'] || {} },
+      whois_check: { 'whois-info': response.whois_check?.['whois-info'] || [] },
     };
 
     return processedData;
