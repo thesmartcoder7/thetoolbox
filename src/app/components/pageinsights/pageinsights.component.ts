@@ -27,6 +27,11 @@ export class PageinsightsComponent {
 
   constructor(private checkers: CheckersService) { }
 
+  ngOnInit() {
+    this.results = JSON.parse(localStorage['persistedInsights'])
+    console.log(this.results)
+  }
+
   onKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       const inputValue = (event.target as HTMLInputElement).value;
@@ -58,7 +63,7 @@ export class PageinsightsComponent {
     } else {
       this.activeResources.push(id);
     }
-    console.log(this.activeResources);
+    // console.log(this.activeResources);
   }
 
   setBackground(value: string) {
@@ -100,7 +105,7 @@ export class PageinsightsComponent {
         this.results = null;
         this.checkers.getPageInsights(this.cleanDomain(domain)).subscribe((res: any) => {
           this.results = res.deviceData.page_insights;
-          // console.log(this.results);
+          localStorage.setItem('persistedInsights', JSON.stringify(this.results))
           this.metrics = this.results.audits;
           this.runAnalysis = false;
         });

@@ -31,8 +31,6 @@ interface SecurityHeaders {
   [header: string]: ExtendedSecurityHeaders | undefined;
 }
 
-
-
 // Interface for DNS Records
 interface DNSRecordDetail {
   description: string;
