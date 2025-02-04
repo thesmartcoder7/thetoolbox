@@ -22,8 +22,24 @@ export interface SecurityHeaders {
 
 
 // Interface for DNS Records
+// interface DNSRecords {
+//   [key: string]: string[] | undefined;
+// }
+interface DNSRecordDetail {
+  description: string;
+  importance: string;
+  configuration: string;
+  resource: string;
+  security_risks: string;
+}
+
+interface ExtendedDNSRecord {
+  records: string[];
+  details: DNSRecordDetail;
+}
+
 interface DNSRecords {
-  [key: string]: string[] | undefined;
+  [recordType: string]: ExtendedDNSRecord | undefined;
 }
 
 // Interface for Domain Check

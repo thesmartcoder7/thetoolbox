@@ -11,7 +11,7 @@
     h2 {
         color: #fff;
         font-size: 3vw;
-        padding: 0 20vw;
+        padding: 0 15vw;
         text-align: center;
         line-height: 4vw;
         margin-bottom: 1vw;
@@ -42,7 +42,7 @@
         padding: 5vw;
         background-color: #fff;
         box-shadow: 0 0 7vw 0vw #171d2842;
-        margin-top: -10vw;
+        margin-top: -7vw;
         border-radius: 0.5vw;
 
         .domain_input {
@@ -93,7 +93,7 @@
 
 .results {
     width: 100%;
-    padding: 5vw 10vw 15vw 10vw;
+    padding: 5vw 15vw 15vw 15vw;
     height: auto;
 
     .title {
@@ -145,7 +145,6 @@
     }
 
     .ssl,
-    .dns,
     .domain-health,
     .whois {
         width: 100%;
@@ -161,6 +160,110 @@
                 font-size: 0.9vw;
                 font-weight: 600;
                 color: #7456e4;
+
+                ul {
+                    margin-left: 3vw;
+
+                    li {
+                        margin: 0 0 0.5vw 0;
+                        font-size: 0.8vw;
+                        font-weight: 500;
+                        color: #171d28;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+
+                        &.header-list {
+                            margin: 1vw 0;
+                        }
+
+                        svg {
+                            width: 1vw;
+                            margin-right: 1vw;
+
+                            &.fail {
+                                color: red;
+                            }
+
+                            &.success {
+                                color: #17b14a;
+                            }
+
+                            &.amber {
+                                color: #e68d08;
+                            }
+                        }
+
+                        &.email-check {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            justify-content: flex-start;
+
+                            ul {
+                                list-style: none;
+
+                                li {
+                                    span.success {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: flex-start;
+
+                                        svg {
+                                            width: 1.5vw;
+                                            margin-right: 0.5vw;
+                                            color: #17b14a;
+                                        }
+                                    }
+
+                                    span.fail {
+                                        svg {
+                                            width: 0.7vw;
+                                            color: red;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .dns {
+        width: 100%;
+        border: 0.15vw solid #171d281f;
+        border-radius: 0.5vw;
+        padding: 2vw 3vw;
+
+        ul {
+            list-style: none;
+
+            li {
+                margin: 0 0 1.5vw 0;
+                font-size: 0.9vw;
+                font-weight: 600;
+                color: #7456e4;
+
+                .record-header {
+                    h3 {
+                        font-size: 1vw;
+                    }
+
+                    p {
+                        color: #171d28;
+                        padding: 0 2vw;
+                        font-weight: 500;
+
+                        a {
+                            color: #7456e4;
+                            font-size: 0.8vw;
+                            font-weight: 600;
+                            text-decoration: none;
+                        }
+                    }
+                }
 
                 ul {
                     margin-left: 3vw;

@@ -43,10 +43,12 @@ export class DomaincheckComponent {
   }
 
   objectKeys(obj: any): string[] {
+    console.log(obj)
     return Object.keys(obj);
   }
 
   getDnsRecords(record: string) {
+    console.log(record)
     return this.results?.dns_info['dns-records'][record] || [];
   }
 

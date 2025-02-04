@@ -1,8 +1,8 @@
 <div class="main">
     <h2>
-      Get a <span>Comprehensive</span> overview of your <span>Domain</span>.
+      Get a <span>Comprehensive</span> overview of your <span>Domain Name</span>.
     </h2>
-    <h3>Enter your domain name for a comprehensive details . . .</h3>
+    <h3>Enter your domain name for a comprehensive Lookup . . .</h3>
   </div>
   
   <div class="check">
@@ -213,47 +213,56 @@
   
     <!-- dns -->
     @if(activeTab == 'tab2'){
-    <div class="dns">
-      <ul>
-        <!-- Loop through the keys of the DNS records object -->
-        @for (record of objectKeys(results.dns_info['dns-records']); track record)
-        {
-        <!-- Check if the current record has items -->
-        @if (getDnsRecords(record).length) {
-        <li>
-          {{ record }} Records:
-          <ul>
-            <!-- Loop through the items of the current record -->
-            @for (item of getDnsRecords(record); track item){
-            <!--  -->
-            @if(item == 'No records found'){
-            <li>
-              <svg class="fail" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
-                />
-              </svg>
-              {{ item }}
-            </li>
-            } @else {
-            <li>
-              <svg class="success" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                  d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              {{ item }}
-            </li>
-            } }
-          </ul>
-        </li>
-        } }
-      </ul>
-    </div>
+        <div class="dns">
+            <ul>
+              <!-- Loop through the keys of the DNS records object -->
+              @for (recordType of objectKeys(results.dns_info['dns-records']); track recordType) {
+                <!-- Get the extended data for the current record type -->
+                <li>
+                  <div class="record-header">
+                    <h3>{{ recordType }} Records :</h3>
+                    <!-- Display educational details -->
+                    <p>
+                        {{results.dns_info['dns-records'][recordType]?.details?.description}}
+                        {{results.dns_info['dns-records'][recordType]?.details?.importance}}
+                        {{results.dns_info['dns-records'][recordType]?.details?.configuration}}
+                        {{results.dns_info['dns-records'][recordType]?.details?.security_risks}}
+                        <a href="{{ results.dns_info['dns-records'][recordType]?.details?.resource}}" target="_blank">
+                            Read more
+                          </a>
+                    </p>
+                  </div>
+                  <ul>
+                    <!-- Loop through the record values -->
+                    @if (results.dns_info['dns-records'][recordType]?.records?.length) {
+                      @for (item of results.dns_info['dns-records'][recordType]?.records; track item) {
+                        @if(item == 'No records found') {
+                          <li>
+                            <svg class="fail" viewBox="0 0 24 24">
+                              <path fill="currentColor"
+                                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"/>
+                            </svg>
+                            {{ item }}
+                          </li>
+                        } @else {
+                          <li>
+                            <svg class="success" viewBox="0 0 24 24">
+                              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"/>
+                            </svg>
+                            {{ item }}
+                          </li>
+                        }
+                      }
+                    } @else {
+                      <li>No records available.</li>
+                    }
+                  </ul>
+                </li>
+              }
+            </ul>
+          </div>
+          
     }
   
     <!-- security headers -->

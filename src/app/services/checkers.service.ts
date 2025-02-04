@@ -12,8 +12,9 @@ export class CheckersService {
 
   private processResponse(response: any): Response {
     // Implement processing logic here
+    console.log(response)
     const processedData: Response = {
-      ssl_certificate: response.ssl_cetificate,
+      ssl_certificate: response.ssl_certificate,
       cipher_suites: { 'not-found': response.cipher_suites?.['not-found'] },
       security_headers: {
         'present': response.security_headers?.present,
