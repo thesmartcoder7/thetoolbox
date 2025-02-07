@@ -64,7 +64,6 @@ interface WHOISInfo {
   domain_name: string[];
   registrar: string;
   whois_server: string;
-  referral_url: string;
   updated_date: string;
   creation_date: string;
   expiration_date: string;

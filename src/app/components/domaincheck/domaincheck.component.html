@@ -151,15 +151,6 @@
           </svg>
           Whois Lookup
         </li>
-        <!-- <li (click)="activeTab = 'tab6'" [class.active]="activeTab === 'tab6'">
-          <svg viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M15 22.007H5v-2h10ZM22 4l-4.735 5.955l-.22.27l-5.63 7.19a2.001 2.001 0 1 1-2.83-2.83ZM2.645 7.234A10.843 10.843 0 0 0 1.19 15H2v-1a9.685 9.685 0 0 1 1.69-5.52ZM12 2a10.958 10.958 0 0 0-8.119 3.597L5.025 6.96A7.428 7.428 0 0 1 10 5a7.432 7.432 0 0 1 4.997 1.978l3.55-2.802A10.936 10.936 0 0 0 12 2m6.83 9.2l-.233.287l-.728.93A10.118 10.118 0 0 1 18 14v1h4.81a10.879 10.879 0 0 0-1.183-7.318Z"
-            />
-          </svg>
-          Performance
-        </li> -->
       </ul>
     </div>
   
@@ -451,11 +442,10 @@
         <ul>
           <li>
             Domain Information:
-            <ul>
-              <li>Domain Name: {{ results.whois_check["whois-info"].domain_name[0].toLowerCase() }}</li>
+            <ul class="inner">
+              <li>Domain Name: {{ results.whois_check["whois-info"].domain_name.toString().toLowerCase() }}</li>
               <li>Registrar: {{ results.whois_check["whois-info"].registrar.toLowerCase() }}</li>
               <li>Whois Server: {{ results.whois_check["whois-info"].whois_server }}</li>
-              <li>Referral URL: {{ results.whois_check["whois-info"].referral_url }} . . .</li>
               <li>Creation Date: {{ results.whois_check["whois-info"].creation_date }}</li>
               <li>Updated Date: {{ results.whois_check["whois-info"].updated_date }}</li>
               <li>Expiry Date: {{ results.whois_check["whois-info"].expiration_date }}</li>
@@ -466,12 +456,7 @@
           <li>
             NameServers:
             <ul>
-              @if(results.whois_check["whois-info"].name_servers[0]){
-                <li>{{results.whois_check["whois-info"].name_servers[0].toLowerCase()}}</li>
-              } 
-              @if(results.whois_check["whois-info"].name_servers[1]){
-                <li>{{results.whois_check["whois-info"].name_servers[1].toLowerCase()}}</li>
-              }
+              <li>{{results.whois_check["whois-info"].name_servers.toString().toLowerCase()}}</li>
             </ul> 
           </li>
         </ul>
@@ -481,7 +466,7 @@
         <ul>
           <li>
             Registrant Information:
-            <ul>
+            <ul class="inner">
               <li>Name: {{ results.whois_check["whois-info"].name }}</li>
               <li>Organization: {{ results.whois_check["whois-info"].org }}</li>
               <li>Address: {{ results.whois_check["whois-info"].address }}</li>
@@ -493,102 +478,11 @@
           </li>
           <li>Emails:  
             <ul>
-              @if(results.whois_check["whois-info"].emails[0]){
-                <li>{{results.whois_check["whois-info"].emails[0].toLowerCase()}}</li>
-              } 
-              @if(results.whois_check["whois-info"].emails[1]){
-                <li>{{results.whois_check["whois-info"].emails[1].toLowerCase()}}</li>
-              }
+                <li>{{results.whois_check["whois-info"].emails.toString().toLowerCase()}}</li>
             </ul>
           </li>
         </ul>
       </div>
-      
-      <!-- <ul>
-        <li>
-          Domain Name:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].domain_name }}</li>
-          </ul>
-        </li>
-        <li>
-          Country:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].country }}</li>
-          </ul>
-        </li>
-        <li>
-          City:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].city }}</li>
-          </ul>
-        </li>
-        <li>
-          Registrar:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].registrar }}</li>
-          </ul>
-        </li>
-        <li>
-          Whois Server:
-          <ul>
-            <li>
-              {{ results.whois_check["whois-info"].whois_server }}
-            </li>
-          </ul>
-        </li>
-        <li>
-          Referral URL:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].referral_url }}</li>
-          </ul>
-        </li>
-        <li>
-          Creation Date:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].creation_date }}</li>
-          </ul>
-        </li>
-        <li>
-          Updated Date:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].updated_date }}</li>
-          </ul>
-        </li>
-        <li>
-          Expiry Date:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].expiration_date }}</li>
-          </ul>
-        </li>
-        <li>
-          NameServers:
-          <ul>
-            @for(server of results.whois_check['whois-info'].name_servers; track
-            server){
-            <li>{{ server }}</li>
-            }
-          </ul>
-        </li>
-        <li>
-          Status:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].status }}</li>
-          </ul>
-        </li>
-        <li>
-          Emails:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].emails }}</li>
-          </ul>
-        </li>
-        <li>
-          DNSSEC:
-          <ul>
-            <li>{{ results.whois_check["whois-info"].dnssec }}</li>
-          </ul>
-        </li>
-      </ul> -->
     </div>
     }
   </div>
