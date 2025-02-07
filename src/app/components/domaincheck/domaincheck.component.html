@@ -78,7 +78,7 @@
   @if(results){
   <div class="results">
     <div class="title">
-      <h3>Results for [ {{ results.whois_check['whois-info'].domain_name.toString().toLowerCase() }} ]</h3>
+      <h3>Results for [ {{ placeHolder }} ]</h3>
     </div>
   
     <div class="tabs">
@@ -166,45 +166,54 @@
     <!-- ssl -->
     @if(activeTab == 'tab1'){
     <div class="ssl">
-      @if(results.domain_check["ssl-check"]["status"] == 'success'){
-      <ul>
-        <li>
-          Issued To:
-          <ul>
-            <li>Common Name: {{ results.ssl_certificate.subject[0][0][1] }}</li>
-          </ul>
-        </li>
-  
-        <li>
-          Issued By:
-          <ul>
-            <li>Country Name: {{ results.ssl_certificate.issuer[0][0][1] }}</li>
-            <li>
-              Organization Name: {{ results.ssl_certificate.issuer[1][0][1] }}
-            </li>
-            <li>Common Name: {{ results.ssl_certificate.issuer[2][0][1] }}</li>
-          </ul>
-        </li>
-        <li>
-          Validity Period:
+      @if(results.domain_check.error.status == "failed"){
+        {{ results.domain_check.error.message }}
+      }@else if(results.domain_check["ssl-check"]["status"] == 'success'){
+        <div class="left">
           <ul>
             <li>
-              Valid from:
-              {{ results.ssl_certificate.notBefore }}
+              Issued To:
+              <ul>
+                <li>Common Name: {{ results.ssl_certificate.subject[0][0][1] }}</li>
+              </ul>
+            </li>
+      
+            <li>
+              Issued By:
+              <ul>
+                <li>Country Name: {{ results.ssl_certificate.issuer[0][0][1] }}</li>
+                <li>
+                  Organization Name: {{ results.ssl_certificate.issuer[1][0][1] }}
+                </li>
+                <li>Common Name: {{ results.ssl_certificate.issuer[2][0][1] }}</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <ul>
+            <li>
+              Validity Period:
+              <ul>
+                <li>
+                  Valid from:
+                  {{ results.ssl_certificate.notBefore }}
+                </li>
+                <li>
+                  Valid to:
+                  {{ results.ssl_certificate.notAfter }}
+                </li>
+              </ul>
             </li>
             <li>
-              Valid to:
-              {{ results.ssl_certificate.notAfter }}
+              Serial Number:
+              <ul>
+                <li>Serial Number: {{ results.ssl_certificate.serialNumber }}</li>
+              </ul>
             </li>
           </ul>
-        </li>
-        <li>
-          Serial Number:
-          <ul>
-            <li>Serial Number: {{ results.ssl_certificate.serialNumber }}</li>
-          </ul>
-        </li>
-      </ul>
+        </div>
+      
       } @else {
       {{ results.domain_check["ssl-check"]["message"] }}
       }
@@ -438,7 +447,64 @@
     <!-- whois -->
     @if(activeTab == 'tab5'){
     <div class="whois">
-      <ul>
+      <div class="left">
+        <ul>
+          <li>
+            Domain Information:
+            <ul>
+              <li>Domain Name: {{ results.whois_check["whois-info"].domain_name[0].toLowerCase() }}</li>
+              <li>Registrar: {{ results.whois_check["whois-info"].registrar.toLowerCase() }}</li>
+              <li>Whois Server: {{ results.whois_check["whois-info"].whois_server }}</li>
+              <li>Referral URL: {{ results.whois_check["whois-info"].referral_url }} . . .</li>
+              <li>Creation Date: {{ results.whois_check["whois-info"].creation_date }}</li>
+              <li>Updated Date: {{ results.whois_check["whois-info"].updated_date }}</li>
+              <li>Expiry Date: {{ results.whois_check["whois-info"].expiration_date }}</li>
+              <li>Status: {{ results.whois_check["whois-info"].status }}</li>
+              <li>DNSSEC: {{ results.whois_check["whois-info"].dnssec }}</li>
+            </ul>
+          </li>
+          <li>
+            NameServers:
+            <ul>
+              @if(results.whois_check["whois-info"].name_servers[0]){
+                <li>{{results.whois_check["whois-info"].name_servers[0].toLowerCase()}}</li>
+              } 
+              @if(results.whois_check["whois-info"].name_servers[1]){
+                <li>{{results.whois_check["whois-info"].name_servers[1].toLowerCase()}}</li>
+              }
+            </ul> 
+          </li>
+        </ul>
+      </div>
+      
+      <div class="right">
+        <ul>
+          <li>
+            Registrant Information:
+            <ul>
+              <li>Name: {{ results.whois_check["whois-info"].name }}</li>
+              <li>Organization: {{ results.whois_check["whois-info"].org }}</li>
+              <li>Address: {{ results.whois_check["whois-info"].address }}</li>
+              <li>City: {{ results.whois_check["whois-info"].city }}</li>
+              <li>State: {{ results.whois_check["whois-info"].state }}</li>
+              <li>Postal Code: {{ results.whois_check["whois-info"].registrant_postal_code }}</li>
+              <li>Country: {{ results.whois_check["whois-info"].country }}</li> 
+            </ul>
+          </li>
+          <li>Emails:  
+            <ul>
+              @if(results.whois_check["whois-info"].emails[0]){
+                <li>{{results.whois_check["whois-info"].emails[0].toLowerCase()}}</li>
+              } 
+              @if(results.whois_check["whois-info"].emails[1]){
+                <li>{{results.whois_check["whois-info"].emails[1].toLowerCase()}}</li>
+              }
+            </ul>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- <ul>
         <li>
           Domain Name:
           <ul>
@@ -522,7 +588,7 @@
             <li>{{ results.whois_check["whois-info"].dnssec }}</li>
           </ul>
         </li>
-      </ul>
+      </ul> -->
     </div>
     }
   </div>

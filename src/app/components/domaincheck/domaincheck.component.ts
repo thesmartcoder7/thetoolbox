@@ -23,7 +23,12 @@ export class DomaincheckComponent {
 
   ngOnInit() {
     this.results = JSON.parse(localStorage['persistedDNS'])
-    console.log(this.results)
+    if (typeof (this.results?.whois_check['whois-info'].domain_name) == 'string') {
+      this.placeHolder = String(this.results?.whois_check['whois-info'].domain_name).toLowerCase()
+    } else {
+      this.placeHolder = String(this.results?.whois_check['whois-info'].domain_name[0]).toLowerCase()
+    }
+    // console.log(this.results)
   }
 
   // Called when an accordion header is clicked.
@@ -74,8 +79,13 @@ export class DomaincheckComponent {
         this.checkers.checkDomain(this.cleanDomain(domain)).subscribe((res) => {
           this.results = res;
           localStorage.setItem('persistedDNS', JSON.stringify(this.results))
-          console.log(this.results)
+          // console.log(this.results)
           this.runAnalysis = false;
+          if (typeof (this.results?.whois_check['whois-info'].domain_name) == 'string') {
+            this.placeHolder = String(this.results?.whois_check['whois-info'].domain_name).toLowerCase()
+          } else {
+            this.placeHolder = String(this.results?.whois_check['whois-info'].domain_name[0]).toLowerCase()
+          }
         });
       } else {
         this.placeHolder = 'Please enter a Valid domain . . .';

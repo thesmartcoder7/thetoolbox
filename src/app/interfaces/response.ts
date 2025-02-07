@@ -54,8 +54,9 @@ interface DNSRecords {
 interface DomainCheck {
   'dns-resolution': string;
   'ssl-check': { status: string; message: string };
-  emails_check: [{ mx: string; status: string; message: string }];
+  'emails_check': [{ mx: string; status: string; message: string }];
   'website-accessibility': { status: string; message: string };
+  'error': { status: string; message: string }
 }
 
 // Interface for WHOIS Info
@@ -68,6 +69,7 @@ interface WHOISInfo {
   creation_date: string;
   expiration_date: string;
   name_servers: string[];
+  address: string
   status: string;
   emails: string;
   dnssec: string;
@@ -75,6 +77,8 @@ interface WHOISInfo {
   name: string;
   city: string;
   country: string;
+  state: string;
+  registrant_postal_code: string
 }
 
 // Interface for the response data structure

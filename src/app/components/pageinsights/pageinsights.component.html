@@ -447,41 +447,109 @@
             </span>
             <strong>{{ item.title }} </strong>
           </p>
-          <span class="description" [innerHTML]="item.description | safeHtml">
-          </span>
+          <p class="description" [innerHTML]="item.description | safeHtml">
+          </p> 
         </div>
         @if(item.details.items.length > 0){
         <br />
-        <p class="resources" [style.color]="getColor(item.score * 100)">
+        <p class="resources">
           {{ item.details.items.length }}
           @if(item.details.items.length > 1 ){ Resources } @else { Resouce }
-          found:
+          found: &nbsp;
           <span (click)="toggleResources(item.id)"
-            >@if(activeResources.includes(item.id)){Close}@else{Open}</span
+            >@if(activeResources.includes(item.id)){
+              <svg viewBox="0 0 24 24">
+                <path  d="M8.12 14.71L12 10.83l3.88 3.88a.996.996 0 1 0 1.41-1.41L12.7 8.71a.996.996 0 0 0-1.41 0L6.7 13.3a.996.996 0 0 0 0 1.41c.39.38 1.03.39 1.42 0"/>
+              </svg>
+            }@else{
+              <svg viewBox="0 0 24 24">
+                <path  d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275t.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062"/>
+              </svg>
+            }
+            </span
           >
         </p>
-        @if(activeResources.includes(item.id)){
-        <ul>
-          @for(issue of item.details.items; track issue.id) {
-          <!--  -->
-          @if(issue.url){
-          <li class="issues">
-            <a href="{{ issue.url }}" target="_blank">{{ issue.url }}</a>
-          </li>
+        @if(activeResources.includes(item.id) && item.details){
+          <!-- categorized resources audits  -->
+          @if(!item.scoreDisplayMode.includes("notApplicable","manual", "binary")){
+          <p ><span>{{item.scoreDisplayMode}} </span><span [style.color]="getColor(item.score * 100)"> {{item.displayValue}}</span></p>
+          <ul>
+            @for(issue of item.details.items; track issue.id) {
+            <!--  -->
+            @if(issue){
+            <li class="issues">
+              <!--  -->
+              @if(issue.url){
+                <a href="{{ issue.url }}" target="_blank">{{ issue.url }}</a>
+              }
+              <!--  -->
+              @if(issue.node){
+                @if(issue.node?.explanation){
+                  <p>{{ issue.node?.explanation }}</p>
+                }
+                  <span>{{ issue.node?.snippet }}</span>
+                }
+                <!--  -->
+              @if(issue.description){
+                  <p>{{ issue.description }}</p>
+                  <a href="{{ issue.sourceLocation.url }}" target="_blank">{{ issue.sourceLocation.url }}</a>
+                }
+              <!--  -->
+              @if(issue.source){
+                <a href="{{ issue.source.url }}" target="_blank">{{ issue.source.url }}</a>
+              }
+              <!--  -->
+              @if(issue.statistic){
+                <p>{{issue.statistic}} : {{issue.value.value}}</p>
+              }
+              <!-- subitems a  -->
+              @if(issue.subItems?.items){
+                <p>Sub Items: </p>
+                  @for(subitem of issue.subItems.items;  track subitem){
+                    <li class="sub-issues">
+                      @if(subitem.issueType){
+                        <p>{{ subitem.issueType }}</p>
+                        <a href="{{ subitem.url}}" target="_blank">{{ subitem.url }}</a>
+                      }@else if(subitem.cause){
+                        <p>{{ subitem.cause }}</p>
+                        <a href="{{ subitem.extra.value}}" target="_blank">{{ subitem.extra.value }}</a>
+                      }@else if(subitem.location){
+                        <a href="{{ subitem.location.url}}" target="_blank">{{ subitem.location.url }}</a>
+                      }@else if(subitem.relatedNode){
+                        <span>{{ subitem.relatedNode.snippet}}</span>
+                      }
+                      @else{
+                        <a href="{{ subitem.url}}" target="_blank">{{ subitem.url }}</a>
+                      }
+                    </li>
+                  }
+                }
+
+                <!-- subitems 2 -->
+                @if(issue.items){
+                  <p>Sub Items: </p>
+                  @for(subitem of issue.items; track subitem){
+                    @if(subitem.node){
+                      <li class="sub-issues">
+                      <span>{{subitem.node.snippet}} {{subitem.node.selector}}</span>
+                      </li>
+                    }@else{
+                      <li class="sub-issues">
+                        <p>Phase - {{subitem.phase}} | Percentage - {{subitem.percent}} | Timing - {{subitem.timing}}</p>
+                      </li>
+                    }
+                  }
+                }
+            </li>
+            }
+            }
+          </ul>
           }
-          <!--  -->
-          @if(issue.node?.explanation){
-          <li class="issues">
-            <p>{{ issue.node?.explanation }}</p>
-            <span>{{ issue.node?.snippet }}</span>
-          </li>
-          }
-          <!--  -->
-          }
-        </ul>
+          
         } }
       </div>
-      } }
+      }
+    }
     </div>
   </div>
 </div>

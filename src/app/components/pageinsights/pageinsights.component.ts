@@ -29,7 +29,8 @@ export class PageinsightsComponent {
 
   ngOnInit() {
     this.results = JSON.parse(localStorage['persistedInsights'])
-    console.log(this.results)
+    this.placeHolder = this.results.domain
+    // console.log(this.results)
   }
 
   onKeyPress(event: KeyboardEvent): void {
@@ -108,7 +109,9 @@ export class PageinsightsComponent {
           localStorage.setItem('persistedInsights', JSON.stringify(this.results))
           this.metrics = this.results.audits;
           this.runAnalysis = false;
+          this.placeHolder = this.results.domain
         });
+
       } else {
         this.placeHolder = 'Please enter a valid domain name . . .';
       }
