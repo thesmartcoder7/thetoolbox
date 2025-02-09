@@ -34,6 +34,17 @@ git clone https://github.com/thesmartcoder/thetoolbox.git
 cd thetoolbox
 ```
 
+Create a .env file within the backend folder
+
+```sh
+cd backend
+touch .env
+
+# paste your github api token into the file
+
+GITHUB_API_TOKEN = 'fhsskjxxxxxshfdsfoihsdlfhlssssksdfsxxxxxxx'
+```
+
 ### Install Dependencies
 
 Installing dependencies can be done the manual way or through the scripts provided for ease of use. The script does everything including running the application for you.
