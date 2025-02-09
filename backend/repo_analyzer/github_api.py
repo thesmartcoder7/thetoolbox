@@ -60,30 +60,20 @@ class GitHubAPI:
             return None
         response.raise_for_status()
         return response.json()
-    # def get_contents(self, owner, repo, path):
-    #     url = f'{self.BASE_URL}/repos/{owner}/{repo}/contents/{path}'
-    #     response = self.session.get(url)
-    #     print(response)
-    #     if response.status_code == 404:
-    #         return None
+    
+    # def file_exists_in_repo(self, owner, repo, filename):
+    #     url = f"{self.BASE_URL}/search/code"
+    #     params = {"q": f"repo:{owner}/{repo} filename:{filename}"}
+    #     response = self.session.get(url, params=params)
     #     response.raise_for_status()
-    #     contents = response.json()
+    #     return response.json()["total_count"] > 0
 
-    #     # If contents is a list (i.e., it's a directory), recursively search through the subdirectories
-    #     for item in contents:
-    #         print(item, item['path'])
-    #         if item['type'] == 'dir':
-    #             # Recursively check the directory's contents
-    #             nested_contents = self.get_contents(owner, repo, item['path'])
-    #             if nested_contents:
-    #                 return nested_contents
-    #         else:
-    #             # If it's a file, you can directly check for the presence of the file you're looking for
-    #             if item['name'] == path:
-    #                 return item
-
-    #     return None
-
+    # def directory_exists_in_repo(self, owner, repo, dir_path):
+    #     url = f"{self.BASE_URL}/search/code"
+    #     params = {"q": f"repo:{owner}/{repo} path:{dir_path}/"}
+    #     response = self.session.get(url, params=params)
+    #     response.raise_for_status()
+    #     return response.json()["total_count"] > 0
 
     def get_languages(self, owner, repo):
         url = f'{self.BASE_URL}/repos/{owner}/{repo}/languages'
