@@ -118,19 +118,118 @@
     height: auto;
 
     .title {
+        width: 100%;
         margin-bottom: 1vw;
+        
 
-        h3 {
-            font-size: 1.5vw;
+        .overall {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            .progress-div {
+                width: 45%;
+                padding: 0 3vw;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: center;
+        
+                .progress-circle {
+                  position: relative;
+                  width: 7vw;
+                  height: 7vw;
+                  border-radius: 50%;
+                  background-color: #fff;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  overflow: hidden;
+        
+                  .progress-circle__value {
+                    --primary-color: rgb(51, 194, 51);
+                    --secondary-color: #eeeeee;
+                    --value: 0;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    clip-path: circle(50%);
+                    background: conic-gradient(var(--primary-color) calc(var(--value) * 3.6deg),
+                        var(--secondary-color) calc(var(--value) * 3.6deg));
+                  }
+        
+                  .cover {
+                    width: 87%;
+                    height: 87%;
+                    clip-path: circle(50%);
+                    z-index: 2;
+                    background-color: #fff;
+                    position: absolute;
+                    display: grid;
+                    place-items: center;
+        
+                    .progress-circle__text {
+                      position: absolute;
+                      font-family: "JetBrains Mono", monospace;
+                      font-size: 1.3vw;
+                      font-weight: 500;
+                    }
+                  }
+                }
+        
+                .progress-title {
+                  width: 100%;
+                  display: grid;
+                  place-items: center;
+        
+                  .title {
+                    width: 100%;
+                    text-align: right;
+                    margin-top: 1vw;
+                    font-size: 1vw;
+                  }
+                }
+            }
+    
+            .user-data {
+                width: 45%;
+                padding: 0 3vw;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                border-left: 0.2vw solid #eeeeee;
+                .image {
+                    width: 7.5vw;
+                    height: 7.5vw;
+                    border: 0.45vw solid #eeeeee;
+                    border-radius: 50%;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+                .identification {
+                    text-align: center;
+                    margin-top: 1vw;
+                    margin-bottom: 1vw;
+                    h3, span, a{
+                        font-size: 1vw;
+                        font-weight: 500;
+                        text-align: left;
+                    }
+                    a {
+                        color: #7456e4;
+                        cursor: pointer;
+                        text-decoration: none;
 
-            span {
-                font-size: inherit;
-
-                &.repo {
-                    color: #7456e4;
+                    }
+                   
                 }
             }
         }
+
+        
     }
 
     .tabs {
@@ -139,50 +238,6 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-
-        .progress-circle {
-            position: relative;
-            width: 3.5vw;
-            height: 3vw;
-            border-radius: 50%;
-            margin-right: 2vw;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-
-            .progress-circle__value {
-                --primary-color: rgb(51, 194, 51);
-                --secondary-color: #eeeeee;
-                --value: 0;
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                clip-path: circle(50%);
-                background: conic-gradient(var(--primary-color) calc(var(--value) * 3.6deg),
-                        var(--secondary-color) calc(var(--value) * 3.6deg));
-            }
-
-            .cover {
-                width: 85%;
-                height: 85%;
-                clip-path: circle(50%);
-                z-index: 2;
-                background-color: #fff;
-                position: absolute;
-                display: grid;
-                place-items: center;
-
-                .progress-circle__text {
-                    position: absolute;
-                    font-family: "JetBrains Mono", monospace;
-                    font-size: 0.9vw;
-                    font-weight: 800;
-                }
-            }
-        }
-
 
         ul {
             width: 100%;

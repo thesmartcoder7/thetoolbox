@@ -62,8 +62,13 @@ export class RepoanalyzerComponent {
     return Object.keys(obj);
   }
 
+
   type(value: any) {
     return typeof (value)
+  }
+
+  splitRepoDetails(repo: string){
+    return repo.split('/')
   }
 
 

@@ -66,8 +66,8 @@ pip install -r requirements.txt
 
 ```sh
 # make script excecutable
-chmod +x devstart
-./devstart
+chmod +x devstart.sh
+./devstart.sh
 ```
 
 ### Run the Application
@@ -86,8 +86,8 @@ python3 manage.py runserver  # serves the backend on localhost:8000
 
 ```sh
 # make script excecutable
-chmod +x devstart
-./devstart
+chmod +x devstart.sh
+./devstart.sh
 ```
 
 3. Using docker-compose
@@ -99,7 +99,8 @@ sudo docker-compose up --build
 There is another script for forcing the docker compose to run after making all the checks.
 
 ```sh
-./deploy
+chmod +x deploy.sh
+./deploy.sh
 ```
 
 ## Usage

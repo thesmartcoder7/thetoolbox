@@ -17,6 +17,15 @@ class GitHubAPI:
             'Accept': 'application/vnd.github.v3+json',
         })
 
+    def get_user_details(self, owner):
+        url = f"{self.BASE_URL}/users/{owner}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            user_details = response.json()
+            return user_details
+        else:
+            return f"Error: {response.status_code}, {response.json()}"
+
     def get_repository(self, owner, repo):
         url = f'{self.BASE_URL}/repos/{owner}/{repo}'
         response = self.session.get(url)
@@ -53,13 +62,36 @@ class GitHubAPI:
         response.raise_for_status()
         return response.json()
 
+    # def get_contents(self, owner, repo, path):
+    #     url = f'{self.BASE_URL}/repos/{owner}/{repo}/contents/{path}'
+    #     response = self.session.get(url)
+    #     if response.status_code == 404:
+    #         return None
+    #     response.raise_for_status()
+    #     return response.json()
     def get_contents(self, owner, repo, path):
         url = f'{self.BASE_URL}/repos/{owner}/{repo}/contents/{path}'
         response = self.session.get(url)
         if response.status_code == 404:
             return None
         response.raise_for_status()
-        return response.json()
+        contents = response.json()
+        print(contents)
+
+        # If contents is a list (i.e., it's a directory), recursively search through the subdirectories
+        for item in contents:
+            if item['type'] == 'dir':
+                # Recursively check the directory's contents
+                nested_contents = self.get_contents(owner, repo, item['path'])
+                if nested_contents:
+                    return nested_contents
+            else:
+                # If it's a file, you can directly check for the presence of the file you're looking for
+                if item['name'] == path:
+                    return item
+
+        return None
+
 
     def get_languages(self, owner, repo):
         url = f'{self.BASE_URL}/repos/{owner}/{repo}/languages'

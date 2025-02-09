@@ -72,7 +72,7 @@ class RepositoryAnalyzer:
                 details = getattr(self, f"get_{category}_details")(data)  # Fetch details
                 details['description'] = category_descriptions.get(category, "No description available")
                 details['score'] = score  # Include score in details
-                details['category'] = category.replace('_',' ').title()
+                details['category'] = category.replace('_',' ').title(),
                 detailed_results.append(details)
             
             optionals = []
@@ -85,6 +85,7 @@ class RepositoryAnalyzer:
 
             # Return all processed data
             return {
+                "user": self.github_api.get_user_details(self.owner),
                 "overall_score": overall_scores,
                 "optionals": optionals,
                 "detailed_results": detailed_results  # Includes scores + descriptions
@@ -236,6 +237,9 @@ class RepositoryAnalyzer:
            self.github_api.get_contents(self.owner, self.repo, 'package.json') or \
            self.github_api.get_contents(self.owner, self.repo, 'Gemfile'):
             score += 1
+
+
+        print(f"check score: {score}")
 
         return max(0, min((score / max_score) * 100, 100))
 
