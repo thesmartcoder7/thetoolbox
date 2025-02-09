@@ -6,9 +6,19 @@
     ariaCurrentWhenActive="page"
   >
     <h1>
-      Web W
       <span class="icon">
         <svg viewBox="0 0 24 24">
+          <path
+            fill="none"
+            stroke="#7456e4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M12 22c-.818 0-1.6-.335-3.163-1.006C4.946 19.324 3 18.49 3 17.085V7.747M12 22c.818 0 1.6-.335 3.163-1.006C19.054 19.324 21 18.49 21 17.085V7.747M12 22v-9.83m9-4.422c0 .603-.802.984-2.405 1.747l-2.92 1.39C13.87 11.741 12.97 12.17 12 12.17m9-4.423c0-.604-.802-.985-2.405-1.748M3 7.747c0 .604.802.986 2.405 1.748l2.92 1.39c1.804.857 2.705 1.286 3.675 1.286M3 7.748c0-.604.802-.985 2.405-1.748m.927 7.311l1.994.948M12 2v2m4-1l-1.5 2M8 3l1.5 2"
+            color="#7456e4"
+          />
+        </svg>
+        <!-- <svg viewBox="0 0 24 24">
           <path
             fill="currentColor"
             d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"
@@ -19,13 +29,27 @@
             d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20c4.182 0 7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4C7.818 4 4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5"
             clip-rule="evenodd"
           />
-        </svg>
+        </svg> -->
       </span>
-      tchers.
+      TheToolbox
     </h1>
   </div>
   <div class="links">
     <ul>
+      <li
+        routerLink="/generators"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+        Generators
+      </li>
+      <li
+        routerLink="/minifiers"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+        Minifiers
+      </li>
       <li
         routerLink="/domain-check"
         routerLinkActive="active"
@@ -47,13 +71,6 @@
       >
         Github Repo Analyzer
       </li>
-      <!-- <li
-        routerLink="/generators"
-        routerLinkActive="active"
-        ariaCurrentWhenActive="page"
-      >
-        Generators
-      </li> -->
     </ul>
   </div>
   <!-- <div class="auth">
@@ -65,4 +82,3 @@
     </div> -->
 </div>
 <router-outlet></router-outlet>
-

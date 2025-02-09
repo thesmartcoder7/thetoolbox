@@ -89,11 +89,12 @@
         align-items: center;
         justify-content: space-between;
         padding: 1vw 1.5vw;
-        min-width: 25vw;
+        min-width: 15vw;
         border: 0.1vw solid #171d287c;
         outline: none;
         appearance: none;
-        border-radius: 0.3vw 0 0 0.3vw;
+        border-radius: 0.3vw;
+        // border-radius: 0 0.3vw 0.3vw 0;
         font-size: 0.9vw;
         color: #171d28bd;
 
@@ -116,7 +117,9 @@
         justify-content: center;
         outline: none;
         appearance: none;
-        border-radius: 0 0.3vw 0.3vw 0;
+        border-radius: 0.3vw;
+        // border-radius:  0.3vw 0 0 0.3vw;
+        margin-right: 1vw;
         font-size: 0.9vw;
         font-weight: 600;
         color: #fff;

@@ -13,12 +13,12 @@
       <li (click)="activeTab = 'tab2'" [class.active]="activeTab === 'tab2'">
         Sitemap Generator
       </li>
-      <li (click)="activeTab = 'tab3'" [class.active]="activeTab === 'tab3'">
+      <!-- <li (click)="activeTab = 'tab3'" [class.active]="activeTab === 'tab3'">
         QR-Code
       </li>
       <li (click)="activeTab = 'tab4'" [class.active]="activeTab === 'tab4'">
         Bar Code
-      </li>
+      </li> -->
     </ul>
   </div>
 </div>
@@ -28,8 +28,12 @@
 <div class="password-generator">
   <div class="container">
     <div class="generate">
+      <button (click)="generatePassword()">
+        @if(password){ Generate New } @else { Generate Password }
+      </button>
+      @if(password){
       <p>
-        <span>Password:</span> {{ password }}
+        {{ password }}
         @if(!changeIcon){
         <svg viewBox="0 0 24 24" (click)="copyPasswordToClipboard()">
           <path
@@ -57,7 +61,7 @@
         </svg>
         }
       </p>
-      <button (click)="generatePassword()">Generate Password</button>
+      }
     </div>
   </div>
 </div>
