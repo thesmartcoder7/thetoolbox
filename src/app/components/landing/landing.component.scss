@@ -15,6 +15,7 @@
     text-align: center;
     line-height: 4vw;
     margin-bottom: 1vw;
+
     span {
       font-size: 3vw;
       color: #7456e4;
@@ -37,6 +38,7 @@
   align-items: flex-start;
   justify-content: center;
   margin-top: -10vw;
+
   img {
     width: 75%;
     border-radius: 0.5vw;
@@ -53,6 +55,7 @@
     text-align: center;
     color: #171d28;
     font-size: 2vw;
+
     span {
       font-size: 2vw;
       color: #7456e4;
@@ -86,6 +89,7 @@
         display: grid;
         place-items: center;
         margin-bottom: 1vw;
+
         svg {
           width: 2vw;
           color: #7456e4;
@@ -113,6 +117,7 @@
     h3.title {
       font-size: 1.5vw;
       margin-bottom: 1vw;
+
       span {
         font-size: 1.5vw;
         color: #7456e4;
@@ -122,6 +127,7 @@
     .button {
       display: grid;
       place-items: center;
+
       button {
         padding: 0.5vw 1vw;
         outline: none;
@@ -131,6 +137,7 @@
         color: #fff;
         font-weight: 700;
         cursor: pointer;
+
         &:hover {
           background-color: transparent;
           color: #7456e4;
@@ -157,12 +164,14 @@
     width: 30%;
     padding: 1.5vw 1.5vw 3vw 1.5vw;
     border-radius: 0.5vw;
+
     .close {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       margin-bottom: 2vw;
+
       span {
         background-color: #7456e4;
         border: 0.15vw solid #7456e4;
@@ -171,6 +180,7 @@
         font-weight: 600;
         border-radius: 0.3vw;
         cursor: pointer;
+
         &:hover {
           background-color: transparent;
           color: #7456e4;
@@ -195,6 +205,7 @@
         margin: 0.5vw 0;
         border-radius: 0.3vw;
         color: #48494b;
+
         &::placeholder {
           color: #88898a96;
         }
@@ -204,6 +215,7 @@
         width: 100%;
         padding: 0.3vw 0;
         margin-bottom: 1vw;
+
         input[type="submit"] {
           background-color: #7456e4;
           border: 0.15vw solid #7456e4;
@@ -212,6 +224,7 @@
           font-weight: 600;
           border-radius: 0.3vw;
           cursor: pointer;
+
           &:hover {
             background-color: transparent;
             color: #7456e4;
@@ -230,6 +243,7 @@
     }
   }
 }
+
 .footer {
   background-color: #171d28;
   width: 100%;
@@ -240,5 +254,10 @@
   p {
     color: #fff;
     font-weight: 600;
+
+    a {
+      text-decoration: none;
+      color: #7456e4;
+    }
   }
 }

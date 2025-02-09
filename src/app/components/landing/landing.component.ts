@@ -20,7 +20,7 @@ export class LandingComponent implements OnInit {
   loginFunction: string = 'userLogin(mail.value, pass.value)';
   signUpFunction: string = 'userSignUp(name.value, mail.value, pass.value)';
 
-  constructor(private auth: AuthenticationService) {}
+  constructor(private auth: AuthenticationService) { }
 
   ngOnInit(): void {
     // this.auth.allUsers();

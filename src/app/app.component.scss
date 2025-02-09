@@ -15,11 +15,13 @@
       font-size: 1.7vw;
       font-weight: 800;
       cursor: pointer;
+
       .icon {
         color: #7456e4;
         display: flex;
         align-items: center;
         pointer-events: none;
+
         svg {
           width: 1.8vw;
         }
@@ -33,12 +35,14 @@
       align-items: center;
       justify-content: flex-end;
       list-style: none;
+
       li {
         color: #fff;
         margin: 0 1vw;
         font-weight: 600;
         font-size: 1vw;
         cursor: pointer;
+
         &:hover {
           color: #7456e4;
         }
@@ -60,6 +64,7 @@
       color: #fff;
       font-weight: 700;
       cursor: pointer;
+
       &:hover {
         background-color: transparent;
         border-color: #fff;
@@ -69,6 +74,7 @@
 
   .user_info {
     display: none;
+
     button {
       padding: 0.5vw 1vw;
       outline: none;
@@ -78,6 +84,7 @@
       color: #fff;
       font-weight: 700;
       cursor: pointer;
+
       &:hover {
         background-color: transparent;
         border-color: #fff;
