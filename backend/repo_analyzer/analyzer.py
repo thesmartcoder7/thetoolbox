@@ -59,7 +59,6 @@ class RepositoryAnalyzer:
             }
             # Ensure all scores are within 0-100 range
             scores = {k: max(0, min(v, 100)) for k, v in scores.items()}
-
             # Compute overall score
             overall_scores = sum(scores.values()) / len(scores)
 
@@ -85,7 +84,7 @@ class RepositoryAnalyzer:
 
             # Return all processed data
             return {
-                "user": self.github_api.get_user_details(self.owner),
+                "user": data['repo_data']['owner'],
                 "overall_score": overall_scores,
                 "optionals": optionals,
                 "detailed_results": detailed_results  # Includes scores + descriptions
