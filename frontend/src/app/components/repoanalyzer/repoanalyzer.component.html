@@ -120,7 +120,9 @@
         ></div>
         <div class="identification">
           <h3>
-            <a href="{{ results['analysis_results'].user.html_url }}"
+            <a
+              href="{{ results['analysis_results'].user.html_url }}"
+              target="_blank"
               >&commat;{{ results["analysis_results"].user.login }}</a
             >
           </h3>
@@ -130,33 +132,15 @@
   </div>
 
   <div class="tabs">
-    <!-- <div class="progress-circle">
-      <div
-        class="progress-circle__value"
-        [style]="
-          getProgressStyle(roundValue(results.analysis_results.overall_score))
-        "
-      ></div>
-      <div class="cover">
-        <div
-          class="progress-circle__text"
-          [style.color]="
-            getColor(roundValue(results.analysis_results.overall_score))
-          "
-        >
-          {{ roundValue(results.analysis_results.overall_score) }}
-        </div>
-      </div>
-    </div> -->
     <ul>
       <li (click)="activeTab = 'main'" [class.active]="activeTab === 'main'">
-        Main Audit
+        Documentation and Community
       </li>
       <li
         (click)="activeTab = 'optional'"
         [class.active]="activeTab === 'optional'"
       >
-        Optionals
+        Insights
       </li>
     </ul>
   </div>
@@ -167,19 +151,31 @@
       @for(item of results['analysis_results'].detailed_results; track item; let
       id = $index){
       <div class="item">
-        <h3 class="category">
-          {{ id + 1 }}. {{ item.category }} [ {{ item.score }}% ]
-        </h3>
-        <div class="progress_bar">
-          <div
-            class="indicator"
-            [style.background-color]="getColor(item.score)"
-            [style.width]="getWidth(item.score)"
-          ></div>
+        <div class="information">
+          <div class="progress-div">
+            <div class="progress-circle">
+              <div
+                class="progress-circle__value"
+                [style]="getProgressStyle(roundValue(roundValue(item.score)))"
+              ></div>
+              <div class="cover">
+                <div
+                  class="progress-circle__text"
+                  [style.color]="getColor(roundValue(item.score))"
+                >
+                  {{ roundValue(item.score) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="category">
+            <h3>{{ item.category }}</h3>
+            <p class="description">
+              {{ item.description }}
+            </p>
+          </div>
         </div>
-        <p class="description">
-          {{ item.description }}
-        </p>
+
         <div class="details">
           @if(objectKeys(item.criteria).length > 0){
           <ul class="criteria">
@@ -211,7 +207,7 @@
           </ul>
           } @if(item.recommendations.length > 0){
           <ul class="recommendations">
-            <span class="subtitle">Recommendations:</span>
+            <span class="subtitle">Overview & Suggestions:</span>
             @for(point of item.recommendations; track point){
             <li>
               {{ point.text }} &nbsp;<a href="{{ point.link }}" target="_blank"
@@ -222,7 +218,7 @@
           </ul>
           } @else {
           <ul class="recommendations">
-            <span class="subtitle">Recommendations:</span>
+            <span class="subtitle">Overview & Suggestions:</span>
             <p>There are no recommendations for this section.</p>
           </ul>
           }
@@ -235,71 +231,314 @@
   } @if(activeTab == 'optional'){
   <div class="optional">
     <div class="items">
-      @for(item of results['analysis_results'].optionals; track item; let id =
-      $index){
-      <div class="item">
-        <h3 class="category">
-          {{ id + 1 }}. {{ item.category }} [ {{ roundValue(item.score) }}% ]
-        </h3>
-        <div class="progress_bar">
-          <div
-            class="indicator"
-            [style.background-color]="getColor(item.score)"
-            [style.width]="getWidth(item.score)"
-          ></div>
-        </div>
-        <p class="description">
-          {{ item.description }}
-        </p>
-        <div class="details">
-          @if(objectKeys(item.criteria).length > 0){
-          <ul class="criteria">
-            <span class="subtitle">Aspects Checked:</span>
-            @for(key of objectKeys(item.criteria); track key){
-            @if(!item.criteria[key]) {
-            <li>
-              <svg class="fail" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
-                />
-              </svg>
-              {{ key.replaceAll("_", " ") }}
-            </li>
-            } @else {
-            <li>
-              <svg class="success" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
-                />
-              </svg>
-              {{ key.replaceAll("_", " ") }}
-            </li>
-            } }
-          </ul>
-          } @if(item.recommendations.length > 0){
-          <ul class="recommendations">
-            <span class="subtitle">Recommendations:</span>
-            @for(point of item.recommendations; track point){
-            <li>
-              {{ point.text }} &nbsp;<a href="{{ point.link }}" target="_blank"
-                >Learn how</a
-              >
-            </li>
+      <!-- commits, issues, pull requests, languages -->
+      <div class="commits-ipr-languages">
+        @for(item of results['analysis_results'].optionals; track item;){
+        @if(["commit_history", "issues_and_prs",
+        "language_diversity"].includes(item.slug)){
+        <div class="item">
+          <div class="information">
+            <div class="progress-div">
+              <div class="progress-circle">
+                <div
+                  class="progress-circle__value"
+                  [style]="getProgressStyle(roundValue(roundValue(item.score)))"
+                ></div>
+                <div class="cover">
+                  <div
+                    class="progress-circle__text"
+                    [style.color]="getColor(roundValue(item.score))"
+                  >
+                    {{ roundValue(item.score) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="category">
+              <h3>{{ item.category }}</h3>
+            </div>
+          </div>
+          <div class="numbers-details">
+            @if(objectKeys(item.criteria).length > 0){
+            <ul class="criteria">
+              @if(item.category == "Language Diversity"){
+              <div class="total">
+                @for(key of objectKeys(item.criteria.languages); track key){
+                <div
+                  class="language"
+                  [style.width]="item.criteria.languages[key] + '%'"
+                  [style.background]="item.criteria.language_colors[key]"
+                ></div>
+                }
+              </div>
+              <div class="language-distribution">
+                @for(key of objectKeys(item.criteria.languages); track key){
+                <li class="language-data">
+                  <div
+                    class="dot"
+                    [style.background]="item.criteria.language_colors[key]"
+                  ></div>
+                  <p>
+                    {{ key }}: {{ roundValue(item.criteria.languages[key]) }}%
+                  </p>
+                </li>
+                }
+              </div>
+
+              } @else { @for(key of objectKeys(item.criteria); track key){
+              @if(!item.criteria[key]) {
+              <li>
+                <svg class="fail" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+                  />
+                </svg>
+                {{ key.replaceAll("_", " ") }}: 0
+              </li>
+              } @else {
+              <li>
+                <svg class="success" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                  />
+                </svg>
+                {{ key.replaceAll("_", " ") }}:
+              </li>
+              } } }
+            </ul>
             }
-          </ul>
-          } @else {
-          <ul class="recommendations">
-            <span class="subtitle">Recommendations:</span>
-            <p>There are no recommendations for this section.</p>
-          </ul>
-          }
+          </div>
         </div>
+        }
+        <!--  -->
+        }
       </div>
-      }
+      <!-- contribution analysis -->
+      <div class="contributor-analysis">
+        @for(item of results['analysis_results'].optionals; track item;){
+        @if(item.slug == "contributor_analysis"){
+        <div class="left">
+          <div class="information">
+            <div class="progress-div">
+              <div class="progress-circle">
+                <div
+                  class="progress-circle__value"
+                  [style]="getProgressStyle(roundValue(roundValue(item.score)))"
+                ></div>
+                <div class="cover">
+                  <div
+                    class="progress-circle__text"
+                    [style.color]="getColor(roundValue(item.score))"
+                  >
+                    {{ roundValue(item.score) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="category">
+              <h3>{{ item.category }}</h3>
+            </div>
+          </div>
+          <div class="numbers-details">
+            @if(objectKeys(item.criteria).length > 0){
+            <ul class="criteria">
+              <li>
+                <div class="headline">
+                  <svg class="success" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                    />
+                  </svg>
+                  <p>
+                    Total Contributors:
+                    {{ item.criteria["total_contributors"] }}
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="headline">
+                  <svg class="success" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                    />
+                  </svg>
+                  <p>Top Contributors:</p>
+                </div>
+
+                <div class="top_contributors">
+                  @for(contributor of item.criteria.top_contributors; track
+                  contributor){
+                  <div class="user">
+                    <a
+                      href="{{ contributor.details.html_url }}"
+                      target="_blank"
+                    >
+                      <div class="image">
+                        <img
+                          src="{{ contributor.details.avatar_url }}"
+                          alt="{{ contributor.details.name }}"
+                        />
+                      </div>
+                      <div class="user-details">
+                        <p>{{ contributor.details.name }}</p>
+                        <p class="username">
+                          &commat;{{ contributor.details.login }}
+                        </p>
+                      </div></a
+                    >
+                  </div>
+                  }
+                </div>
+              </li>
+            </ul>
+            }
+          </div>
+        </div>
+        <!--  -->
+        <div class="right">
+          <div class="information">
+            <div class="category">
+              <h3>Distribution</h3>
+            </div>
+          </div>
+          <div class="bar-graph">
+            <div class="graph-title">
+              <span
+                >Total Contributions ( y-axis ) : Individual Contributions (
+                x-axis )</span
+              >
+            </div>
+
+            <div class="chart">
+              <div class="lines">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+
+              @for(user of contributors; track user){
+              <div class="commits">
+                <div
+                  class="bar"
+                  [style.height]="getBarValue(user.contributions) + 'vw'"
+                >
+                  <div class="user">
+                    <div class="image">
+                      <img
+                        src="{{ user.details.avatar_url }}"
+                        alt="{{ user.details.name }}"
+                      />
+                    </div>
+                    <!-- <div class="user-details">
+                      <p>{{ user.details.name }}</p>
+                      <p class="username">&commat;{{ user.details.login }}</p>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+        }
+        <!--  -->
+        }
+      </div>
+
+      <!-- code quality and dependency -->
+      <div class="quality-dependency">
+        @for(item of results['analysis_results'].optionals; track item; let id =
+        $index){ @if(["code_quality", "dependency_health"].includes(item.slug)){
+        <div class="item">
+          <div class="information">
+            <div class="progress-div">
+              <div class="progress-circle">
+                <div
+                  class="progress-circle__value"
+                  [style]="getProgressStyle(roundValue(roundValue(item.score)))"
+                ></div>
+                <div class="cover">
+                  <div
+                    class="progress-circle__text"
+                    [style.color]="getColor(roundValue(item.score))"
+                  >
+                    {{ roundValue(item.score) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="category">
+              <h3>{{ item.category }}</h3>
+              <p class="description">
+                {{ item.description }}
+              </p>
+            </div>
+          </div>
+
+          <div class="details">
+            @if(objectKeys(item.criteria).length > 0){
+            <ul class="criteria">
+              <span class="subtitle">Aspects Checked:</span>
+              @for(key of objectKeys(item.criteria); track key){
+              @if(!item.criteria[key]) {
+              <li>
+                <svg class="fail" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"
+                  />
+                </svg>
+                {{ key.replaceAll("_", " ") }}
+              </li>
+              } @else {
+              <li>
+                <svg class="success" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+                  />
+                </svg>
+                {{ key.replaceAll("_", " ") }}
+              </li>
+              } }
+            </ul>
+            } @if(item.recommendations.length > 0){
+            <ul class="recommendations">
+              <span class="subtitle">Overview & Suggestions:</span>
+              @for(point of item.recommendations; track point){
+              <li>
+                {{ point.text }} &nbsp;<a
+                  href="{{ point.link }}"
+                  target="_blank"
+                  >Learn how</a
+                >
+              </li>
+              }
+            </ul>
+            } @else {
+            <ul class="recommendations">
+              <span class="subtitle">Overview & Suggestions:</span>
+              <p>There are no recommendations for this section.</p>
+            </ul>
+            }
+          </div>
+        </div>
+        } }
+      </div>
     </div>
   </div>
   }

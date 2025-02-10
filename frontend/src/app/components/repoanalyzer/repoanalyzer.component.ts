@@ -13,14 +13,15 @@ export class RepoanalyzerComponent {
   runAnalysis: boolean = false;
   emptyInput: boolean = false;
   results?: any;
-  activeTab: string = 'main';
+  activeTab: string = 'optional';
   placeHolder: string = 'https://github.com/username/repo-name';
+  contributors: any[] = []
+  totalContributions = this.contributors?.reduce((sum, user) => sum + user.contributions, 0);
 
   // colors
   green: string = '#0c6';
   orange: string = '#fa3';
   red: string = '#f33';
-
 
   constructor(private repo: RepoanalyzerService) { }
 
@@ -29,9 +30,17 @@ export class RepoanalyzerComponent {
       this.results = JSON.parse(localStorage['persistedRepo'])
       console.log(this.results)
       this.placeHolder = this.results.repository
+      this.contributors = this.results.analysis_results.optionals[5].criteria.top_contributors
     }
+  }
 
-
+  getBarValue(contribution: number){
+    let sum = 0
+    for(let user of this.contributors){
+      sum += user.contributions
+    }
+    this.totalContributions = sum
+    return (contribution / sum) * 12.5
   }
 
   onKeyPress(event: KeyboardEvent): void {
@@ -59,7 +68,7 @@ export class RepoanalyzerComponent {
 
 
   objectKeys(obj: any): string[] {
-    return Object.keys(obj);
+    return obj ? Object.keys(obj) : [];
   }
 
 
@@ -105,6 +114,7 @@ export class RepoanalyzerComponent {
         console.log(this.results)
         this.placeHolder = this.results.repository
         localStorage.setItem('persistedRepo', JSON.stringify(this.results))
+        this.contributors = this.results.analysis_results.optionals[5].criteria.top_contributors
         this.runAnalysis = false
       });
     }
