@@ -22,6 +22,12 @@ class GitHubAPI:
         response = self.session.get(url)
         response.raise_for_status()
         return response.json()
+    
+    def get_user(self, username):
+        url = f'{self.BASE_URL}/users/{username}'
+        response = self.session.get(url)
+        response.raise_for_status()
+        return response.json()
 
     def get_readme(self, owner, repo):
         url = f'{self.BASE_URL}/repos/{owner}/{repo}/readme'
@@ -60,20 +66,6 @@ class GitHubAPI:
             return None
         response.raise_for_status()
         return response.json()
-    
-    # def file_exists_in_repo(self, owner, repo, filename):
-    #     url = f"{self.BASE_URL}/search/code"
-    #     params = {"q": f"repo:{owner}/{repo} filename:{filename}"}
-    #     response = self.session.get(url, params=params)
-    #     response.raise_for_status()
-    #     return response.json()["total_count"] > 0
-
-    # def directory_exists_in_repo(self, owner, repo, dir_path):
-    #     url = f"{self.BASE_URL}/search/code"
-    #     params = {"q": f"repo:{owner}/{repo} path:{dir_path}/"}
-    #     response = self.session.get(url, params=params)
-    #     response.raise_for_status()
-    #     return response.json()["total_count"] > 0
 
     def get_languages(self, owner, repo):
         url = f'{self.BASE_URL}/repos/{owner}/{repo}/languages'

@@ -2,6 +2,22 @@ import re
 import numpy as np
 from .github_api import GitHubAPI
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import requests
+import yaml
+import json
+
+
+def get_colors():
+    url="https://raw.githubusercontent.com/github-linguist/linguist/main/lib/linguist/languages.yml"
+    response = requests.get(url)
+    response.raise_for_status()
+    languages = yaml.safe_load(response.text)
+    color_mapping = {}
+    for language, attrs in languages.items():
+        # Only add if a color is defined.
+        if 'color' in attrs:
+            color_mapping[language.lower()] = attrs['color']
+    return color_mapping
 
 
 class RepositoryAnalyzer:
@@ -10,7 +26,7 @@ class RepositoryAnalyzer:
         self.repo = repo
         self.github_api = GitHubAPI()
 
-
+ 
     def fetch_data(self):
         with ThreadPoolExecutor() as executor:
             futures = {
@@ -45,22 +61,21 @@ class RepositoryAnalyzer:
             scores = {
                 'readme_quality': self.analyze_readme(data['readme_data']),
                 'documentation': self.analyze_documentation(data['repo_data']),
-                'code_quality': self.analyze_code_quality(data['repo_data']),
                 'community_health': self.analyze_community_health(data['repo_data']),
-                'contributor_analysis': self.analyze_contributors(data['contributors_data']),
             }
 
             other_scores = {
                 'commit_history': self.analyze_commit_history(data['commits_data']),
                 'issues_and_prs': self.analyze_issues_and_prs(data['issues_data'], data['prs_data']),
                 'language_diversity': self.analyze_language_diversity(data['languages_data']),
-                'code_churn': self.analyze_code_churn(data['code_frequency']),
+                'code_quality': self.analyze_code_quality(data['repo_data']),
                 'dependency_health': self.analyze_dependencies(data['dependency_graph']),
+                'contributor_analysis': self.analyze_contributors(data['contributors_data']),
             }
             # Ensure all scores are within 0-100 range
             scores = {k: max(0, min(v, 100)) for k, v in scores.items()}
             # Compute overall score
-            overall_scores = sum(scores.values()) / len(scores)
+            overall_score = sum(scores.values()) / len(scores)
 
             # Get category descriptions
             category_descriptions = self.get_category_descriptions()
@@ -74,19 +89,20 @@ class RepositoryAnalyzer:
                 details['category'] = category.replace('_',' ').title(),
                 detailed_results.append(details)
             
-            optionals = []
+            insights = []
             for category, score in other_scores.items():
                 details = getattr(self, f"get_{category}_details")(data)  # Fetch details
                 details['description'] = category_descriptions.get(category, "No description available")
                 details['score'] = score  # Include score in details
                 details['category'] = category.replace('_',' ').title()
-                optionals.append(details)
+                details['slug'] = category
+                insights.append(details)
 
             # Return all processed data
             return {
                 "user": data['repo_data']['owner'],
-                "overall_score": overall_scores,
-                "optionals": optionals,
+                "overall_score": overall_score,
+                "optionals": insights,
                 "detailed_results": detailed_results  # Includes scores + descriptions
             }
 
@@ -237,9 +253,6 @@ class RepositoryAnalyzer:
            self.github_api.get_contents(self.owner, self.repo, 'Gemfile'):
             score += 1
 
-
-        print(f"check score: {score}")
-
         return max(0, min((score / max_score) * 100, 100))
 
 
@@ -378,7 +391,7 @@ class RepositoryAnalyzer:
         }
 
 
-# get details 
+# get details for each category
     def get_readme_quality_details(self, data):
         readme_content = data['readme_data']
         details = {
@@ -389,29 +402,59 @@ class RepositoryAnalyzer:
             'has_code_examples': bool(re.search(r'```[\s\S]*?```', readme_content)),
         }
         recommendations = []
+        
         if not details['has_installation']:
             recommendations.append({
-                "text": "Add an installation section to your README",
+                "text": "Add an installation section to your README.",
                 "link": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes#adding-a-readme-to-your-repository"
             })
+        else:
+            recommendations.append({
+                "text": "Installation instructions are essential for project setup.",
+                "link": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes#adding-a-readme-to-your-repository"
+            })
+        
         if not details['has_usage']:
             recommendations.append({
-                "text": "Include usage instructions in your README",
+                "text": "Include usage instructions in your README.",
                 "link": "https://www.makeareadme.com/#usage"
             })
+        else:
+            recommendations.append({
+                "text": "Usage instructions guide users on how to run the project.",
+                "link": "https://www.makeareadme.com/#usage"
+            })
+        
         if not details['has_contributing']:
             recommendations.append({
-                "text": "Add contributing guidelines to your README",
+                "text": "Add contributing guidelines to your README.",
                 "link": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors"
             })
+        else:
+            recommendations.append({
+                "text": "Contributing guidelines foster community collaboration.",
+                "link": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors"
+            })
+        
         if not details['has_license']:
             recommendations.append({
-                "text": "Include license information in your README",
+                "text": "Include license information in your README.",
                 "link": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository"
             })
+        else:
+            recommendations.append({
+                "text": "A license clarifies usage rights.",
+                "link": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository"
+            })
+        
         if not details['has_code_examples']:
             recommendations.append({
-                "text": "Add code examples to your README",
+                "text": "Add code examples to your README.",
+                "link": "https://www.markdownguide.org/extended-syntax/#fenced-code-blocks"
+            })
+        else:
+            recommendations.append({
+                "text": "Code examples illustrate project usage.",
                 "link": "https://www.markdownguide.org/extended-syntax/#fenced-code-blocks"
             })
         
@@ -430,22 +473,40 @@ class RepositoryAnalyzer:
             'avg_commit_message_length': sum(len(commit['commit']['message']) for commit in commits_data) / len(commits_data),
         }
         recommendations = []
+        
         if details['total_commits'] < 50:
             recommendations.append({
-                "text": "Increase the number of commits to show active development",
+                "text": "Increase the number of commits to show active development.",
                 "link": "https://github.com/git-guides/git-commit"
             })
+        else:
+            recommendations.append({
+                "text": "High commit count shows sustained activity.",
+                "link": "https://github.com/git-guides/git-commit"
+            })
+        
         if details['recent_commits'] < 10:
             recommendations.append({
-                "text": "Make more recent commits to show the project is actively maintained",
+                "text": "Make more recent commits to show the project is actively maintained.",
                 "link": "https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/about-commits"
             })
+        else:
+            recommendations.append({
+                "text": "Recent commits indicate active maintenance.",
+                "link": "https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/about-commits"
+            })
+        
         if details['avg_commit_message_length'] < 20:
             recommendations.append({
-                "text": "Write more descriptive commit messages",
+                "text": "Write more descriptive commit messages to provide better context.",
                 "link": "https://cbea.ms/git-commit/"
             })
-
+        else:
+            recommendations.append({
+                "text": "Detailed commit messages document changes effectively.",
+                "link": "https://cbea.ms/git-commit/"
+            })
+        
         final_data = {
             'criteria': details,
             'recommendations': recommendations
@@ -462,24 +523,48 @@ class RepositoryAnalyzer:
             'merged_prs': sum(1 for pr in prs_data if pr['state'] == 'closed' and pr['merged_at']),
         }
         recommendations = []
+        
         if details['open_issues'] > details['closed_issues']:
             recommendations.append({
-                "text": "Work on closing more open issues",
+                "text": "Work on closing more open issues.",
                 "link": "https://docs.github.com/en/issues/tracking-your-work-with-issues/closing-issues"
             })
+        else:
+            recommendations.append({
+                "text": "Balanced issues indicate efficient management.",
+                "link": "https://docs.github.com/en/issues/tracking-your-work-with-issues/closing-issues"
+            })
+        
         if details['open_prs'] > 5:
             recommendations.append({
-                "text": "Review and merge (or close) open pull requests",
+                "text": "Review and merge (or close) open pull requests.",
                 "link": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews"
             })
+        else:
+            recommendations.append({
+                "text": "Few open PRs reflect efficient review.",
+                "link": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews"
+            })
+        
         if not self.github_api.get_contents(self.owner, self.repo, '.github/ISSUE_TEMPLATE'):
             recommendations.append({
-                "text": "Add issue templates to streamline issue creation",
+                "text": "Add issue templates to standardize bug reports.",
                 "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository"
             })
+        else:
+            recommendations.append({
+                "text": "Issue templates help standardize reports.",
+                "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository"
+            })
+        
         if not self.github_api.get_contents(self.owner, self.repo, '.github/PULL_REQUEST_TEMPLATE.md'):
             recommendations.append({
-                "text": "Add a pull request template to guide contributors",
+                "text": "Add a pull request template to guide contributors.",
+                "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository"
+            })
+        else:
+            recommendations.append({
+                "text": "PR templates streamline reviews.",
                 "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository"
             })
         
@@ -497,34 +582,64 @@ class RepositoryAnalyzer:
             'has_pages': repo_data['has_pages'],
             'has_docs_folder': self.github_api.get_contents(self.owner, self.repo, 'docs') is not None,
             'has_api_docs': (self.github_api.get_contents(self.owner, self.repo, 'api-docs') is not None or
-                             self.github_api.get_contents(self.owner, self.repo, 'swagger.json') is not None or
-                             self.github_api.get_contents(self.owner, self.repo, 'openapi.yaml') is not None),
+                            self.github_api.get_contents(self.owner, self.repo, 'swagger.json') is not None or
+                            self.github_api.get_contents(self.owner, self.repo, 'openapi.yaml') is not None),
             'has_contributing_guidelines': self.github_api.get_contents(self.owner, self.repo, 'CONTRIBUTING.md') is not None,
         }
         recommendations = []
+        
         if not details['has_wiki']:
             recommendations.append({
-                "text": "Consider enabling the Wiki for comprehensive documentation",
+                "text": "Consider enabling the Wiki for collaborative documentation.",
                 "link": "https://docs.github.com/en/communities/documenting-your-project-with-wikis/about-wikis"
             })
+        else:
+            recommendations.append({
+                "text": "Wiki enhances collaborative documentation.",
+                "link": "https://docs.github.com/en/communities/documenting-your-project-with-wikis/about-wikis"
+            })
+        
         if not details['has_pages']:
             recommendations.append({
-                "text": "Set up GitHub Pages for project documentation",
+                "text": "Set up GitHub Pages to host polished documentation.",
                 "link": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
             })
+        else:
+            recommendations.append({
+                "text": "GitHub Pages presents web-hosted documentation effectively.",
+                "link": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+            })
+        
         if not details['has_docs_folder']:
             recommendations.append({
-                "text": "Create a 'docs' folder for detailed documentation",
+                "text": "Create a 'docs' folder for detailed info.",
                 "link": "https://www.writethedocs.org/guide/writing/beginners-guide-to-docs/"
             })
+        else:
+            recommendations.append({
+                "text": "A docs folder organizes detailed info well.",
+                "link": "https://www.writethedocs.org/guide/writing/beginners-guide-to-docs/"
+            })
+        
         if not details['has_api_docs']:
             recommendations.append({
-                "text": "Add API documentation (e.g., Swagger, OpenAPI)",
+                "text": "Add API documentation (e.g., Swagger, OpenAPI).",
                 "link": "https://swagger.io/specification/"
             })
+        else:
+            recommendations.append({
+                "text": "API docs facilitate integration.",
+                "link": "https://swagger.io/specification/"
+            })
+        
         if not details['has_contributing_guidelines']:
             recommendations.append({
-                "text": "Create a CONTRIBUTING.md file with guidelines for contributors",
+                "text": "Create a CONTRIBUTING.md file for contributor guidelines.",
+                "link": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors"
+            })
+        else:
+            recommendations.append({
+                "text": "Contributing guidelines streamline collaboration.",
                 "link": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors"
             })
         
@@ -538,41 +653,73 @@ class RepositoryAnalyzer:
     def get_code_quality_details(self, data):
         repo_data = data['repo_data']
         details = {
-            'has_linter': any(self.github_api.get_contents(self.owner, self.repo, lf) for lf in ['.eslintrc', '.pylintrc', 'rubocop.yml', 'checkstyle.xml']),
-            'has_formatter': any(self.github_api.get_contents(self.owner, self.repo, ff) for ff in ['.prettierrc', 'black.toml', '.editorconfig']),
+            'has_linter': any(self.github_api.get_contents(self.owner, self.repo, lf) for lf in 
+                            ['.eslintrc', '.pylintrc', 'rubocop.yml', 'checkstyle.xml']),
+            'has_formatter': any(self.github_api.get_contents(self.owner, self.repo, ff) for ff in 
+                                ['.prettierrc', 'black.toml', '.editorconfig']),
             'has_tests': (self.github_api.get_contents(self.owner, self.repo, 'tests') is not None or
-                          self.github_api.get_contents(self.owner, self.repo, 'spec') is not None),
+                        self.github_api.get_contents(self.owner, self.repo, 'spec') is not None),
             'has_ci': (self.github_api.get_contents(self.owner, self.repo, '.github/workflows') is not None or
-                       self.github_api.get_contents(self.owner, self.repo, '.travis.yml') is not None or
-                       self.github_api.get_contents(self.owner, self.repo, 'circle.yml') is not None),
+                    self.github_api.get_contents(self.owner, self.repo, '.travis.yml') is not None or
+                    self.github_api.get_contents(self.owner, self.repo, 'circle.yml') is not None),
             'has_dependency_management': (self.github_api.get_contents(self.owner, self.repo, 'requirements.txt') is not None or
-                                          self.github_api.get_contents(self.owner, self.repo, 'package.json') is not None or
-                                          self.github_api.get_contents(self.owner, self.repo, 'Gemfile') is not None),
+                                        self.github_api.get_contents(self.owner, self.repo, 'package.json') is not None or
+                                        self.github_api.get_contents(self.owner, self.repo, 'Gemfile') is not None),
         }
         recommendations = []
+        
         if not details['has_linter']:
             recommendations.append({
-                "text": "Add a linter configuration file (e.g., .eslintrc, .pylintrc)",
+                "text": "Add a linter configuration file (e.g., .eslintrc, .pylintrc).",
                 "link": "https://sourcelevel.io/blog/what-is-a-linter-and-why-your-team-should-use-it"
             })
+        else:
+            recommendations.append({
+                "text": "Linters catch errors and enforce standards.",
+                "link": "https://sourcelevel.io/blog/what-is-a-linter-and-why-your-team-should-use-it"
+            })
+        
         if not details['has_formatter']:
             recommendations.append({
-                "text": "Add a code formatter configuration file (e.g., .prettierrc, black.toml)",
+                "text": "Add a code formatter configuration file (e.g., .prettierrc, black.toml).",
                 "link": "https://prettier.io/docs/en/why-prettier.html"
             })
+        else:
+            recommendations.append({
+                "text": "Formatters enhance consistency and readability.",
+                "link": "https://prettier.io/docs/en/why-prettier.html"
+            })
+        
         if not details['has_tests']:
             recommendations.append({
-                "text": "Add unit tests and integration tests",
+                "text": "Add unit tests and integration tests.",
                 "link": "https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration"
             })
+        else:
+            recommendations.append({
+                "text": "Tests ensure reliability and ease future changes.",
+                "link": "https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration"
+            })
+        
         if not details['has_ci']:
             recommendations.append({
-                "text": "Set up Continuous Integration (CI) for automated testing",
+                "text": "Set up Continuous Integration (CI) for automated testing.",
                 "link": "https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration"
             })
+        else:
+            recommendations.append({
+                "text": "CI automates testing and integration.",
+                "link": "https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration"
+            })
+        
         if not details['has_dependency_management']:
             recommendations.append({
-                "text": "Add a dependency management file (e.g., requirements.txt, package.json)",
+                "text": "Add a dependency management file (e.g., requirements.txt, package.json).",
+                "link": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package"
+            })
+        else:
+            recommendations.append({
+                "text": "Dependency management ensures consistency and security.",
                 "link": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package"
             })
         
@@ -593,29 +740,59 @@ class RepositoryAnalyzer:
             'has_pr_template': self.github_api.get_contents(self.owner, self.repo, '.github/PULL_REQUEST_TEMPLATE.md') is not None,
         }
         recommendations = []
+        
         if not details['has_code_of_conduct']:
             recommendations.append({
-                "text": "Add a CODE_OF_CONDUCT.md file",
+                "text": "Add a CODE_OF_CONDUCT.md file.",
                 "link": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project"
             })
+        else:
+            recommendations.append({
+                "text": "A code of conduct fosters respect and inclusion.",
+                "link": "https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-code-of-conduct-to-your-project"
+            })
+        
         if not details['has_license']:
             recommendations.append({
-                "text": "Add a license to your repository",
+                "text": "Add a license to your repository.",
                 "link": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository"
             })
+        else:
+            recommendations.append({
+                "text": "A license clarifies usage rights.",
+                "link": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository"
+            })
+        
         if not details['has_security_policy']:
             recommendations.append({
-                "text": "Create a SECURITY.md file with security guidelines",
+                "text": "Create a SECURITY.md file with security guidelines.",
                 "link": "https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository"
             })
+        else:
+            recommendations.append({
+                "text": "A security policy outlines vulnerability management.",
+                "link": "https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository"
+            })
+        
         if not details['has_issue_templates']:
             recommendations.append({
-                "text": "Add issue templates to streamline issue creation",
+                "text": "Add issue templates to standardize reports.",
                 "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository"
             })
+        else:
+            recommendations.append({
+                "text": "Issue templates standardize bug reports.",
+                "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository"
+            })
+        
         if not details['has_pr_template']:
             recommendations.append({
-                "text": "Add a pull request template to guide contributors",
+                "text": "Add a pull request template to guide contributors.",
+                "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository"
+            })
+        else:
+            recommendations.append({
+                "text": "PR templates ensure consistent submissions.",
                 "link": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository"
             })
         
@@ -629,16 +806,33 @@ class RepositoryAnalyzer:
     def get_language_diversity_details(self, data):
         languages_data = data['languages_data']
         total_lines = sum(languages_data.values())
+        colors = get_colors()
+
         details = {
             'languages': {lang: lines / total_lines * 100 for lang, lines in languages_data.items()},
             'total_lines': total_lines,
+            'language_colors': {lang: colors.get(str(lang.lower())) for lang in languages_data.keys()}
         }
         recommendations = []
+        
         if len(details['languages']) < 2:
-            recommendations.append({"text":"Consider using multiple languages to increase project versatility"})
+            recommendations.append({
+                "text": "Consider using multiple languages to boost versatility."
+            })
+        else:
+            recommendations.append({
+                "text": "Multiple languages can leverage each tool's strengths."
+            })
+        
         if max(details['languages'].values()) > 80:
-            recommendations.append({"text":"Reduce reliance on a single language to improve maintainability"})
-
+            recommendations.append({
+                "text": "Reduce reliance on a single language to improve maintainability."
+            })
+        else:
+            recommendations.append({
+                "text": "Balanced language use aids maintainability."
+            })
+        
         final_data = {
             'criteria': details,
             'recommendations': recommendations
@@ -648,15 +842,26 @@ class RepositoryAnalyzer:
 
     def get_contributor_analysis_details(self, data):
         contributors_data = data['contributors_data']
-        recommendations = []
         details = {
-            'num_contributors': len(contributors_data),
+            'total_contributors': len(contributors_data),
             'top_contributors': [
-                {'login': c['login'], 'contributions': c['contributions']}
+                {'details': self.github_api.get_user(c['login']), 'contributions': c['contributions']}
                 for c in sorted(contributors_data, key=lambda x: x['contributions'], reverse=True)[:5]
             ],
         }
-       
+        recommendations = []
+        
+        if details['total_contributors'] < 3:
+            recommendations.append({
+                "text": "Increase the number of contributors to distribute maintenance.",
+                "link": ""
+            })
+        else:
+            recommendations.append({
+                "text": "A diverse contributor base improves sustainability.",
+                "link": ""
+            })
+        
         final_data = {
             'criteria': details,
             'recommendations': recommendations
@@ -670,17 +875,29 @@ class RepositoryAnalyzer:
             'release_frequency': release_frequency,
         }
         recommendations = []
+        
         if release_frequency is None or release_frequency < 0.5:
             recommendations.append({
-                "text": "Establish a regular release schedule (aim for at least one release every two months)",
+                "text": "Establish a regular release schedule (e.g., one release every two months).",
                 "link": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases"
             })
-        elif release_frequency < 1:
+        else:
             recommendations.append({
-                "text": "Consider increasing your release frequency to at least once a month",
+                "text": "Regular releases show continuous progress.",
+                "link": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases"
+            })
+        
+        if release_frequency is not None and release_frequency < 1:
+            recommendations.append({
+                "text": "Consider increasing release frequency to signal responsiveness.",
                 "link": "https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository"
             })
-
+        else:
+            recommendations.append({
+                "text": "Frequent releases demonstrate rapid iteration.",
+                "link": "https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository"
+            })
+        
         final_data = {
             'criteria': details,
             'recommendations': recommendations
@@ -691,10 +908,13 @@ class RepositoryAnalyzer:
     def get_code_churn_details(self, data):
         code_frequency = data['code_frequency']
         if not code_frequency:
-            return {'recommendations': [{
-                "text": "Start tracking code changes to analyze code churn",
-                "link": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/understanding-repository-activity"
-            }]}
+            return {
+                'criteria': {},
+                'recommendations': [{
+                    "text": "Start tracking code changes to analyze churn.",
+                    "link": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/understanding-repository-activity"
+                }]
+            }
         
         total_additions = sum(week[1] for week in code_frequency)
         total_deletions = sum(abs(week[2]) for week in code_frequency)
@@ -706,17 +926,29 @@ class RepositoryAnalyzer:
             'net_growth': net_growth,
         }
         recommendations = []
+        
         if churn_rate > 3:
             recommendations.append({
-                "text": "Reduce code churn by focusing on code stability and refactoring",
+                "text": "Reduce churn by focusing on stability and refactoring.",
                 "link": "https://understandlegacycode.com/blog/reduce-codebase-churn-with-boy-scout-rule/"
             })
+        else:
+            recommendations.append({
+                "text": "Moderate churn indicates healthy development.",
+                "link": "https://understandlegacycode.com/blog/reduce-codebase-churn-with-boy-scout-rule/"
+            })
+        
         if net_growth < 0:
             recommendations.append({
-                "text": "The codebase is shrinking. Consider if this aligns with project goals",
+                "text": "A shrinking codebase may need review to ensure alignment with goals.",
                 "link": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/analyzing-changes-to-a-repositorys-content"
             })
-
+        else:
+            recommendations.append({
+                "text": "Positive net growth shows an expanding and evolving codebase.",
+                "link": "https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/analyzing-changes-to-a-repositorys-content"
+            })
+        
         final_data = {
             'criteria': details,
             'recommendations': recommendations
@@ -725,37 +957,44 @@ class RepositoryAnalyzer:
 
 
     def get_dependency_health_details(self, data):
-        dependency_graph = data['dependency_graph']
-        if dependency_graph is None:
-            return {'recommendations': [{
-                "text": "Enable dependency graph in your repository settings to analyze dependencies",
-                "link": "https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph"
-            }]}
-        
-        total_deps = sum(len(manifest['resolved']) for manifest in dependency_graph['manifests'].values())
-        outdated_deps = sum(len(manifest['outdated']) for manifest in dependency_graph['manifests'].values())
-        vulnerable_deps = sum(len(manifest['vulnerabilities']) for manifest in dependency_graph['manifests'].values())
-        
         details = {
-            'total_dependencies': total_deps,
-            'outdated_dependencies': outdated_deps,
-            'vulnerable_dependencies': vulnerable_deps,
+            'has_requirements_txt': self.github_api.get_contents(self.owner, self.repo, 'requirements.txt') is not None,
+            'has_package_json': self.github_api.get_contents(self.owner, self.repo, 'package.json') is not None,
+            'has_gemfile': self.github_api.get_contents(self.owner, self.repo, 'Gemfile') is not None,
         }
         recommendations = []
-        if outdated_deps > 0:
+        
+        if not details['has_requirements_txt']:
             recommendations.append({
-                "text": f"Update {outdated_deps} outdated dependencies",
-                "link": "https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-dependencies-updated-automatically"
+                "text": "Add a requirements.txt file for dependency clarity.",
+                "link": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package"
             })
-        if vulnerable_deps > 0:
+        else:
             recommendations.append({
-                "text": f"Address {vulnerable_deps} vulnerable dependencies immediately",
-                "link": "https://docs.github.com/en/code-security/dependabot/dependabot-alerts/about-dependabot-alerts"
+                "text": "requirements.txt ensures dependency clarity.",
+                "link": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package"
             })
-        if total_deps > 100:
+        
+        if not details['has_package_json']:
             recommendations.append({
-                "text": "Consider reducing the number of dependencies to improve maintainability",
-                "link": "https://blog.npmjs.org/post/141577284765/kik-left-pad-and-npm"
+                "text": "Add a package.json file to manage Node.js dependencies.",
+                "link": "https://docs.npmjs.com/cli/v8/configuring-npm/package-json"
+            })
+        else:
+            recommendations.append({
+                "text": "package.json manages Node.js dependencies.",
+                "link": "https://docs.npmjs.com/cli/v8/configuring-npm/package-json"
+            })
+        
+        if not details['has_gemfile']:
+            recommendations.append({
+                "text": "Add a Gemfile for Ruby dependency management.",
+                "link": "https://bundler.io/"
+            })
+        else:
+            recommendations.append({
+                "text": "Gemfile ensures Ruby dependency consistency.",
+                "link": "https://bundler.io/"
             })
         
         final_data = {
