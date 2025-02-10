@@ -285,7 +285,9 @@
                 }
               </div>
 
-              } @else { @for(key of objectKeys(item.criteria); track key){
+              } @else{
+              <!--  -->
+              @for(key of objectKeys(item.criteria); track key){
               @if(!item.criteria[key]) {
               <li>
                 <svg class="fail" viewBox="0 0 24 24">
@@ -307,6 +309,7 @@
                   />
                 </svg>
                 {{ key.replaceAll("_", " ") }}:
+                {{ roundValue(item.criteria[key]) }}
               </li>
               } } }
             </ul>
@@ -317,6 +320,7 @@
         <!--  -->
         }
       </div>
+
       <!-- contribution analysis -->
       <div class="contributor-analysis">
         @for(item of results['analysis_results'].optionals; track item;){
@@ -421,11 +425,21 @@
 
             <div class="chart">
               <div class="lines">
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
+                <div class="line">
+                  <p>{{ 100 }}</p>
+                </div>
+                <div class="line">
+                  <p>{{ 200 }}</p>
+                </div>
+                <div class="line">
+                  <p>{{ 300 }}</p>
+                </div>
+                <div class="line">
+                  <p>{{ 400 }}</p>
+                </div>
+                <div class="line">
+                  <p>{{ 500 }}</p>
+                </div>
               </div>
 
               @for(user of contributors; track user){
@@ -441,10 +455,15 @@
                         alt="{{ user.details.name }}"
                       />
                     </div>
-                    <!-- <div class="user-details">
-                      <p>{{ user.details.name }}</p>
-                      <p class="username">&commat;{{ user.details.login }}</p>
-                    </div> -->
+                    <div class="user-details">
+                      @if(user.details.name){
+                      <p>{{ user.details.name.split(" ")[0] }}</p>
+                      }
+                    </div>
+                  </div>
+                  <div class="numbers">
+                    <p>&commat;{{ user.details.login }}</p>
+                    <p>Commits: {{ user.contributions }}</p>
                   </div>
                 </div>
               </div>

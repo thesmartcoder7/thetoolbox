@@ -764,9 +764,10 @@
                                     padding: 1vw 0 0 2vw;
 
                                     .user {
-                                        margin-right: 1.2vw;
+                                        margin-right: 2vw;
                                         border-radius: 50%;
                                         margin-bottom: 1vw;
+                                        width: 42.5%;
                                         background-position: center;
                                         display: flex;
                                         align-items: center;
@@ -861,7 +862,7 @@
                     flex-direction: column;
                     align-self: flex-start;
                     justify-content: space-evenly;
-                    overflow: hidden;
+                    // overflow: hidden;
 
                     .graph-title {
                         width: 100%;
@@ -895,6 +896,12 @@
                                 height: 2vw;
                                 border: 0.1vw solid #171d281f;
                                 border-width: 0.1vw 0 0 0 ;
+                                p {
+                                    font-size: 0.7vw;
+                                    color: #171d28;
+                                    margin-left: -1.5vw;
+                                    margin-top: -0.5vw;
+                                }
                             }
                             
                         }
@@ -912,25 +919,55 @@
                                 .user{
                                     position: absolute;
                                     width: 100%;
-                                    margin-top: -1vw;
+                                    height: 100%;
                                     top: 0;
                                     display: flex;
                                     flex-direction: column;
                                     align-items: center;
-                                    justify-content: flex-start;
-                                    // display: flex;
-                                    // align-items: center;
-                                    // justify-content: center;
+                                    justify-content: space-between;
+                                    cursor: pointer;
+                                    &:hover + .numbers {
+                                        display: grid;
+                                      }
                                     .image {
                                         width: 2vw;
                                         height: 2vw;
                                         border-radius: 50%;
+                                        margin-top: -1vw;
                                         border: #9377f8 0.2vw solid;
                                         img {
                                             width: 100%;
                                             height: 100%;
                                             border-radius: 50%;
                                         }
+                                    }
+                                    .user-details{
+                                       
+                                        margin-bottom: -2.2vw;
+                                        // color: #fff;
+                                        p {
+                                            font-size: 0.7vw;
+                                        }
+                                    }
+                                }
+                                .numbers {
+                                    position: absolute;
+                                    width: 7vw;
+                                    height: auto;
+                                    padding: 0.5vw;
+                                    margin-top: -3vw;
+                                    border-radius: 0.3vw;
+                                    top: -1vw;
+                                    left: 3vw;
+                                    display: grid;
+                                    place-items: center;
+                                    z-index: 5;
+                                    background-image: linear-gradient(to bottom right, #7456e4, #917add, #7456e4 );
+                                    display: none;
+                                    p {
+                                        color: #fff;
+                                        font-size: 0.7vw;
+                                        line-height: 1vw;
                                     }
                                 }
                             }

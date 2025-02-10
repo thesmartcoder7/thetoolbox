@@ -13,7 +13,7 @@ export class RepoanalyzerComponent {
   runAnalysis: boolean = false;
   emptyInput: boolean = false;
   results?: any;
-  activeTab: string = 'optional';
+  activeTab: string = 'main';
   placeHolder: string = 'https://github.com/username/repo-name';
   contributors: any[] = []
   totalContributions = this.contributors?.reduce((sum, user) => sum + user.contributions, 0);
