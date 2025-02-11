@@ -1,3 +1,5 @@
+@import '../styles.scss';
+
 .header {
   width: 100%;
   padding: 2vw 10vw;
@@ -5,6 +7,15 @@
   align-items: center;
   justify-content: space-between;
   background-color: #171d28;
+  @include tablet-pro{
+    padding: 4vw 7vw;
+  }
+  @include tablet{
+    padding: 5vw 7vw;
+  }
+  @include mobile{
+    padding: 7vw 7vw;
+  }
 
   .logo {
     h1 {
@@ -15,7 +26,15 @@
       font-size: 1.7vw;
       font-weight: 800;
       cursor: pointer;
-
+      @include tablet-pro{
+        font-size: 2vw;
+      }
+      @include tablet{
+        font-size: 3vw;
+      }
+      @include mobile{
+        font-size: 5vw;
+      }
       .icon {
         color: #7456e4;
         display: flex;
@@ -26,17 +45,107 @@
         svg {
           width: 2.5vw;
           margin-top: -0.5vw;
+          @include tablet-pro{
+            width: 3.5vw;
+            margin-top: -0.5vw;
+          }
+          @include tablet{
+            width: 4.5vw;
+            margin-top: -0.5vw;
+          }
+          @include mobile{
+            width: 8.5vw;
+            margin-top: -1.5vw;
+            margin-right: 1vw;
+          }
         }
       }
     }
   }
 
+  label.menu {
+    display: none;
+    cursor: pointer;
+    @include tablet{
+      display: grid;
+      align-items: center;
+    }
+    @include mobile{
+      display: grid;
+      align-items: center;
+    }
+      svg {
+        width: 2.5vw;
+        height: 2.5vw;
+        color: #fff;
+        @include tablet{
+          width: 4vw;
+          height: 4vw;
+        }
+        @include mobile{
+          width: 6.5vw;
+          height: 6.5vw;
+          margin-top: -1vw;
+        }
+    }
+    
+  }
+
+  input#header_menu {
+    display: none;
+    &:checked + ul {
+      display: flex;
+    }
+  }
+
   .links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     ul {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       list-style: none;
+      @include tablet{
+        display: none;
+        transition-property: display;
+        transition: all 0.5s ease-in-out;
+        position: fixed;
+        background-color: #171d28;
+        width: 40%;
+        height: 70%;
+        padding: 2vw 7vw;
+        z-index: 3;
+        top: 50%; /* Position element 50% from the top */
+        left: 50%; /* Position element 50% from the left */
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1vw;
+        border: 0.3vw solid #7456e4;  
+        backdrop-filter: blur(0.5vw);
+      }
+      @include mobile{
+        display: none;
+        transition-property: display;
+        transition: all 0.5s ease-in-out;
+        position: fixed;
+        background-color: #171d28;
+        width: 70%;
+        height: 70%;
+        padding: 2vw 7vw;
+        z-index: 3;
+        top: 50%; /* Position element 50% from the top */
+        left: 50%; /* Position element 50% from the left */
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2vw;
+        border: 0.7vw solid #7456e4; 
+      }
 
       li {
         color: #fff;
@@ -44,7 +153,19 @@
         font-weight: 600;
         font-size: 1vw;
         cursor: pointer;
-
+        @include tablet-pro{
+          font-size: 1.3vw;
+        }
+        @include tablet{
+          font-size: 2vw;
+          margin: 2.5vw 0;
+          font-weight: 500;
+        }
+        @include mobile{
+          font-size: 3.5vw;
+          margin: 3vw 0;
+          font-weight: 500;
+        }
         &:hover {
           color: #7456e4;
         }

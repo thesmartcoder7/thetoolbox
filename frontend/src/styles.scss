@@ -8,6 +8,7 @@
   box-sizing: border-box;
   font-family: "Martel Sans", sans-serif;
   font-size: 0.8vw;
+
 }
 
 @keyframes run {
@@ -33,6 +34,7 @@
 }
 
 body {
+min-height: 100vh;
 height: 100vh;
 
   &::-webkit-scrollbar {
@@ -51,5 +53,36 @@ height: 100vh;
     border-radius: 0.5vw;
     background-color: #7456e4;
     outline: none;
+  }
+
+}
+
+
+@mixin mobile {
+  @media (max-width: 500px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 501px) and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet-pro {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    @content;
+  }
+}
+@mixin ultrawide {
+  @media (min-width: 1921px) {
+    @content;
   }
 }
