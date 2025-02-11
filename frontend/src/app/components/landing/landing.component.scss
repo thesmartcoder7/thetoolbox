@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 .main {
   width: 100%;
   padding: 5vw 10vw 15vw 10vw;
@@ -7,6 +9,19 @@
   align-items: center;
   justify-content: center;
   background-color: #171d28;
+  @include laptop{
+    padding: 7vw 10vw 15vw 10vw;
+  }
+  @include tablet-pro{
+    padding: 7vw 10vw 15vw 10vw;
+  }
+  @include tablet{
+    padding: 5vw 10vw 15vw 10vw;
+  }
+  @include mobile{
+    padding: 5vw 10vw 15vw 10vw;
+  }
+
 
   h2 {
     color: #fff;
@@ -15,10 +30,36 @@
     text-align: center;
     line-height: 4vw;
     margin-bottom: 1vw;
+    @include tablet-pro{
+      font-size: 3.5vw;
+      padding: 0 15vw;
+      line-height: 4.5vw;
+    }
+    @include tablet{
+      font-size: 4.5vw;
+      padding: 0 7vw;
+      line-height: 6vw;
+    }
+    @include mobile{
+      font-size: 5.7vw;
+      padding: 0 3vw;
+      line-height: 7vw;
+    }
+
+
 
     span {
       font-size: 3vw;
       color: #7456e4;
+      @include tablet-pro{
+        font-size: 3.5vw;
+      }
+      @include tablet{
+        font-size: 4.5vw;
+      }
+      @include mobile{
+        font-size: 5.7vw;
+      }
     }
   }
 
@@ -29,6 +70,19 @@
     font-size: 1.2vw;
     padding: 0 20vw;
     margin-bottom: 3vw;
+    @include tablet-pro{
+      font-size: 1.5vw;
+      padding: 0 15vw;
+    }
+    @include tablet{
+      font-size: 1.9vw;
+      padding: 0 10vw;
+    }
+    @include mobile{
+      margin-top: 1vw;
+      font-size: 3vw;
+      padding: 0 5vw;
+    }
   }
 }
 
@@ -38,27 +92,72 @@
   align-items: flex-start;
   justify-content: center;
   margin-top: -10vw;
+  @include tablet-pro{
+    padding: 0 3vw 5vw 3vw;
+  }
+  @include tablet{
+    padding: 0 3vw 5vw 3vw;
+  }
+  @include mobile{
+    padding: 0 3vw 5vw 3vw;
+  }
 
   img {
     width: 75%;
     border-radius: 0.5vw;
     box-shadow: 0 0 5vw -1vw #171d282d;
+    @include tablet-pro{
+      width: 80%;
+    }
+    @include tablet{
+      width: 85%;
+    }
+    @include mobile{
+      width: 90%;
+    }
   }
 }
 
 .services {
   padding: 5vw 10vw 10vw 10vw;
   background-color: #f1f4f970;
+  @include tablet-pro{
+    padding: 4vw 7vw;
+  }
+  @include tablet{
+    padding: 4vw 7vw;
+  }
+  @include mobile{
+    padding: 4vw 7vw;
+  }
 
   h3.title {
     width: 100%;
     text-align: center;
     color: #171d28;
     font-size: 2vw;
+    @include tablet-pro{
+      font-size: 2.5vw;
+    }
+    @include tablet{
+      font-size: 3vw;
+    }
+    @include mobile{
+      font-size: 5vw;
+    }
 
     span {
       font-size: 2vw;
       color: #7456e4;
+      @include tablet-pro{
+        font-size: 2.5vw;
+      }
+      @include tablet{
+        font-size: 3vw;
+      }
+      @include mobile{
+        font-size: 5vw;
+      }
     }
   }
 
@@ -68,6 +167,22 @@
     text-align: center;
     font-size: 1vw;
     color: #48494b;
+    @include laptop{
+      font-size: 1vw;
+    }
+    @include tablet-pro{
+      font-size: 1.4vw;
+      padding: 0 12vw;
+    }
+    @include tablet{
+      font-size: 1.7vw;
+      padding: 0 12vw;
+    }
+    @include mobile{
+      font-size: 3vw;
+      padding: 0vw 10vw;
+      line-height: 4vw;
+    }
   }
 
   .service_list {
@@ -75,6 +190,18 @@
     align-items: flex-start;
     justify-content: space-between;
     margin-top: 5vw;
+    @include tablet-pro{
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    @include tablet{
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    @include mobile{
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
     .item {
       width: 24%;
@@ -84,6 +211,23 @@
       border-top: 0.35vw solid #7456e4;
       background-color: #fff;
       box-shadow: 0 0 5vw -1vw #171d282d;
+      @include tablet-pro{
+        width: 44%;
+        margin: 1vw;
+      }
+      @include tablet{
+        border-top: 0.7vw solid #7456e4;
+        border-radius: 0.7vw;
+        width: 44%;
+        margin: 2vw;
+      }
+      @include mobile{
+        border-top: 1vw solid #7456e4;
+        border-radius: 0.7vw;
+        width: 100%;
+        margin: 5vw;
+        padding: 5vw 10vw 10vw 10vw;
+      }
 
       .icon {
         display: grid;
@@ -93,6 +237,15 @@
         svg {
           width: 2vw;
           color: #7456e4;
+          @include tablet-pro{
+           width: 3.5vw;
+          }
+          @include tablet{
+            width: 5.5vw;
+          }
+          @include mobile{
+            width: 10vw;
+          }
         }
       }
 
@@ -101,12 +254,33 @@
         text-align: center;
         font-size: 1vw;
         margin-bottom: 0.5vw;
+        @include tablet-pro{
+          font-size: 1.5vw;
+        }
+        @include tablet{
+          font-size: 2vw;
+        }
+        @include mobile{
+          font-size: 3.8vw;
+        }
       }
 
       p {
         width: 100%;
         text-align: center;
         color: #48494b;
+        @include laptop{
+          font-size: 1.1vw;
+        }
+        @include tablet-pro{
+          font-size: 1.3vw;
+        }
+        @include tablet{
+          font-size: 1.7vw;
+        }
+        @include mobile{
+          font-size: 3vw;
+        }
       }
     }
   }
@@ -117,10 +291,28 @@
     h3.title {
       font-size: 1.5vw;
       margin-bottom: 1vw;
+      @include tablet-pro{
+        font-size: 1.9vw;
+      }
+      @include tablet{
+        font-size: 2.5vw;
+      }
+      @include mobile{
+        font-size: 3.5vw;
+      }
 
       span {
         font-size: 1.5vw;
         color: #7456e4;
+        @include tablet-pro{
+          font-size: 1.9vw;
+        }
+        @include tablet{
+          font-size: 2.5vw;
+        }
+        @include mobile{
+          font-size: 3.5vw;
+        }
       }
     }
 
@@ -137,7 +329,18 @@
         color: #fff;
         font-weight: 700;
         cursor: pointer;
-
+        @include tablet-pro{
+          font-size: 1.5vw;
+          padding: 1vw 2vw;
+        }
+        @include tablet{
+          font-size: 1.5vw;
+          padding: 1vw 2vw;
+        }
+        @include mobile{
+          font-size: 3vw;
+          padding: 1vw 5vw;
+        }
         &:hover {
           background-color: transparent;
           color: #7456e4;
@@ -250,14 +453,42 @@
   padding: 1.5vw 0;
   display: grid;
   place-items: center;
+  @include tablet-pro{
+    padding: 2.5vw 0;
+  }
+  @include tablet{
+    padding: 3vw 0;
+  }
+  @include mobile{
+    padding: 5vw 0;
+  }
+
 
   p {
     color: #fff;
     font-weight: 600;
+    @include tablet-pro{
+      font-size: 1.5vw;
+    }
+    @include tablet{
+      font-size: 1.7vw;
+    }
+    @include mobile{
+      font-size: 3vw;
+    }
 
     a {
       text-decoration: none;
       color: #7456e4;
+      @include tablet-pro{
+        font-size: 1.5vw;
+      }
+      @include tablet{
+        font-size: 1.7vw;
+      }
+      @include mobile{
+        font-size: 3vw;
+      }
     }
   }
 }
