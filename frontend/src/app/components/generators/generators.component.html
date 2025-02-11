@@ -28,9 +28,6 @@
 <div class="password-generator">
   <div class="container">
     <div class="generate">
-      <button (click)="generatePassword()">
-        @if(password){ Generate New } @else { Generate Password }
-      </button>
       @if(password){
       <p>
         {{ password }}
@@ -62,6 +59,9 @@
         }
       </p>
       }
+      <button (click)="generatePassword()">
+        @if(password){ Generate New } @else { Generate Password }
+      </button>
     </div>
   </div>
 </div>

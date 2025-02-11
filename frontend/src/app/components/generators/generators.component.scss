@@ -1,3 +1,5 @@
+@import '../../../styles.scss';
+
 .main {
   width: 100%;
   padding: 5vw 10vw 15vw 10vw;
@@ -15,9 +17,36 @@
     text-align: center;
     line-height: 4vw;
     margin-bottom: 1vw;
+    @include tablet-pro{
+      font-size: 3.5vw;
+      padding: 0 10vw;
+      line-height: 4.5vw;
+    }
+    @include tablet{
+      font-size: 4.5vw;
+      padding: 0 2vw;
+      line-height: 6vw;
+    }
+    @include mobile{
+      font-size: 5.7vw;
+      padding: 0vw;
+      line-height: 7.5vw;
+    }
+
+
+
     span {
       font-size: 3vw;
       color: #7456e4;
+      @include tablet-pro{
+        font-size: 3.5vw;
+      }
+      @include tablet{
+        font-size: 4.5vw;
+      }
+      @include mobile{
+        font-size: 5.7vw;
+      }
     }
   }
 
@@ -28,6 +57,19 @@
     font-size: 1.2vw;
     padding: 0 20vw;
     margin-bottom: 3vw;
+    @include tablet-pro{
+      font-size: 1.5vw;
+      padding: 0 15vw;
+    }
+    @include tablet{
+      font-size: 1.9vw;
+      padding: 0 10vw;
+    }
+    @include mobile{
+      margin-top: 1vw;
+      font-size: 3vw;
+      padding: 0 10vw;
+    }
   }
 
   .tabs {
@@ -47,6 +89,18 @@
         padding: 0.2vw 1vw;
         border-radius: 0.2vw;
         cursor: pointer;
+        @include tablet-pro {
+          font-size: 1.2vw;
+          padding: 0.5vw 1.5vw;
+        }
+        @include tablet {
+          font-size: 1.7vw;
+          padding: 0.5vw 2vw;
+        }
+        @include mobile {
+          font-size: 2.7vw;
+          padding: 0.5vw 3vw;
+        }
         &.active,
         &:hover {
           color: #fff;
@@ -72,12 +126,24 @@
     box-shadow: 0 0 7vw 0vw #171d2842;
     margin-top: -10vw;
     border-radius: 0.5vw;
+    @include tablet{
+      width: 70%;
+    }
+    @include mobile{
+      width: 80%;
+      margin-top: -7vw;
+    }
     .generate {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       padding: 5vw;
+      @include mobile{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
       span {
         font-size: 0.9vw;
         margin-right: 0.5vw;
@@ -93,14 +159,36 @@
         border: 0.1vw solid #171d287c;
         outline: none;
         appearance: none;
-        border-radius: 0.3vw;
-        // border-radius: 0 0.3vw 0.3vw 0;
         font-size: 0.9vw;
         color: #171d28bd;
+        @include tablet-pro{
+          font-size: 1.2vw;
+          padding: 1.2vw 2vw;
+        }
+        @include tablet{
+          font-size: 1.7vw;
+        }
+        @include mobile{
+          width: 80%;
+          font-size: 2.8vw;
+          padding: 2vw 5vw;
+        }
 
         svg {
           width: 1.5vw;
           cursor: pointer;
+          @include tablet-pro{
+            width: 2vw;
+            margin-left: 1vw;
+          }
+          @include tablet{
+            width: 2.8vw;
+            margin-left: 2vw;
+          }
+          @include mobile{
+            width: 5.5vw;
+            margin-left: 2vw;
+          }
           &:hover {
             color: #7456e4;
           }
@@ -117,14 +205,26 @@
         justify-content: center;
         outline: none;
         appearance: none;
-        border-radius: 0.3vw;
-        // border-radius:  0.3vw 0 0 0.3vw;
         margin-right: 1vw;
         font-size: 0.9vw;
         font-weight: 600;
         color: #fff;
         background-color: #7456e4;
         cursor: pointer;
+        @include tablet-pro{
+          font-size: 1.2vw;
+          padding: 1.2vw 2vw;
+        }
+        @include tablet{
+          font-size: 1.7vw;
+        }
+        @include mobile{
+          width: 80%;
+          margin-top: 1vw;
+          font-size: 2.8vw;
+          padding: 2vw 5vw;
+          margin-right: 0;
+        }
         span {
           display: grid;
           place-items: center;
