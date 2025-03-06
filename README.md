@@ -43,6 +43,7 @@ touch .env
 # paste your github api token into the file
 
 GITHUB_API_TOKEN = 'fhsskjxxxxxshfdsfoihsdlfhlssssksdfsxxxxxxx'
+GOOGLE_DEV_KEY = 'Adglsgdhnlsxxxxxxxxxxxxxx-_fk'
 ```
 
 ### Install Dependencies
