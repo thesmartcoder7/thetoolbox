@@ -30,7 +30,7 @@ export class PageinsightsComponent {
   ngOnInit() {
     this.results = JSON.parse(localStorage['persistedInsights'])
     this.placeHolder = this.results.domain
-    // console.log(this.results)
+    console.log(this.results)
   }
 
   onKeyPress(event: KeyboardEvent): void {

@@ -438,7 +438,7 @@
     </div>
     <div class="main_audits">
       @for(item of results.audits[activeTab][activeMetric]; track item.id){
-      @if(scorevalues.includes(item.scoreDisplayMode) && item.score < 1){
+      @if(scorevalues.includes(item.scoreDisplayMode) && item.score < 1 && item.id != 'mainthread-work-breakdown'){
       <div class="audit">
         <div class="main_audit">
           <p class="title">
@@ -469,7 +469,7 @@
             </span
           >
         </p>
-        @if(activeResources.includes(item.id) && item.details){
+        @if(activeResources.includes(item.id) && item.details ){
           <!-- categorized resources audits  -->
           @if(!item.scoreDisplayMode.includes("notApplicable","manual", "binary")){
           <p ><span>{{item.scoreDisplayMode}} </span><span [style.color]="getColor(item.score * 100)"> {{item.displayValue}}</span></p>
@@ -510,6 +510,8 @@
                       @if(subitem.issueType){
                         <p>{{ subitem.issueType }}</p>
                         <a href="{{ subitem.url}}" target="_blank">{{ subitem.url }}</a>
+                      }@else if(subitem.reason){
+                        <p>{{subitem.reason}}</p>
                       }@else if(subitem.cause){
                         <p>{{ subitem.cause }}</p>
                         <a href="{{ subitem.extra.value}}" target="_blank">{{ subitem.extra.value }}</a>

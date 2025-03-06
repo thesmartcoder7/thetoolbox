@@ -33,7 +33,6 @@ def convert_timestamp(timestamp):
 
 
 def fetch_psi_data(domain, strategy):
-    print(f'fetching data for {strategy}')
     try:
         params = {
             'url': f'https://{domain}' if 'https://' not in domain else domain,
