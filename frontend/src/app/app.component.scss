@@ -215,3 +215,31 @@
     }
   }
 }
+
+.smallpopup {
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #171d28;
+  display: grid;
+  place-items: center;
+  .container {
+    width: 50%;
+    border: solid 0.3vw #7456e4;
+    border-radius: 0.5vw;
+    padding: 2vw;
+    @include mobile {
+      width: 70%;
+    }
+    p {
+      color: #fff;
+      text-align: center;
+      font-size: 2vw;
+      @include mobile {
+        font-size: 3.5vw;
+      }
+    }
+  }
+}
