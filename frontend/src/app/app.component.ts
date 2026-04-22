@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+// import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -9,11 +9,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class AppComponent {
   title = 'TheToolBox';
-  isTooSmall = false;
+  // isTooSmall = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.Handset]).subscribe(result => {
-      this.isTooSmall = result.matches;
-    });
-  }
+  // constructor(private breakpointObserver: BreakpointObserver) {
+  //   this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.Handset]).subscribe(result => {
+  //     this.isTooSmall = result.matches;
+  //   });
+  // }
 }
