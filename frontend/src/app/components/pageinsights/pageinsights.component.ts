@@ -28,9 +28,10 @@ export class PageinsightsComponent {
   constructor(private checkers: CheckersService) { }
 
   ngOnInit() {
-    this.results = JSON.parse(localStorage['persistedInsights'])
-    this.placeHolder = this.results.domain
-    console.log(this.results)
+     if (localStorage['persistedInsights']) {
+      this.results = JSON.parse(localStorage['persistedInsights']);
+      this.placeHolder = this.results.domain
+    }
   }
 
   onKeyPress(event: KeyboardEvent): void {
@@ -41,19 +42,14 @@ export class PageinsightsComponent {
   }
 
   isValidDomain(input: string): boolean {
-    // Remove protocol (http:// or https://) and trailing slash (/)
     input = input.replace(/^(https?:\/\/)?/, '').replace(/\/$/, '');
-    // Strict domain validation regex
     const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
     return domainRegex.test(input);
   }
 
-
   cleanDomain(domain: string): string {
-    // Remove protocol (http:// or https://)
     domain = domain.replace(/^https?:\/\//, '');
-    // Remove trailing slashes
-    return domain.replace(/\/+$/, '');
+    return domain;
   }
 
 
@@ -64,7 +60,6 @@ export class PageinsightsComponent {
     } else {
       this.activeResources.push(id);
     }
-    // console.log(this.activeResources);
   }
 
   setBackground(value: string) {

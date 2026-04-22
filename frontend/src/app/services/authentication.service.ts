@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-HttpClient;
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class AuthenticationService {
 
   allUsers(): void {
     this.http
-      .get('http://127.0.0.1:8000/users/', { withCredentials: true })
+      .get(`${environment.apiUrl}/users/`, { withCredentials: true })
       .subscribe((res) => {
         console.log(res);
       });
@@ -18,7 +18,7 @@ export class AuthenticationService {
 
   checkSignedUser(): void {
     this.http
-      .get('http://127.0.0.1:8000/users/user/', { withCredentials: true })
+      .get(`${environment.apiUrl}/users/user/`, { withCredentials: true })
       .subscribe((res) => {
         console.log(res);
       });
@@ -32,7 +32,7 @@ export class AuthenticationService {
     };
 
     this.http
-      .post('http://127.0.0.1:8000/users/register/', payload)
+      .post(`${environment.apiUrl}/users/register/`, payload)
       .subscribe((res) => {
         console.log(res);
       });
@@ -45,7 +45,7 @@ export class AuthenticationService {
     };
 
     this.http
-      .post('http://127.0.0.1:8000/users/login/', payload)
+      .post(`${environment.apiUrl}/users/login/`, payload)
       .subscribe((res) => {
         console.log(res);
       });
@@ -53,7 +53,7 @@ export class AuthenticationService {
 
   logout(): void {
     this.http
-      .post('http://127.0.0.1:8000/users/logout/', { withCredentials: true })
+      .post(`${environment.apiUrl}/users/logout/`, { withCredentials: true })
       .subscribe((res) => {
         console.log(res);
       });

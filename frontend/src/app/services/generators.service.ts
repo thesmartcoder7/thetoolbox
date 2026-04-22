@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 HttpClient;
 
 @Injectable({
@@ -9,16 +10,14 @@ HttpClient;
 export class GeneratorsService {
   constructor(private http: HttpClient) {}
 
-
-
   generateSitemap(domain: string): Observable<any> {
     let payload = {
       domain: domain,
     };
 
     return this.http.post(
-      'http://127.0.0.1:8000/webtools/get_sitemap/',
-      payload
+      `${environment.apiUrl}/webtools/get_sitemap/`,
+      payload,
     );
   }
 }

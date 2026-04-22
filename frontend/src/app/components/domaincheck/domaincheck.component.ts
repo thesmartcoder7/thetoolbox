@@ -28,7 +28,6 @@ export class DomaincheckComponent {
     } else {
       this.placeHolder = String(this.results?.whois_check['whois-info'].domain_name[0]).toLowerCase()
     }
-    // console.log(this.results)
   }
 
   // Called when an accordion header is clicked.
@@ -37,25 +36,21 @@ export class DomaincheckComponent {
   }
 
   isValidDomain(input: string): boolean {
-    // Remove protocol (http:// or https://) and trailing slash (/)
     input = input.replace(/^(https?:\/\/)?/, '').replace(/\/$/, '');
-    // Strict domain validation regex
     const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
     return domainRegex.test(input);
   }
 
   cleanDomain(domain: string): string {
-    // Remove protocol (http:// or https://)
     domain = domain.replace(/^https?:\/\//, '');
-    // Remove trailing slashes
-    return domain.replace(/\/+$/, '');
+    return domain;
   }
 
   onEnterPressed(event: KeyboardEvent, element: HTMLInputElement): void {
     // Check if the key pressed is Enter (key code 13)
     if (event.key === 'Enter') {
       const inputValue = (event.target as HTMLInputElement).value;
-      this.checkDoman(inputValue, element);
+      this.checkDomain(inputValue, element);
     }
   }
 
@@ -67,7 +62,7 @@ export class DomaincheckComponent {
     return this.results?.dns_info['dns-records'][record] || [];
   }
 
-  checkDoman(domain: string, element: HTMLInputElement): void {
+  checkDomain(domain: string, element: HTMLInputElement): void {
     if (!domain) {
       this.emptyInput = true;
       this.placeHolder = 'Please enter a valid domain name . . .';
@@ -79,7 +74,6 @@ export class DomaincheckComponent {
         this.checkers.checkDomain(this.cleanDomain(domain)).subscribe((res) => {
           this.results = res;
           localStorage.setItem('persistedDNS', JSON.stringify(this.results))
-          // console.log(this.results)
           this.runAnalysis = false;
           if (typeof (this.results?.whois_check['whois-info'].domain_name) == 'string') {
             this.placeHolder = String(this.results?.whois_check['whois-info'].domain_name).toLowerCase()

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Response } from '../interfaces/response';
 import { AuditResult } from '../interfaces/insights';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckersService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private processResponse(response: any): Response {
     // Implement processing logic here
@@ -31,7 +32,7 @@ export class CheckersService {
     };
 
     return this.http
-      .post<Response>('http://127.0.0.1:8000/webtools/domain_check/', payload)
+      .post<Response>(`${environment.apiUrl}/webtools/domain_check/`, payload)
       .pipe(map((response) => this.processResponse(response)));
   }
 
@@ -50,7 +51,10 @@ export class CheckersService {
     };
 
     return this.http
-      .post<AuditResult>('http://127.0.0.1:8000/webtools/page_insights/', payload)
+      .post<AuditResult>(
+        `${environment.apiUrl}/webtools/page_insights/`,
+        payload,
+      )
       .pipe(map((res) => this.processInsights(res)));
   }
 }
