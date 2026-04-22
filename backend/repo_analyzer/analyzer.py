@@ -310,7 +310,7 @@ class RepositoryAnalyzer:
         sorted_contributions = sorted(contributions)
         cumulative_contributions = np.cumsum(sorted_contributions)
         lorenz_curve = cumulative_contributions / cumulative_contributions[-1]
-        gini = (np.trapz(np.linspace(0, 1, len(contributions)), lorenz_curve) - 0.5) / 0.5
+        gini = (np.trapezoid(np.linspace(0, 1, len(contributions)), lorenz_curve) - 0.5) / 0.5
 
         # Score based on number of contributors and contribution equality
         score = (num_contributors / 10) * 50 + (1 - gini) * 50

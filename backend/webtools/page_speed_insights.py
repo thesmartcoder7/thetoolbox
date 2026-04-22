@@ -38,7 +38,7 @@ def fetch_psi_data(domain, strategy):
             'url': f'https://{domain}' if 'https://' not in domain else domain,
             'key': API_KEY,
             'strategy': strategy,
-            'category': ['performance', 'accessibility', 'seo', 'best-practices', 'pwa']
+            'category': ['performance', 'accessibility', 'seo', 'best-practices']
         }
         response = requests.get(URL, params=params)
     except Exception:
@@ -46,7 +46,7 @@ def fetch_psi_data(domain, strategy):
             'url': f'http://{domain}' if 'http://' not in domain else domain,
             'key': API_KEY,
             'strategy': strategy,
-            'category': ['performance', 'accessibility', 'seo', 'best-practices', 'pwa']
+            'category': ['performance', 'accessibility', 'seo', 'best-practices']
         }
         response = requests.get(URL, params=params)
     return response.json()
