@@ -32,7 +32,6 @@ export class RepoanalyzerComponent {
   ngOnInit() {
     if (localStorage['persistedRepo']) {
       this.results = JSON.parse(localStorage['persistedRepo']);
-      console.log(this.results);
       this.placeHolder = this.results.repository;
       this.contributors =
         this.results.analysis_results.optionals[5].criteria.top_contributors;
