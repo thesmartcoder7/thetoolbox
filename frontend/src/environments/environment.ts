@@ -1,9 +1,13 @@
-import { environment as devEnv } from './environment.development';
-import { environment as prodEnv } from './environment.production';
+let liveTest = true; // Set this to true for production build
+let apiUrl: string;
 
-let production = false; // Set this to true for production build
+if (liveTest) {
+  apiUrl = 'https://api.thetoolbox.website';
+} else {
+  apiUrl = 'http://localhost:8000';
+}
 
 export const environment = {
-  apiUrl: production ? prodEnv.apiUrl : devEnv.apiUrl,
-  sampleRepo: production ? prodEnv.sampleRepo : devEnv.sampleRepo,
+  apiUrl: apiUrl,
+  sampleRepo: 'https://github.com/thesmartcoder7/thetoolbox',
 };
