@@ -109,7 +109,6 @@ export class RepoanalyzerComponent {
       this.results = null;
       this.repo.runAnalysis(repo).subscribe((res: Repository) => {
         this.results = res;
-        console.log(this.results);
         this.placeHolder = this.results.repository;
         localStorage.setItem('persistedRepo', JSON.stringify(this.results));
         this.contributors =

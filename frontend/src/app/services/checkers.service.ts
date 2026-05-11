@@ -30,7 +30,6 @@ export class CheckersService {
     let payload = {
       domain: domain,
     };
-    console.log(environment.apiUrl);
 
     return this.http
       .post<Response>(`${environment.apiUrl}/webtools/domain_check/`, payload)
