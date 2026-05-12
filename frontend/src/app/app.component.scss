@@ -134,7 +134,7 @@
         border-radius: 1vw;
         border: 0.3vw solid #7456e4;
         backdrop-filter: blur(0.5vw);
-         animation: appear 0.5s ease-in-out;
+        animation: appear 0.5s ease-in-out;
       }
       @include mobile {
         display: none;
